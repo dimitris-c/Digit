@@ -1,5 +1,8 @@
-package gr.funkytaps.digitized.game
+package gr.funkytaps.digitized.ui
 {
+	import starling.display.Sprite;
+	import starling.events.Event;
+
 	/**
 	 * 
 	 * @author — Dimitris Chatzieleftheriou
@@ -9,12 +12,15 @@ package gr.funkytaps.digitized.game
 	 *
 	 **/
 	
-	import starling.display.Sprite;
-	import starling.events.Event;
-	
-	public class GameWorld extends Sprite
+	public class BaseButton extends Sprite
 	{
-		public function GameWorld()
+		
+		
+		/**
+		 * Base class for the Buttons. 
+		 * For use with Starling display list.
+		 */		
+		public function BaseButton()
 		{
 			super();
 			

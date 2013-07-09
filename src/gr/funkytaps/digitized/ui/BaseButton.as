@@ -1,17 +1,16 @@
 package gr.funkytaps.digitized.ui
 {
-	import starling.display.Sprite;
-	import starling.events.Event;
-
 	/**
-	 * 
 	 * @author — Dimitris Chatzieleftheriou
-	 * @company — OgilvyOne Worldwide, Athens
+	 * @company — Funkytaps, Athens
 	 *
-	 * @copyright — 2013 OgilvyOne Worldwide, Athens
+	 * @copyright — 2013 Funkytaps, Athens
 	 *
 	 **/
 	
+	import starling.display.Sprite;
+	import starling.events.Event;
+
 	public class BaseButton extends Sprite
 	{
 		

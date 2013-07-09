@@ -1,11 +1,10 @@
 package gr.funkytaps.digitized.managers
 {
 	/**
-	 * 
 	 * @author — Dimitris Chatzieleftheriou
-	 * @company — OgilvyOne Worldwide, Athens
+	 * @company — Funkytaps, Athens
 	 *
-	 * @copyright — 2013 OgilvyOne Worldwide, Athens
+	 * @copyright — 2013 Funkytaps, Athens
 	 *
 	 **/
 	

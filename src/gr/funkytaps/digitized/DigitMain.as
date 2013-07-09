@@ -1,11 +1,10 @@
 package gr.funkytaps.digitized
 {
 	/**
-	 * 
 	 * @author — Dimitris Chatzieleftheriou
-	 * @company — OgilvyOne Worldwide, Athens
+	 * @company — Funkytaps, Athens
 	 *
-	 * @copyright — 2013 OgilvyOne Worldwide, Athens
+	 * @copyright — 2013 Funkytaps, Athens
 	 *
 	 **/
 	
@@ -18,8 +17,6 @@ package gr.funkytaps.digitized
 	import flash.geom.Rectangle;
 	import flash.system.Capabilities;
 	import flash.system.System;
-	
-	import avmplus.INCLUDE_ACCESSORS;
 	
 	import gr.funkytaps.digitized.core.Settings;
 	import gr.funkytaps.digitized.game.GameWorld;

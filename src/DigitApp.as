@@ -18,6 +18,7 @@ package
 	
 	import gr.funkytaps.digitized.DigitMain;
 	
+	[SWF(frameRate="60", backgroundColor="#20213E")]
 	public class DigitApp extends Sprite
 	{
 		private var _digitMain:DigitMain;

@@ -11,8 +11,9 @@ package gr.funkytaps.digitized.core
 	
 	public class Settings
 	{
-		public function Settings()
-		{
-		}
+		
+		public static const WIDTH:int = 320;
+		public static const HEIGHT:int = 480;
+		
 	}
 }

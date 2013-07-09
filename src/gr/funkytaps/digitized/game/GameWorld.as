@@ -25,6 +25,11 @@ package gr.funkytaps.digitized.game
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, _onAddedToStage);
 			
+			var hero:DigitHero = new DigitHero();
+			addChild(hero);
+			
+			hero.x = ((stage.stageWidth >> 1) - (hero.width >> 1)) | 0;
+			hero.y = 300;
 			
 		}
 	}

@@ -14,55 +14,95 @@ package gr.funkytaps.digitized
 	import flash.desktop.NativeApplication;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.filesystem.File;
+	import flash.geom.Rectangle;
+	import flash.system.Capabilities;
 	import flash.system.System;
 	
+	import avmplus.INCLUDE_ACCESSORS;
+	
+	import gr.funkytaps.digitized.core.Settings;
 	import gr.funkytaps.digitized.game.GameWorld;
 	
 	import starling.core.Starling;
+	import starling.events.Event;
+	import starling.utils.AssetManager;
+	import starling.utils.RectangleUtil;
+	import starling.utils.ScaleMode;
 	
 	public class DigitMain extends Sprite implements IDestroyable
 	{
-		private var _starling:Starling;
+		private var _mStarling:Starling;
+		
+		private var iOS:Boolean;
 		
 		public function DigitMain()
 		{
 			super();
 			
-			addEventListener(Event.ADDED_TO_STAGE, _onAddedToStage); 
+			addEventListener(flash.events.Event.ADDED_TO_STAGE, _onAddedToStage);
+			
 		}
+		
+		private function _onAddedToStage(event:flash.events.Event):void
+		{
+			removeEventListener(flash.events.Event.ADDED_TO_STAGE, _onAddedToStage);
+			
+			var stageWidth:Number = Settings.WIDTH;
+			var stageHeight:Number = Settings.HEIGHT;
+			
+			iOS = (Capabilities.manufacturer.indexOf('iOS') != -1);
+			
+			Starling.multitouchEnabled = true;
+			Starling.handleLostContext = !iOS;
+			
+			var viewPort:Rectangle = RectangleUtil.fit(
+				new Rectangle(0, 0, stageWidth, stageHeight), 
+				new Rectangle(0, 0, stage.fullScreenWidth, stage.fullScreenHeight),
+				ScaleMode.NO_BORDER, iOS);
+			
+			var scaleFactor:int = viewPort.width < 480 ? 1 : 2;
+			var appDir:File = File.applicationDirectory;
+			var assets:AssetManager = new AssetManager(scaleFactor);
+			
+			// TODO: add assets to assetsManager
+			
+			_mStarling = new Starling(GameWorld, stage, viewPort);
+			_mStarling.stage.stageWidth = stageWidth;
+			_mStarling.stage.stageHeight = stageHeight;
+			_mStarling.showStats = true;
+			_mStarling.antiAliasing = 1;
+		
+			_mStarling.addEventListener(starling.events.Event.ROOT_CREATED, _handleRootCreated);
+			
+			NativeApplication.nativeApplication.addEventListener(flash.events.Event.ACTIVATE, _onActivate);
+			NativeApplication.nativeApplication.addEventListener(flash.events.Event.DEACTIVATE, _onDeactivate);
 
-		private function _onAddedToStage(event:Event):void
+		}
+		
+		private function _handleRootCreated(event:Object, app:GameWorld):void
 		{
-			removeEventListener(Event.ADDED_TO_STAGE, _onAddedToStage);
-			
-			Starling.multitouchEnabled = false;
-			
-			_starling = new Starling(GameWorld, stage);
-			_starling.showStats = true;
-			_starling.antiAliasing = 1;
-			
-			_starling.start();
-			
-			NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, _onActivate);
-			NativeApplication.nativeApplication.addEventListener(Event.DEACTIVATE, _onDeactivate);
+			// TODO Auto Generated method stub
 			
 		}
 		
-		protected function _onDeactivate(event:Event):void
+		private function _onDeactivate(event:flash.events.Event):void
 		{
-			// TODO: Implement function for deactivation
+			// Stops Starling, when the app becomes deactivated
+			_mStarling.stop();
 		}
 		
-		private function _onActivate(event:Event):void
+		private function _onActivate(event:flash.events.Event):void
 		{
-			// TODO: Implement function for activation
+			// Starts Starling, when the app becomes active
+			_mStarling.start();
 		}
 		
 		public function destroy():void
 		{
-			_starling.stop();
-			_starling.dispose();
-			_starling = null;
+			_mStarling.stop();
+			_mStarling.dispose();
+			_mStarling = null;
 			
 			System.gc();
 		}

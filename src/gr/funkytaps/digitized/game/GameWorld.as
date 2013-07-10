@@ -8,16 +8,28 @@ package gr.funkytaps.digitized.game
 	 *
 	 **/
 	
+	import gr.funkytaps.digitized.core.Assets;
+	import gr.funkytaps.digitized.interfaces.IView;
 	import gr.funkytaps.digitized.views.GameView;
-	import gr.funkytaps.digitized.views.IView;
 	
+	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
+	import starling.textures.Texture;
+	import starling.textures.TextureAtlas;
+	import starling.utils.AssetManager;
 	
 	public class GameWorld extends Sprite
 	{
+
+		
+		public static const MENU_STATE:int = 0;
+		public static const PLAY_STATE:int = 1;
+		public static const GAME_OVER_STATE:int = 2;
 		
 		private var _curView:IView;
+		
+		private var _assets:AssetManager;
 		
 		public function GameWorld()
 		{
@@ -29,13 +41,39 @@ package gr.funkytaps.digitized.game
 		private function _onAddedToStage(event:Event):void
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, _onAddedToStage);
-			addEventListener(Event.ENTER_FRAME, update);
+			
+			_assets = new AssetManager();
+			_assets.verbose = 1.0;
+			_assets.enqueue("atlases/stars_front.png");
+			_assets.enqueue("atlases/stars_back.png");
+			_assets.enqueue("atlases/blue.png");
+			_assets.enqueue("atlases/splat.png");
+			_assets.enqueue("atlases/ss.png");
+			_assets.loadQueue(onProgress);
+			
+			Assets.assets = _assets;
+			_assets = null;
+			
+//			var ssTexture:Texture = Texture.fromBitmap(new AnimTexture());
+//			var ssData:XML = XML(new AnimData());
+//			Assets.atlas = new TextureAtlas(ssTexture, ssData);
 			
 			//implement state logic
 			
-			_curView = new GameView();
-			addChild(Sprite(_curView));
+
+		}
+		
+		private function onProgress(progress:Number):void
+		{
+			trace("progress="+progress);
 			
+			if (progress==1.0) {
+				trace(Assets.assets.getTextureNames(""));
+//				
+				_curView = new GameView();
+				addChild(Sprite(_curView));
+				addEventListener(Event.ENTER_FRAME, update);
+			}
 		}
 		
 		private function update(event:Event):void

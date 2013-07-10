@@ -8,11 +8,16 @@ package gr.funkytaps.digitized.game
 	 *
 	 **/
 	
+	import gr.funkytaps.digitized.views.GameView;
+	import gr.funkytaps.digitized.views.IView;
+	
 	import starling.display.Sprite;
 	import starling.events.Event;
 	
 	public class GameWorld extends Sprite
 	{
+		private var _curView:IView;
+		
 		public function GameWorld()
 		{
 			super();
@@ -23,13 +28,19 @@ package gr.funkytaps.digitized.game
 		private function _onAddedToStage(event:Event):void
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, _onAddedToStage);
+			addEventListener(Event.ENTER_FRAME, update);
 			
-			var hero:DigitHero = new DigitHero();
-			addChild(hero);
+			//implement state logic
 			
-			hero.x = ((stage.stageWidth >> 1) - (hero.width >> 1)) | 0;
-			hero.y = 300;
-			
+			_curView = new GameView();
+			addChild(Sprite(_curView));
+		}
+		
+		private function update(event:Event):void
+		{
+			if(_curView){				
+				_curView.update();
+			}
 		}
 	}
 }

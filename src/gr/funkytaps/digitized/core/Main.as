@@ -44,13 +44,12 @@ package gr.funkytaps.digitized.core
 		{
 			removeEventListener(flash.events.Event.ADDED_TO_STAGE, _onAddedToStage);
 			
-			//Assets.init();
-			
 			var stageWidth:Number = Settings.WIDTH;
 			var stageHeight:Number = Settings.HEIGHT;
 			
 			iOS = (Capabilities.manufacturer.indexOf('iOS') != -1);
 			
+			Starling.handleLostContext = true;
 			Starling.multitouchEnabled = true;
 			Starling.handleLostContext = !iOS;
 			

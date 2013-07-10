@@ -1,6 +1,8 @@
 package gr.funkytaps.digitized.core
 {
 	import starling.textures.Texture;
+	import starling.textures.TextureAtlas;
+	import starling.utils.AssetManager;
 
 	/**
 	 * @author — Dimitris Chatzieleftheriou
@@ -12,15 +14,7 @@ package gr.funkytaps.digitized.core
 	
 	public class Assets
 	{
-		[Embed(source="assets/flash/images/sky.png")]
-		private static var sky:Class;
-		
-		public static var skyTexture:Texture;
-		
-		public static function init():void
-		{
-			skyTexture = Texture.fromBitmap(new sky());
-		}
+		public static var assets:AssetManager;
 		
 	}
 }

@@ -32,27 +32,27 @@ package gr.funkytaps.digitized.views
 		
 		override protected function _init():void
 		{
-			_gradient = new Gradient();
-			addChild(_gradient);
-
-			_blue = new Blue();
-			addChild(_blue);
-			
-			_splat = new Splat();
-			addChild(_splat);
-			
+//			_gradient = new Gradient();
+//			addChild(_gradient);
+//
+//			_blue = new Blue();
+//			addChild(_blue);
+//			
+//			_splat = new Splat();
+//			addChild(_splat);
+//			
 			_bBack = new Background(false);
 			addChild(_bBack);
 
 			_bFront = new Background(true);
 			addChild(_bFront);
-
+//
+//			
+//			_hero = new DigitHero();
+//			addChild(_hero);
 			
-			_hero = new DigitHero();
-			addChild(_hero);
-			
-			_hero.x = ((stage.stageWidth >> 1) - (_hero.width >> 1)) | 0;
-			_hero.y = 300;	
+//			_hero.x = ((stage.stageWidth >> 1) - (_hero.width >> 1)) | 0;
+//			_hero.y = 300;	
 			
 //			if (Accelerometer.isSupported) {
 //				accl = new Accelerometer();

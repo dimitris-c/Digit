@@ -10,23 +10,29 @@ package gr.funkytaps.digitized.objects
 	
 	import flash.display.Bitmap;
 	
+	import gr.funkytaps.digitized.core.Assets;
+	
 	import starling.display.BlendMode;
 	import starling.display.Image;
 	import starling.display.Sprite;
+	import starling.textures.ConcreteTexture;
+	import starling.textures.Texture;
+	import starling.textures.TextureAtlas;
+	import starling.utils.AssetManager;
 	
 	public class Background extends AbstractObject
 	{
-		[Embed(source="../../../../../assets/flash/images/stars_front1.png")]
-		public static const StarsFront1:Class;
-		
-		[Embed(source="../../../../../assets/flash/images/stars_front2.png")]
-		public static const StarsFront2:Class;
-		
-		[Embed(source="../../../../../assets/flash/images/stars_back1.png")]
-		public static const StarsBack1:Class;
-
-		[Embed(source="../../../../../assets/flash/images/stars_back2.png")]
-		public static const StarsBack2:Class;
+//		[Embed(source="../../../../../assets/flash/images/stars_front1.png")]
+//		public static const StarsFront1:Class;
+//		
+//		[Embed(source="../../../../../assets/flash/images/stars_front2.png")]
+//		public static const StarsFront2:Class;
+//		
+//		[Embed(source="../../../../../assets/flash/images/stars_back1.png")]
+//		public static const StarsBack1:Class;
+//
+//		[Embed(source="../../../../../assets/flash/images/stars_back2.png")]
+//		public static const StarsBack2:Class;
 		
 		private var _sky1:Image;
 		private var _sky2:Image;
@@ -42,23 +48,29 @@ package gr.funkytaps.digitized.objects
 		}
 		
 		override protected function _init():void{
-			var bmSky1:Bitmap
-			var bmSky2:Bitmap
+			var assets:AssetManager = Assets.assets;
+			
+			var atlas:ConcreteTexture;
+			
+			var bmSky1:Texture;
+			var bmSky2:Texture;
 			if(_isFront){
 				_speed = 4;
-				bmSky1 = new Background.StarsFront1() as Bitmap;
-				bmSky2 = new Background.StarsFront2() as Bitmap;
+				atlas = assets.getTextureAtlas("stars_front");
+				bmSky1 = atlas.getTexture("stars_front1.png");
+				bmSky2 = atlas.getTexture("stars_front2.png");
 			}
 			else{
 				_speed = 3;	
-				bmSky1 = new Background.StarsBack1() as Bitmap;
-				bmSky2 = new Background.StarsBack2() as Bitmap;
+				atlas = assets.getTextureAtlas("stars_back");
+				bmSky1 = atlas.getTexture("stars_back1");
+				bmSky2 = atlas.getTexture("stars_back2");
 			}
-			_sky1 = Image.fromBitmap(bmSky1);
+			_sky1 = new Image(bmSky1);
 			//_sky1.blendMode = BlendMode.NONE;
 			addChild(_sky1);
 
-			_sky2 = Image.fromBitmap(bmSky2);
+			_sky2 = new Image(bmSky2);
 			//_sky2.blendMode = BlendMode.NONE;
 			_sky2.y = -800;
 			addChild(_sky2);

@@ -2,6 +2,7 @@ package gr.funkytaps.digitized.views
 {
 	import starling.display.Sprite;
 	import starling.events.Event;
+	import gr.funkytaps.digitized.interfaces.IView;
 	
 	public class AbstractView extends Sprite implements IView
 	{

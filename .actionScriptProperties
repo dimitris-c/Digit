@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<actionScriptProperties analytics="false" mainApplicationPath="DigitApp.as" projectUUID="316ea27b-85ca-424d-a34d-377a566742f5" version="11">
+<actionScriptProperties analytics="false" mainApplicationPath="Digit.as" projectUUID="316ea27b-85ca-424d-a34d-377a566742f5" version="11">
   <compiler additionalCompilerArguments="-locale en_US -swf-version=20" advancedTelemetry="false" autoRSLOrdering="true" copyDependentFiles="false" flexSDK="4.6.0_3.7" fteInMXComponents="false" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="false" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin-debug" removeUnusedRSL="true" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="true" useDebugRSLSwfs="true" useFlashSDK="false" verifyDigests="true" warn="true">
     <compilerSourcePath>
       <compilerSourcePathEntry kind="1" linkType="1" path="libs"/>
@@ -45,7 +45,7 @@
     <sourceAttachmentPath/>
   </compiler>
   <applications>
-    <application path="DigitApp.as">
+    <application path="Digit.as">
       <airExcludes/>
     </application>
   </applications>

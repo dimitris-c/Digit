@@ -18,6 +18,7 @@ package gr.funkytaps.digitized
 	import flash.system.Capabilities;
 	import flash.system.System;
 	
+	import gr.funkytaps.digitized.assets.Assets;
 	import gr.funkytaps.digitized.core.Settings;
 	import gr.funkytaps.digitized.game.GameWorld;
 	
@@ -44,6 +45,8 @@ package gr.funkytaps.digitized
 		private function _onAddedToStage(event:flash.events.Event):void
 		{
 			removeEventListener(flash.events.Event.ADDED_TO_STAGE, _onAddedToStage);
+			
+			//Assets.init();
 			
 			var stageWidth:Number = Settings.WIDTH;
 			var stageHeight:Number = Settings.HEIGHT;

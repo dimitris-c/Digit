@@ -15,6 +15,8 @@ package gr.funkytaps.digitized.objects
 	import starling.display.BlendMode;
 	import starling.display.Image;
 	import starling.display.Sprite;
+
+	import starling.textures.ConcreteTexture;
 	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
 	import starling.utils.AssetManager;
@@ -49,7 +51,9 @@ package gr.funkytaps.digitized.objects
 		override protected function _init():void{
 			var assets:AssetManager = Assets.assets;
 			
+
 			var atlas:TextureAtlas;
+			var atlas:ConcreteTexture;
 			
 			var bmSky1:Texture;
 			var bmSky2:Texture;

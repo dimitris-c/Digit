@@ -54,6 +54,7 @@ package gr.funkytaps.digitized.objects
 
 			var atlas:TextureAtlas;
 			var atlas:ConcreteTexture;
+			var atlas:TextureAtlas;
 			
 			var bmSky1:Texture;
 			var bmSky2:Texture;

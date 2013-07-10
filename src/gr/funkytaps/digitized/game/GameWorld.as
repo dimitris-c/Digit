@@ -77,6 +77,13 @@ package gr.funkytaps.digitized.game
 			_curView = new GameView();
 			addChild(Sprite(_curView));
 			
+			if (progress==1.0) {
+				trace(Assets.assets.getTextureNames(""));
+//				
+				_curView = new GameView();
+				addChild(Sprite(_curView));
+				addEventListener(Event.ENTER_FRAME, update);
+			}
 		}
 		
 		private function update(event:Event):void

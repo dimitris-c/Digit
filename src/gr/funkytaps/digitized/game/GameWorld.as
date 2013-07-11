@@ -12,11 +12,8 @@ package gr.funkytaps.digitized.game
 	import gr.funkytaps.digitized.interfaces.IView;
 	import gr.funkytaps.digitized.views.GameView;
 	
-	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
-	import starling.textures.Texture;
-	import starling.textures.TextureAtlas;
 	import starling.utils.AssetManager;
 	
 	public class GameWorld extends Sprite
@@ -43,43 +40,28 @@ package gr.funkytaps.digitized.game
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, _onAddedToStage);
 			
-			_assets = new AssetManager();
-//			_assets.verbose = true;
-			_assets.enqueue("atlases/stars_front.xml");
-			_assets.enqueue("atlases/stars_front.png");
-			_assets.enqueue("atlases/stars_back.xml");
-			_assets.enqueue("atlases/stars_back.png");
-			_assets.enqueue("atlases/blue.xml");
-			_assets.enqueue("atlases/blue.png");
-			_assets.enqueue("atlases/splat.xml");
-			_assets.enqueue("atlases/splat.png");
-			_assets.enqueue("atlases/ss.xml");
-			_assets.enqueue("atlases/ss.png");
-			_assets.loadQueue(onProgress);
+			Assets.manager.loadQueue( _onProgress );
 			
-			Assets.manager = _assets;
-			_assets = null;
+			//TODO: implement state logic
 			
-//			var ssTexture:Texture = Texture.fromBitmap(new AnimTexture());
-//			var ssData:XML = XML(new AnimData());
-//			Assets.atlas = new TextureAtlas(ssTexture, ssData);
+		}
+		
+		private function _onProgress(progress:Number):void
+		{
+			trace("progress=", progress);
 			
-			//implement state logic
-			
+			if (progress == 1.0) {
+				// init the freaking world
+				_initWorld();
+			}
 
 		}
 		
-		private function onProgress(progress:Number):void
-		{
-			trace("progress="+progress);
+		private function _initWorld():void {
 			
-			if (progress==1.0) {
-				trace(Assets.manager.getTextureNames(""));
-//				
-				_curView = new GameView();
-				addChild(Sprite(_curView));
-				addEventListener(Event.ENTER_FRAME, update);
-			}
+			_curView = new GameView();
+			addChild(Sprite(_curView));
+			addEventListener(Event.ENTER_FRAME, update);
 
 		}
 		

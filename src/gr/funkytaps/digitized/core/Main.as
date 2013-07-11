@@ -25,6 +25,7 @@ package gr.funkytaps.digitized.core
 	import starling.utils.AssetManager;
 	import starling.utils.RectangleUtil;
 	import starling.utils.ScaleMode;
+	import starling.utils.formatString;
 	
 	public class Main extends Sprite implements IDestroyable
 	{
@@ -47,6 +48,9 @@ package gr.funkytaps.digitized.core
 			var stageWidth:Number = Settings.WIDTH;
 			var stageHeight:Number = Settings.HEIGHT;
 			
+			var screenWidth:Number = stage.fullScreenWidth;
+			var screenHeight:Number = stage.fullScreenHeight;
+			
 			iOS = (Capabilities.manufacturer.indexOf('iOS') != -1);
 			
 			Starling.handleLostContext = true;
@@ -56,18 +60,24 @@ package gr.funkytaps.digitized.core
 			var viewPort:Rectangle = RectangleUtil.fit(
 				new Rectangle(0, 0, stageWidth, stageHeight), 
 				new Rectangle(0, 0, stage.fullScreenWidth, stage.fullScreenHeight),
-				ScaleMode.NO_BORDER, iOS);
+				ScaleMode.SHOW_ALL, iOS);
 			
+			var iPhone5:Boolean = (screenHeight == 1136);
 			var scaleFactor:int = viewPort.width < 480 ? 1 : 2;
 			var appDir:File = File.applicationDirectory;
-			var assets:AssetManager = new AssetManager(scaleFactor);
+			var assetsManager:AssetManager = new AssetManager(scaleFactor);
+			assetsManager.verbose = true;
+			assetsManager.enqueue( 
+				appDir.resolvePath( 'atlases/temp' ),
+				appDir.resolvePath( formatString('atlases/{0}x', scaleFactor) )
+			);
 			
-			// TODO: add assets to assetsManager
+			Assets.manager = assetsManager;
 			
-			_mStarling = new Starling(GameWorld, stage, viewPort);
+			_mStarling = new Starling(GameWorld, stage, new Rectangle(0, 0, screenWidth, screenHeight));
 			_mStarling.stage.stageWidth = stageWidth;
-			_mStarling.stage.stageHeight = stageHeight;
-			_mStarling.showStats = true;
+			_mStarling.stage.stageHeight = iPhone5 ? 568 : stageHeight;
+			_mStarling.showStats = Capabilities.isDebugger;
 			_mStarling.antiAliasing = 1;
 		
 			_mStarling.addEventListener(starling.events.Event.ROOT_CREATED, _handleRootCreated);
@@ -79,8 +89,11 @@ package gr.funkytaps.digitized.core
 		
 		private function _handleRootCreated(event:Object, app:GameWorld):void
 		{
-			// TODO Auto Generated method stub
+			_mStarling.removeEventListener(starling.events.Event.ROOT_CREATED, _handleRootCreated);
 			
+			// TODO: Remove background (we should have created one)
+			
+			_mStarling.start();
 		}
 		
 		private function _onDeactivate(event:flash.events.Event):void

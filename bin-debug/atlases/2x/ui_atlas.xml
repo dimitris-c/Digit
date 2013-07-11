@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:3bd84ee3fe7281ad7981a5fcf0c40bf3$ -->
+<TextureAtlas imagePath="ui_atlas.png">
+    <SubTexture name="audio-off" x="562" y="1" width="449" height="42" frameX="-2" frameY="-1" frameWidth="455" frameHeight="44"/>
+    <SubTexture name="audio-on" x="596" y="199" width="426" height="42" frameX="-2" frameY="-1" frameWidth="432" frameHeight="44"/>
+    <SubTexture name="blue-button-normal" x="502" y="358" width="500" height="110"/>
+    <SubTexture name="collect-energy-icon" x="1" y="854" width="112" height="112"/>
+    <SubTexture name="collect-energy-title" x="406" y="711" width="388" height="94" frameX="0" frameY="0" frameWidth="424" frameHeight="94"/>
+    <SubTexture name="collect-star-icon" x="864" y="652" width="112" height="112"/>
+    <SubTexture name="collect-star-title" x="1" y="657" width="404" height="94" frameX="0" frameY="0" frameWidth="424" frameHeight="94"/>
+    <SubTexture name="credits-hover" x="1" y="608" width="437" height="48" frameX="-5" frameY="-1" frameWidth="455" frameHeight="50"/>
+    <SubTexture name="credits-normal" x="439" y="567" width="437" height="48" frameX="-5" frameY="-1" frameWidth="455" frameHeight="50"/>
+    <SubTexture name="energy-background" x="1" y="967" width="162" height="34" frameX="-1" frameY="0" frameWidth="164" frameHeight="34"/>
+    <SubTexture name="energy-progress" x="864" y="631" width="150" height="20"/>
+    <SubTexture name="energy" x="502" y="190" width="51" height="56" frameX="-1" frameY="-1" frameWidth="53" frameHeight="58"/>
+    <SubTexture name="getditizited-hover" x="1" y="559" width="437" height="48" frameX="-5" frameY="-1" frameWidth="455" frameHeight="50"/>
+    <SubTexture name="getditizited-normal" x="441" y="518" width="437" height="48" frameX="-5" frameY="-1" frameWidth="455" frameHeight="50"/>
+    <SubTexture name="gray-button-normal" x="1" y="301" width="500" height="110"/>
+    <SubTexture name="green-button-hover" x="502" y="247" width="500" height="110"/>
+    <SubTexture name="green-button-normal" x="1" y="190" width="500" height="110"/>
+    <SubTexture name="howtoplay-title" x="562" y="44" width="448" height="56" frameX="-1" frameY="0" frameWidth="450" frameHeight="56"/>
+    <SubTexture name="intro-screen-title" x="1" y="1" width="560" height="188" frameX="0" frameY="-16" frameWidth="560" frameHeight="210"/>
+    <SubTexture name="leaderboard-hover" x="502" y="469" width="439" height="48" frameX="-3" frameY="-1" frameWidth="455" frameHeight="50"/>
+    <SubTexture name="leaderboard-normal" x="1" y="510" width="439" height="48" frameX="-3" frameY="-1" frameWidth="455" frameHeight="50"/>
+    <SubTexture name="menu-button-hover" x="441" y="463" width="60" height="50"/>
+    <SubTexture name="menu-button-normal" x="441" y="412" width="60" height="50"/>
+    <SubTexture name="play-again-hover" x="562" y="101" width="441" height="48" frameX="-1" frameY="-1" frameWidth="455" frameHeight="50"/>
+    <SubTexture name="play-again-normal" x="1" y="461" width="439" height="48" frameX="-2" frameY="-1" frameWidth="455" frameHeight="50"/>
+    <SubTexture name="share-score-hover" x="1" y="412" width="439" height="48" frameX="-3" frameY="-1" frameWidth="455" frameHeight="50"/>
+    <SubTexture name="share-score-normal" x="562" y="150" width="439" height="48" frameX="-3" frameY="-1" frameWidth="455" frameHeight="50"/>
+    <SubTexture name="star" x="554" y="199" width="41" height="43" frameX="0" frameY="0" frameWidth="43" frameHeight="43"/>
+    <SubTexture name="start-hover" x="1" y="803" width="339" height="50" frameX="-103" frameY="0" frameWidth="455" frameHeight="50"/>
+    <SubTexture name="start-normal" x="1" y="752" width="339" height="50" frameX="-103" frameY="0" frameWidth="455" frameHeight="50"/>
+    <SubTexture name="tilt-phone-icon" x="879" y="518" width="112" height="112"/>
+    <SubTexture name="tilt-phone-title" x="439" y="616" width="424" height="94"/>
+</TextureAtlas>

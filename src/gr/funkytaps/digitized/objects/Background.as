@@ -53,6 +53,8 @@ package gr.funkytaps.digitized.objects
 			
 			var atlas:TextureAtlas;
 			
+			touchable = false;
+			
 			var bmSky1:Texture;
 			var bmSky2:Texture;
 			if(_isFront){

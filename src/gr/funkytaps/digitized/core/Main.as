@@ -58,7 +58,7 @@ package gr.funkytaps.digitized.core
 				new Rectangle(0, 0, stage.fullScreenWidth, stage.fullScreenHeight),
 				ScaleMode.NO_BORDER, iOS);
 			
-			var scaleFactor:int = 1;//viewPort.width < 480 ? 1 : 2;
+			var scaleFactor:int = viewPort.width < 480 ? 1 : 2;
 			var appDir:File = File.applicationDirectory;
 			var assets:AssetManager = new AssetManager(scaleFactor);
 			

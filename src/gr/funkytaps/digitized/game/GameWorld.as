@@ -16,6 +16,7 @@ package gr.funkytaps.digitized.game
 	
 	public class GameWorld extends Sprite
 	{
+		
 		private var _curView:IView;
 		
 		public function GameWorld()
@@ -34,6 +35,7 @@ package gr.funkytaps.digitized.game
 			
 			_curView = new GameView();
 			addChild(Sprite(_curView));
+			
 		}
 		
 		private function update(event:Event):void

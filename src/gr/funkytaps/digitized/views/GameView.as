@@ -3,10 +3,9 @@ package gr.funkytaps.digitized.views
 	import gr.funkytaps.digitized.game.DigitHero;
 	import gr.funkytaps.digitized.game.background.Background;
 	
-	import starling.events.Event;
-	
 	public class GameView extends AbstractView
 	{
+		
 		private var background:Background;
 		
 		public function GameView()
@@ -23,7 +22,8 @@ package gr.funkytaps.digitized.views
 			addChild(hero);
 			
 			hero.x = ((stage.stageWidth >> 1) - (hero.width >> 1)) | 0;
-			hero.y = 300;	
+			hero.y = 300;
+			
 		}
 		
 		override public function update():void{

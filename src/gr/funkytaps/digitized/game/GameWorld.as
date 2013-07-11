@@ -21,15 +21,12 @@ package gr.funkytaps.digitized.game
 	
 	public class GameWorld extends Sprite
 	{
-//		[Embed(source="../../../../../assets/ss.xml",mimeType="application/octet-stream")]
-//		private static var AnimData:Class;
-//		
-//		[Embed(source="../../../../../assets/ss.png")]
-//		private static var AnimTexture:Class;	
+
 		
 		public static const MENU_STATE:int = 0;
 		public static const PLAY_STATE:int = 1;
 		public static const GAME_OVER_STATE:int = 2;
+
 		
 		private var _curView:IView;
 		
@@ -77,6 +74,9 @@ package gr.funkytaps.digitized.game
 				addChild(Sprite(_curView));
 				addEventListener(Event.ENTER_FRAME, update);
 			}
+			_curView = new GameView();
+			addChild(Sprite(_curView));
+			
 		}
 		
 		private function update(event:Event):void

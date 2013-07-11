@@ -9,8 +9,6 @@ package gr.funkytaps.digitized.views
 	import gr.funkytaps.digitized.objects.Gradient;
 	import gr.funkytaps.digitized.objects.Splat;
 	
-	import starling.events.Event;
-	
 	public class GameView extends AbstractView
 	{
 		private var _gradient:Gradient;
@@ -24,6 +22,8 @@ package gr.funkytaps.digitized.views
 		const FACTOR:Number = 0.25;
 		private const INTERVAL:Number = 200;
 		private var accl:Accelerometer;
+		
+		private var background:Background;
 		
 		public function GameView()
 		{
@@ -88,6 +88,9 @@ package gr.funkytaps.digitized.views
 //				pos.rollingZ = rollingZ;
 //				recording.push(pos);
 //			}
+			
+			hero.x = ((stage.stageWidth >> 1) - (hero.width >> 1)) | 0;
+			hero.y = 300;
 			
 		}
 		

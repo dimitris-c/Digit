@@ -1,7 +1,5 @@
 package gr.funkytaps.digitized.core
 {
-	import starling.textures.Texture;
-	import starling.textures.TextureAtlas;
 	import starling.utils.AssetManager;
 
 	/**
@@ -14,7 +12,7 @@ package gr.funkytaps.digitized.core
 	
 	public class Assets
 	{
-		public static var assets:AssetManager;
+		public static var manager:AssetManager;
 		
 	}
 }

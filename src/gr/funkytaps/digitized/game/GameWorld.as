@@ -57,7 +57,7 @@ package gr.funkytaps.digitized.game
 			_assets.enqueue("atlases/ss.png");
 			_assets.loadQueue(onProgress);
 			
-			Assets.assets = _assets;
+			Assets.manager = _assets;
 			_assets = null;
 			
 //			var ssTexture:Texture = Texture.fromBitmap(new AnimTexture());
@@ -74,7 +74,7 @@ package gr.funkytaps.digitized.game
 			trace("progress="+progress);
 			
 			if (progress==1.0) {
-				trace(Assets.assets.getTextureNames(""));
+				trace(Assets.manager.getTextureNames(""));
 //				
 				_curView = new GameView();
 				addChild(Sprite(_curView));

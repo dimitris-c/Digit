@@ -49,7 +49,7 @@ package gr.funkytaps.digitized.objects
 		}
 		
 		override protected function _init():void {
-			var assets:AssetManager = Assets.assets;
+			var assets:AssetManager = Assets.manager;
 			
 			var atlas:TextureAtlas;
 			

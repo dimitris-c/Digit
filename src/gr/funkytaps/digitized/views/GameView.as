@@ -22,6 +22,7 @@ package gr.funkytaps.digitized.views
 		const FACTOR:Number = 0.25;
 		private const INTERVAL:Number = 200;
 		private var accl:Accelerometer;
+
 		
 		//private var background:Background;
 		private var _gradient:Gradient;
@@ -61,6 +62,10 @@ package gr.funkytaps.digitized.views
 //			
 //			_hero = new DigitHero();
 //			addChild(_hero);
+			
+//			_hero.x = ((stage.stageWidth >> 1) - (_hero.width >> 1)) | 0;
+//			_hero.y = 300;	
+			
 			
 //			_hero.x = ((stage.stageWidth >> 1) - (_hero.width >> 1)) | 0;
 //			_hero.y = 300;	
@@ -114,12 +119,7 @@ package gr.funkytaps.digitized.views
 		}
 
 		
-		function accelRollingAvg(event:AccelerometerEvent):void 
-		{ 
-			rollingX = (event.accelerationX * FACTOR) + (rollingX * (1 - FACTOR)); 
-			rollingY = (event.accelerationY * FACTOR) + (rollingY * (1 - FACTOR));
-			rollingZ = (event.accelerationZ * FACTOR) + (rollingZ * (1 - FACTOR)); 
-		}
+
 
 		
 		override public function update():void{

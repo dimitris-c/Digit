@@ -61,6 +61,7 @@ package gr.funkytaps.digitized.game
 			
 			//implement state logic
 			
+
 		}
 		
 		private function onProgress(progress:Number):void
@@ -74,16 +75,7 @@ package gr.funkytaps.digitized.game
 				addChild(Sprite(_curView));
 				addEventListener(Event.ENTER_FRAME, update);
 			}
-			_curView = new GameView();
-			addChild(Sprite(_curView));
-			
-			if (progress==1.0) {
-				trace(Assets.assets.getTextureNames(""));
-//				
-				_curView = new GameView();
-				addChild(Sprite(_curView));
-				addEventListener(Event.ENTER_FRAME, update);
-			}
+
 		}
 		
 		private function update(event:Event):void

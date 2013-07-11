@@ -48,12 +48,9 @@ package gr.funkytaps.digitized.objects
 			super();
 		}
 		
-		override protected function _init():void{
+		override protected function _init():void {
 			var assets:AssetManager = Assets.assets;
 			
-
-			var atlas:TextureAtlas;
-			var atlas:ConcreteTexture;
 			var atlas:TextureAtlas;
 			
 			var bmSky1:Texture;
@@ -67,8 +64,8 @@ package gr.funkytaps.digitized.objects
 			else{
 				_speed = 3;	
 				atlas = assets.getTextureAtlas("stars_back");
-				bmSky1 = atlas.getTexture("stars_back1");
-				bmSky2 = atlas.getTexture("stars_back2");
+				bmSky1 = atlas.getTexture("stars_back1.png");
+				bmSky2 = atlas.getTexture("stars_back2.png");
 			}
 			_sky1 = new Image(bmSky1);
 			//_sky1.blendMode = BlendMode.NONE;

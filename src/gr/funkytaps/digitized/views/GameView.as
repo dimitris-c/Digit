@@ -22,20 +22,6 @@ package gr.funkytaps.digitized.views
 		const FACTOR:Number = 0.25;
 		private const INTERVAL:Number = 200;
 		private var accl:Accelerometer;
-
-		
-		//private var background:Background;
-		private var _gradient:Gradient;
-		private var _blue:Blue;
-		private var _splat:Splat;
-		private var _bBack:Background;
-		private var _bFront:Background;
-		
-		private var _hero:DigitHero;
-		
-		const FACTOR:Number = 0.25;
-		private const INTERVAL:Number = 200;
-		private var accl:Accelerometer;
 		
 		public function GameView()
 		{

@@ -44,11 +44,16 @@ package gr.funkytaps.digitized.game
 			removeEventListener(Event.ADDED_TO_STAGE, _onAddedToStage);
 			
 			_assets = new AssetManager();
-			_assets.verbose = 1.0;
+//			_assets.verbose = true;
+			_assets.enqueue("atlases/stars_front.xml");
 			_assets.enqueue("atlases/stars_front.png");
+			_assets.enqueue("atlases/stars_back.xml");
 			_assets.enqueue("atlases/stars_back.png");
+			_assets.enqueue("atlases/blue.xml");
 			_assets.enqueue("atlases/blue.png");
+			_assets.enqueue("atlases/splat.xml");
 			_assets.enqueue("atlases/splat.png");
+			_assets.enqueue("atlases/ss.xml");
 			_assets.enqueue("atlases/ss.png");
 			_assets.loadQueue(onProgress);
 			

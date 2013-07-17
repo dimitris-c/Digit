@@ -117,14 +117,14 @@ package gr.funkytaps.digitized.game
 		 * Updates the current stars textfield value 
 		 */	
 		public function updateStars(count:Number):void {
-			
+			if (_starTextfield) _starTextfield.text = count.toString();
 		}
 		
 		/**
 		 * Updates the current score's textfield value 
 		 */		
 		public function updateScore(score:Number):void {
-			
+			if (_scoreTextfield) _scoreTextfield.text = score.toString();
 		}
 	}
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://texturepacker.com-->
-<!-- $TexturePacker:SmartUpdate:add6657d53aa6a83601d4dcdf65a299a$ -->
+<!-- $TexturePacker:SmartUpdate:d6d2b92c22b53ae6832ee318375ab199$ -->
 <TextureAtlas imagePath="ui_atlas.png">
     <SubTexture name="Agora38" x="484" y="769" width="84" height="128" frameX="0" frameY="0" frameWidth="128" frameHeight="128"/>
     <SubTexture name="Agora60" x="124" y="770" width="68" height="234" frameX="0" frameY="0" frameWidth="128" frameHeight="256"/>

@@ -11,8 +11,10 @@ package gr.funkytaps.digitized.core
 	import com.dimmdesign.core.IDestroyable;
 	
 	import flash.desktop.NativeApplication;
+	import flash.display.Bitmap;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.events.MouseEvent;
 	import flash.filesystem.File;
 	import flash.geom.Rectangle;
 	import flash.system.Capabilities;
@@ -22,6 +24,7 @@ package gr.funkytaps.digitized.core
 	
 	import starling.core.Starling;
 	import starling.events.Event;
+	import starling.textures.Texture;
 	import starling.utils.AssetManager;
 	import starling.utils.RectangleUtil;
 	import starling.utils.ScaleMode;
@@ -32,6 +35,7 @@ package gr.funkytaps.digitized.core
 		private var _mStarling:Starling;
 		
 		private var iOS:Boolean;
+		private var _background:Bitmap;
 		
 		public function Main()
 		{
@@ -53,8 +57,7 @@ package gr.funkytaps.digitized.core
 			
 			iOS = (Capabilities.manufacturer.indexOf('iOS') != -1);
 			
-			Starling.handleLostContext = true;
-			Starling.multitouchEnabled = true;
+			Starling.multitouchEnabled = false;
 			Starling.handleLostContext = !iOS;
 			
 			var viewPort:Rectangle = RectangleUtil.fit(
@@ -65,21 +68,36 @@ package gr.funkytaps.digitized.core
 			var iPhone5:Boolean = (screenHeight == 1136);
 			var scaleFactor:int = viewPort.width < 480 ? 1 : 2;
 			var appDir:File = File.applicationDirectory;
+			
+			Settings.HEIGHT = (iPhone5) ? 568 : 480;
+			Settings.HALF_HEIGHT = (iPhone5) ? 284 : 240;
+			
 			var assetsManager:AssetManager = new AssetManager(scaleFactor);
-			assetsManager.verbose = true;
+			assetsManager.verbose = false;
+			
 			assetsManager.enqueue( 
-				appDir.resolvePath( 'atlases/temp' ),
-				appDir.resolvePath( formatString('atlases/{0}x', scaleFactor) )
+				appDir.resolvePath( 'assets/particles' ),
+				appDir.resolvePath( formatString('assets/fonts/{0}x', scaleFactor) ),
+				appDir.resolvePath( formatString('assets/atlases/{0}x', scaleFactor) )
 			);
 			
+			// Assign the assetsManager to a global static variable for easy access
 			Assets.manager = assetsManager;
 			
+			_background = scaleFactor == 1 ? Assets.getBitmap('Default') : (iPhone5) ? Assets.getBitmap('Default568h') : Assets.getBitmap('DefaultHD');
+			_background.smoothing = true;
+			addChild(_background);
+			
+			// Create the starling instance.
 			_mStarling = new Starling(GameWorld, stage, new Rectangle(0, 0, screenWidth, screenHeight));
 			_mStarling.stage.stageWidth = stageWidth;
 			_mStarling.stage.stageHeight = iPhone5 ? 568 : stageHeight;
-			_mStarling.showStats = Capabilities.isDebugger;
+//			_mStarling.showStats = Capabilities.isDebugger;
 			_mStarling.antiAliasing = 1;
-		
+			
+			stage.doubleClickEnabled = true;
+			stage.addEventListener(MouseEvent.DOUBLE_CLICK, onDoubleClick)
+			
 			_mStarling.addEventListener(starling.events.Event.ROOT_CREATED, _handleRootCreated);
 			
 			NativeApplication.nativeApplication.addEventListener(flash.events.Event.ACTIVATE, _onActivate);
@@ -87,12 +105,22 @@ package gr.funkytaps.digitized.core
 
 		}
 		
+		protected function onDoubleClick(event:MouseEvent):void
+		{
+			// TODO Auto-generated method stub
+			_mStarling.showStats = !_mStarling.showStats;
+		}
+		
 		private function _handleRootCreated(event:Object, app:GameWorld):void
 		{
 			_mStarling.removeEventListener(starling.events.Event.ROOT_CREATED, _handleRootCreated);
 			
-			// TODO: Remove background (we should have created one)
+			var background:Texture = starling.textures.Texture.fromBitmap(_background, false, false, Starling.contentScaleFactor);
 			
+			removeChild(_background);
+			_background = null;
+			
+			app.start(background);
 			_mStarling.start();
 		}
 		

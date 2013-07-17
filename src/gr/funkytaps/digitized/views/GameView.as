@@ -3,130 +3,151 @@ package gr.funkytaps.digitized.views
 	import flash.events.AccelerometerEvent;
 	import flash.sensors.Accelerometer;
 	
+	import gr.funkytaps.digitized.core.Assets;
+	import gr.funkytaps.digitized.core.Settings;
+	import gr.funkytaps.digitized.game.Dashboard;
+	import gr.funkytaps.digitized.game.GameWorld;
 	import gr.funkytaps.digitized.objects.Background;
-	import gr.funkytaps.digitized.objects.Blue;
 	import gr.funkytaps.digitized.objects.DigitHero;
-	import gr.funkytaps.digitized.objects.Gradient;
-	import gr.funkytaps.digitized.objects.Splat;
+	
+	import starling.animation.Transitions;
+	import starling.animation.Tween;
+	import starling.core.Starling;
+	import starling.display.Image;
+	import starling.display.Sprite;
 	
 	public class GameView extends AbstractView
 	{
-		private var _gradient:Gradient;
-		private var _blue:Blue;
-		private var _splat:Splat;
-		private var _bBack:Background;
-		private var _bFront:Background;
+		private var _gameWorld:GameWorld;
+		
+		private var _gameContainer:Sprite;
+		
+		private var _background:Background;
+		
+		private var _takeOffLand:Image;
 		
 		private var _hero:DigitHero;
 		
-		const FACTOR:Number = 0.25;
-		private const INTERVAL:Number = 200;
-		private var accl:Accelerometer;
+		private var _gameSpeed:Number;
 		
-		public function GameView()
+		private var _gradient:Image;
+		
+		private var _dashboard:Dashboard;
+		
+		private const FACTOR:Number = 0.25;
+		
+		private var _accelerometer:Accelerometer;
+		
+		private var _rollingX:Number = 0;
+
+		private var _xSpeed:Number;
+		
+		public function GameView(gameWorld:GameWorld)
 		{
 			super();
+			
+			_gameWorld = gameWorld;
 		}
 		
 		override protected function _init():void
 		{
-//			_gradient = new Gradient();
-//			addChild(_gradient);
-//
-//			_blue = new Blue();
-//			addChild(_blue);
-//			
-//			_splat = new Splat();
-//			addChild(_splat);
-//			
-			_bBack = new Background(false);
-			addChild(_bBack);
+			
+			_gradient = new Image(Assets.manager.getTexture('gradient'));
+			addChild(_gradient);
 
-			_bFront = new Background(true);
-			addChild(_bFront);
-//
-//			
-//			_hero = new DigitHero();
-//			addChild(_hero);
+			_gameContainer = new Sprite();
+			addChild(_gameContainer);
 			
-//			_hero.x = ((stage.stageWidth >> 1) - (_hero.width >> 1)) | 0;
-//			_hero.y = 300;	
+			_dashboard = new Dashboard();
+			addChild(_dashboard);
 			
+			_background = new Background();
+			_gameContainer.addChild(_background);
 			
-//			_hero.x = ((stage.stageWidth >> 1) - (_hero.width >> 1)) | 0;
-//			_hero.y = 300;	
+			_takeOffLand = new Image( Assets.manager.getTexture('land') );
+			_takeOffLand.pivotX = _takeOffLand.width >> 1;
+			addChild(_takeOffLand);
 			
-//			if (Accelerometer.isSupported) {
-//				accl = new Accelerometer();
-//				accl.setRequestedUpdateInterval(INTERVAL);
-//				accl.addEventListener(AccelerometerEvent.UPDATE,handleAccelUpdate);
-//			}
+			_takeOffLand.x = Settings.HALF_WIDTH;
+			_takeOffLand.y = Settings.HEIGHT - _takeOffLand.height;
+			
+			_hero = new DigitHero();
+			addChild(_hero);
+			
+			_hero.x = Settings.HALF_WIDTH;
+			_hero.y = Settings.HEIGHT - _takeOffLand.height - (_hero.heroHeight >> 1);
+			
+			// Start accelerometer if supported
+			if (Accelerometer.isSupported) {
+				_accelerometer = new Accelerometer();
+				_accelerometer.setRequestedUpdateInterval(60);
+			}
+			
+			// Take off the Hero
+			_takeOff();
 		}
 		
-		var rollingX:Number = 0;
-		var rollingY:Number = 0;
-		var rollingZ:Number = 0;
-		private function handleAccelUpdate(event:AccelerometerEvent) {
+		private function _onAccelerometerUpdate(event:AccelerometerEvent):void {
 			
-			accelRollingAvg(event);
-			var newPosX:Number = _hero.x - (rollingX*20);
-			var newPosY:Number = _hero.y + (rollingY*20);
-			// set the text fields for tracking
-			trace("X:" + rollingX.toFixed(3) + "\nY: " + rollingY.toFixed(3) + "\nZ: " + rollingZ.toFixed(3));
-			//xyzText.text = "X:" + rollingX.toFixed(3) + "\nY: " + rollingY.toFixed(3) + "\nZ: " + rollingZ.toFixed(3);
-			//if ((newPosX > 0) && (newPosX < stage.stageWidth)) {
-				_hero.x = newPosX;
-			//}
-			//if ((newPosY > 0) && (newPosY < stage.stageHeight)) {
-				_hero.y = newPosY;
-			//}
+			_rollingX = (event.accelerationX * FACTOR) + (_rollingX * (1 - FACTOR)); 
 			
-//			if (recordMode == "recording") {
-//				var pos:Object = new Object();
-//				pos.posX = golfBall.x;
-//				pos.posY = golfBall.y;
-//				pos.rollingX = rollingX;
-//				pos.rollingY = rollingY;
-//				pos.rollingZ = rollingZ;
-//				recording.push(pos);
-//			}
+			if (_rollingX < -0.05) {  // tilting the device to the right
+				_hero.scaleX = -0.65;
+			} else if (_rollingX > 0.05) {  // tilting the device to the left
+				_hero.scaleX = 0.65;
+			}
+			else {
+				_hero.scaleX = 0.65;
+			}
 			
-			//hero.x = ((stage.stageWidth >> 1) - (hero.width >> 1)) | 0;
-			//hero.y = 300;
-			
-
 		}
 		
-		function accelRollingAvg(event:AccelerometerEvent):void 
-		{ 
-			rollingX = (event.accelerationX * FACTOR) + (rollingX * (1 - FACTOR)); 
-			rollingY = (event.accelerationY * FACTOR) + (rollingY * (1 - FACTOR));
-			rollingZ = (event.accelerationZ * FACTOR) + (rollingZ * (1 - FACTOR)); 
+		/**
+		 * This is the start of the game. It makes the character take off...
+		 */		
+		private function _takeOff():void {
+			
+			var scaleHero:Tween = new Tween(_hero, 1.4, Transitions.EASE_IN);
+			scaleHero.delay = 0.42;
+//			scaleHero.scaleTo(0.65);
+			scaleHero.animate('y', _hero.y - 50);
+			
+			Starling.juggler.add(scaleHero);
+			
+			var moveLand:Tween = new Tween(_takeOffLand, 1.3, Transitions.LINEAR);
+			moveLand.delay = 0.423;
+			moveLand.animate('y', _takeOffLand.y + 45);
+			moveLand.scaleTo(1.2);
+			moveLand.onComplete = function():void {
+				_takeOffLand.visible = false;
+				Starling.juggler.remove(moveLand);
+				
+				_hero.takeOff();
+				
+				if (_accelerometer) _accelerometer.addEventListener(AccelerometerEvent.UPDATE, _onAccelerometerUpdate);
+			}
+			
+			Starling.juggler.add(moveLand);
+			
+		}
+		
+
+		override public function tweenIn():void {
+			
 		}
 
+		override public function tweenOut(onComplete:Function=null, onCompleteParams:Array=null):void {
+			
+		}
 		
-
-
-		
-		override public function update():void{
-			if(_hero){
-				_hero.update();
+		override public function update(...params):void {
+			
+			if (_hero) {
+				_hero.update( _rollingX );
 			}
-			if(_bFront){
-				_bFront.update();
-			}
-			if(_bBack){
-				_bBack.update();
-			}
-			if(_splat){
-				_splat.update();
-			}
-			if(_blue){
-				_blue.update();
-			}
-			if(_gradient){
-				//_gradient.update();
-			}
+			
+			if (_background) _background.update(params[0]);
+			
 		}
 	}
 }

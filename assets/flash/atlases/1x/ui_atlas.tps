@@ -152,8 +152,6 @@
             <filename>../../images/buttons/1x/titles/audio-on.png</filename>
             <filename>../../images/buttons/1x/titles/credits-hover.png</filename>
             <filename>../../images/buttons/1x/titles/credits-normal.png</filename>
-            <filename>../../images/buttons/1x/titles/getditizited-hover.png</filename>
-            <filename>../../images/buttons/1x/titles/getditizited-normal.png</filename>
             <filename>../../images/buttons/1x/titles/leaderboard-hover.png</filename>
             <filename>../../images/buttons/1x/titles/play-again-hover.png</filename>
             <filename>../../images/buttons/1x/titles/play-again-normal.png</filename>
@@ -161,7 +159,6 @@
             <filename>../../images/buttons/1x/titles/share-score-normal.png</filename>
             <filename>../../images/buttons/1x/titles/leaderboard-normal.png</filename>
             <filename>../../images/game/1x/energy.png</filename>
-            <filename>../../images/game/1x/star.png</filename>
             <filename>../../images/instructions/1x/collect-energy-icon.png</filename>
             <filename>../../images/instructions/1x/collect-energy-title.png</filename>
             <filename>../../images/instructions/1x/collect-star-icon.png</filename>
@@ -171,6 +168,28 @@
             <filename>../../images/instructions/1x/tilt-phone-title.png</filename>
             <filename>../../images/game/1x/energy-background.png</filename>
             <filename>../../images/game/1x/energy-progress.png</filename>
+            <filename>../../images/buttons/1x/titles/start-title-hover.png</filename>
+            <filename>../../images/buttons/1x/titles/start-title-normal.png</filename>
+            <filename>../../images/1x/generic-background.png</filename>
+            <filename>../../images/intro/1x/intro-hero.png</filename>
+            <filename>../../images/intro/1x/intro-planet.png</filename>
+            <filename>../../images/menu/1x/score-title.png</filename>
+            <filename>../../images/menu/1x/total-score-title.png</filename>
+            <filename>../../images/game/1x/gradient.png</filename>
+            <filename>../../images/game/1x/energy-title.png</filename>
+            <filename>../../images/game/1x/star-static-icon.png</filename>
+            <filename>../../images/buttons/1x/go-button-hover.png</filename>
+            <filename>../../images/buttons/1x/go-button-normal.png</filename>
+            <filename>../../images/credits/1x/credits-alien.png</filename>
+            <filename>../../images/credits/1x/credits-designcode-title.png</filename>
+            <filename>../../images/credits/1x/credits-ditigized-title.png</filename>
+            <filename>../../images/credits/1x/credits-illustration-title.png</filename>
+            <filename>../../images/credits/1x/credits-title.png</filename>
+            <filename>../../images/buttons/1x/titles/getdigitized-hover.png</filename>
+            <filename>../../images/buttons/1x/titles/getdigitized-normal.png</filename>
+            <filename>../../fonts/1x/Agora38.png</filename>
+            <filename>../../fonts/1x/Agora60.png</filename>
+            <filename>../../fonts/1x/Agora88.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -8,6 +8,11 @@ package
 	 *
 	 **/
 	
+	import com.greensock.TweenLite;
+	import com.greensock.easing.Expo;
+	import com.greensock.plugins.BezierThroughPlugin;
+	import com.greensock.plugins.TweenPlugin;
+	
 	import flash.desktop.NativeApplication;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
@@ -20,6 +25,9 @@ package
 	[SWF(frameRate="60", backgroundColor="#20213E")]
 	public class Digit extends Sprite
 	{
+		TweenPlugin.activate([ BezierThroughPlugin ]);
+		TweenLite.defaultEase = Expo.easeOut;
+		
 		private var _digitMain:Main;
 		
 		public function Digit()
@@ -48,6 +56,7 @@ package
 			_digitMain.destroy();
 			_digitMain = null;
 			
+			System.pauseForGCIfCollectionImminent();
 			System.gc();
 		}
 	}

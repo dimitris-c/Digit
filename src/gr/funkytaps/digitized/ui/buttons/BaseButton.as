@@ -10,8 +10,10 @@ package gr.funkytaps.digitized.ui.buttons
 	
 	import com.dimmdesign.core.IDestroyable;
 	
+	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	
+	import starling.display.DisplayObject;
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
@@ -22,7 +24,7 @@ package gr.funkytaps.digitized.ui.buttons
 
 	public class BaseButton extends Sprite implements IDestroyable
 	{
-		private static const MAX_DRAG_DIST:Number = 50;
+		protected static const MAX_DRAG_DIST:Number = 10;
 		
 		protected var _holder:Sprite;
 		
@@ -35,6 +37,8 @@ package gr.funkytaps.digitized.ui.buttons
 		
 		protected var _backgroundWidth:Number;
 		protected var _backgroundHeight:Number;
+		
+		protected var _padding:Number = 0;
 		
 		/**
 		 * Base class for the Buttons. 
@@ -65,7 +69,15 @@ package gr.funkytaps.digitized.ui.buttons
 			_backgroundWidth = _background.width;
 			_backgroundHeight = _background.height;
 			
-			addEventListener(TouchEvent.TOUCH, onTouched);
+			addEventListener(TouchEvent.TOUCH, _onTouched);
+		}
+		
+		override public function get width():Number {
+			return _backgroundWidth;
+		}
+		
+		override public function get height():Number {
+			return _backgroundHeight;
 		}
 		
 		protected function _setNormalState():void { 
@@ -78,10 +90,9 @@ package gr.funkytaps.digitized.ui.buttons
 			_background.texture = _downState;
 		}
 		
-		protected function onTouched(evt:TouchEvent):void
+		protected function _onTouched(event:TouchEvent):void
 		{
-			
-			var touch:Touch = evt.getTouch(this);
+			var touch:Touch = event.getTouch(this);
 			if (!_isEnabled || touch == null) return;
 			
 			if (touch.phase == TouchPhase.BEGAN && !_isDown) {
@@ -102,14 +113,31 @@ package gr.funkytaps.digitized.ui.buttons
 				_setNormalState();
 				dispatchEventWith(Event.TRIGGERED, true);
 			}
+			
 		}
 		
+		override public function hitTest(localPoint:Point, forTouch:Boolean = false):DisplayObject {
+			// on a touch test, invisible or untouchable objects cause the test to fail
+			if (forTouch && (!visible || !touchable)) return null;
+			
+			var theBounds:Rectangle = getBounds(this);
+			theBounds.inflate(_padding, _padding);
+			
+			if (theBounds.containsPoint(localPoint)) return this;
+			return null;
+		}
+		
+		public function get padding():Number { return _padding; }
+		public function set padding(value:Number):void {
+			_padding = value;
+		}
+
 		public function get isEnabled():Boolean { return _isEnabled; }
 		public function set isEnabled(value:Boolean):void { _isEnabled = value; }
 		
 		public function destroy():void {
 			
-			removeEventListener(TouchEvent.TOUCH, onTouched);
+			removeEventListener(TouchEvent.TOUCH, _onTouched);
 			
 			_holder.removeFromParent(true);
 			_background.removeFromParent(true);

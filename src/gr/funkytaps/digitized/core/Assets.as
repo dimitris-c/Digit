@@ -1,5 +1,7 @@
 package gr.funkytaps.digitized.core
 {
+	import flash.display.Bitmap;
+	
 	import starling.utils.AssetManager;
 
 	/**
@@ -12,7 +14,31 @@ package gr.funkytaps.digitized.core
 	
 	public class Assets
 	{
+		/**
+		 * Static AssetsMananger reference to handle all the texture/atlases etc that need for the game 
+		 */		
 		public static var manager:AssetManager;
+		
+		/**
+		 * Images that we need to be embeded
+		 */		
+		
+		[Embed(source="../../../../../assets/flash/Default-568h@2x.png")]
+		public static const Default568h:Class;
+		
+		[Embed(source="../../../../../assets/flash/Default@2x.png")]
+		public static const DefaultHD:Class;
+		
+		[Embed(source="../../../../../assets/flash/Default.png")]
+		public static const Default:Class;
+		
+		/**
+		 * Returns a bitmap for the give name. 
+		 */		
+		public static function getBitmap(name:String):Bitmap {
+			return new Assets[name]() as Bitmap;
+		}
+		
 		
 	}
 }

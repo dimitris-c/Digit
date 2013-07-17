@@ -152,27 +152,45 @@
             <filename>../../images/buttons/2x/titles/audio-on.png</filename>
             <filename>../../images/buttons/2x/titles/credits-hover.png</filename>
             <filename>../../images/buttons/2x/titles/credits-normal.png</filename>
-            <filename>../../images/buttons/2x/titles/getditizited-hover.png</filename>
-            <filename>../../images/buttons/2x/titles/getditizited-normal.png</filename>
             <filename>../../images/buttons/2x/titles/leaderboard-hover.png</filename>
             <filename>../../images/buttons/2x/titles/leaderboard-normal.png</filename>
             <filename>../../images/buttons/2x/titles/play-again-hover.png</filename>
             <filename>../../images/buttons/2x/titles/play-again-normal.png</filename>
             <filename>../../images/buttons/2x/titles/share-score-hover.png</filename>
             <filename>../../images/buttons/2x/titles/share-score-normal.png</filename>
-            <filename>../../images/buttons/2x/titles/start-hover.png</filename>
-            <filename>../../images/buttons/2x/titles/start-normal.png</filename>
             <filename>../../images/game/2x/energy-background.png</filename>
             <filename>../../images/game/2x/energy-progress.png</filename>
-            <filename>../../images/game/2x/energy.png</filename>
-            <filename>../../images/game/2x/star.png</filename>
+            <filename>../../images/instructions/2x/howtoplay-title.png</filename>
+            <filename>../../images/buttons/2x/titles/start-title-hover.png</filename>
+            <filename>../../images/buttons/2x/titles/start-title-normal.png</filename>
+            <filename>../../images/2x/generic-background.png</filename>
+            <filename>../../images/intro/2x/intro-hero.png</filename>
+            <filename>../../images/intro/2x/intro-planet.png</filename>
+            <filename>../../images/menu/2x/score-title.png</filename>
+            <filename>../../images/menu/2x/total-score-title.png</filename>
+            <filename>../../images/game/2x/star-static-icon.png</filename>
+            <filename>../../particles/flameparticle.png</filename>
+            <filename>../../images/game/2x/gradient.png</filename>
+            <filename>../../images/buttons/2x/go-button-hover.png</filename>
+            <filename>../../images/buttons/2x/go-button-normal.png</filename>
+            <filename>../../images/credits/2x/credits-alien.png</filename>
+            <filename>../../images/credits/2x/credits-designcode-title.png</filename>
+            <filename>../../images/credits/2x/credits-ditigized-title.png</filename>
+            <filename>../../images/credits/2x/credits-illustration-title.png</filename>
+            <filename>../../images/credits/2x/credits-title.png</filename>
+            <filename>../../images/buttons/2x/titles/getdigitized-hover.png</filename>
+            <filename>../../images/buttons/2x/titles/getdigitized-normal.png</filename>
+            <filename>../../images/game/2x/energy-title.png</filename>
             <filename>../../images/instructions/2x/collect-energy-icon.png</filename>
             <filename>../../images/instructions/2x/collect-energy-title.png</filename>
             <filename>../../images/instructions/2x/collect-star-icon.png</filename>
             <filename>../../images/instructions/2x/collect-star-title.png</filename>
-            <filename>../../images/instructions/2x/howtoplay-title.png</filename>
             <filename>../../images/instructions/2x/tilt-phone-icon.png</filename>
             <filename>../../images/instructions/2x/tilt-phone-title.png</filename>
+            <filename>../../images/game/2x/energy-icon.png</filename>
+            <filename>../../fonts/2x/Agora38.png</filename>
+            <filename>../../fonts/2x/Agora60.png</filename>
+            <filename>../../fonts/2x/Agora88.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

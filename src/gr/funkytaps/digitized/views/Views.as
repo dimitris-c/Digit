@@ -15,6 +15,8 @@ package gr.funkytaps.digitized.views
 		
 		public static const GAME_VIEW:String = 'GameView';
 		
+		public static const GAME_END_VIEW:String = 'GameEndView';
+		
 		public static const LEADERBOARD_VIEW:String = 'LeaderboardView';
 		
 	}

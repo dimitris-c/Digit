@@ -1,5 +1,7 @@
 package gr.funkytaps.digitized.interfaces
 {
+	import starling.display.DisplayObject;
+
 	/**
 	 * @author — Dimitris Chatzieleftheriou
 	 * @company — Funkytaps, Athens
@@ -10,7 +12,16 @@ package gr.funkytaps.digitized.interfaces
 	
 	public interface IView
 	{
-		function update():void;
+		function removeFromParent(dispose:Boolean=false):void;
+		
+		function tweenIn():void;
+		
+		function tweenOut(onComplete:Function=null, onCompleteParams:Array = null):void;
+		
+		function view():DisplayObject;
+		
+		function update(...args):void;
+		
 		function destroy():void;
 	}
 }

@@ -8,9 +8,9 @@ package starling.extensions
 	
 	public class Gauge extends Sprite
 	{
-		private var mImage:Image;
-		private var mRatio:Number;
-		private var mPoint:Point = new Point();
+		protected var mImage:Image;
+		protected var mRatio:Number;
+		protected var mPoint:Point = new Point();
 		
 		public function Gauge(texture:Texture)
 		{
@@ -19,7 +19,7 @@ package starling.extensions
 			addChild(mImage);
 		}
 		
-		private function update():void
+		protected function update():void
 		{
 			mImage.scaleX = mRatio;
 			mPoint.x = mRatio;

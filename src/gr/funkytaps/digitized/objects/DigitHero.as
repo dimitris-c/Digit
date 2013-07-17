@@ -8,30 +8,28 @@ package gr.funkytaps.digitized.objects
 	 *
 	 **/
 	
-	import flash.display.Bitmap;
+	import gr.funkytaps.digitized.core.Assets;
+	import gr.funkytaps.digitized.core.Settings;
 	
-	
+	import starling.animation.Transitions;
+	import starling.animation.Tween;
 	import starling.core.Starling;
 	import starling.display.Image;
-	import starling.display.Sprite;
-	import starling.events.Event;
 	import starling.extensions.PDParticleSystem;
 	import starling.extensions.ParticleSystem;
-	import starling.textures.Texture;
-	import starling.utils.deg2rad;
 	
 	public class DigitHero extends AbstractObject
 	{
-		[Embed(source="../../../../../assets/flash/images/hero.png")]
-		public static const Hero:Class;
-		
-		[Embed(source="../../../../../assets/flash/rocketflame.pex", mimeType="application/octet-stream")]
-		private static const RocketFlame:Class;
-		
-		[Embed(source="../../../../../assets/flash/particleTexture.png")]
-		private static const ParticleTexture:Class;
 		
 		private var _hero:Image;
+		
+		private var _heroWidth:Number;
+		private var _heroHeight:Number;
+		private var _limitPadding:Number = 25;
+		private var _heroLeftLimit:Number;
+		private var _heroRightLimit:Number;
+		
+		private var _heroIsFlying:Boolean = false;
 		
 		private var mParticleSystems:Vector.<ParticleSystem>;
 		private var mParticleSystem:ParticleSystem;
@@ -40,56 +38,74 @@ package gr.funkytaps.digitized.objects
 		{
 			super();
 		}
+		
+		public function get heroHeight():Number { return _heroHeight; }
+
+		public function get heroWidth():Number { return _heroWidth; }
 
 		override protected function _init():void
 		{
 			
-			var rocketConfig:XML = XML(new RocketFlame());
-			var particleTexture:Texture = Texture.fromBitmap(new ParticleTexture());
+			_createRocketFlames();
+			
+			_hero = new Image(Assets.manager.getTexture('hero-static'));
+			addChild(_hero);
+			
+			pivotX = width >> 1;
+			pivotY = height >> 1;
+			
+			_heroWidth = width;
+			_heroHeight = height;
+			_heroLeftLimit = pivotX - _limitPadding;
+			_heroRightLimit = Settings.WIDTH - pivotX + _limitPadding;
+			
+		}
+		
+		private function _createRocketFlames():void {
 			
 			mParticleSystems = new <ParticleSystem>[
-				new PDParticleSystem(rocketConfig, particleTexture),
-				new PDParticleSystem(rocketConfig, particleTexture)
+				new PDParticleSystem(Assets.manager.getXml('rocketflame'), Assets.manager.getTexture('flameparticle')),
+				new PDParticleSystem(Assets.manager.getXml('rocketflame'), Assets.manager.getTexture('flameparticle'))
 			];
 			
-			if (mParticleSystem)
-			{
-				mParticleSystem.stop();
-				mParticleSystem.removeFromParent();
-				Starling.juggler.remove(mParticleSystem);
-			}
-			
 			mParticleSystem = mParticleSystems[0];
-			PDParticleSystem(mParticleSystem).emitAngle = deg2rad( -270 );
-			mParticleSystem.emitterX = 10;
-			mParticleSystem.emitterY = 150;
+			mParticleSystem.maxCapacity = 80;
+			mParticleSystem.emitterX = 22;
+			mParticleSystem.emitterY = 178;
+			mParticleSystem.scaleX = mParticleSystem.scaleY = 0.65;
 			mParticleSystem.start();
 			
 			addChild(mParticleSystem);
 			Starling.juggler.add(mParticleSystem);
 			
 			mParticleSystem = mParticleSystems[1];
-			PDParticleSystem(mParticleSystem).emitAngle = deg2rad( -270 );
-			mParticleSystem.emitterX = 163;
-			mParticleSystem.emitterY = 150;
+			mParticleSystem.maxCapacity = 80;
+			mParticleSystem.emitterX = 187;
+			mParticleSystem.emitterY = 178;
+			mParticleSystem.scaleX = mParticleSystem.scaleY = 0.65;
 			mParticleSystem.start();
 			
 			addChild(mParticleSystem);
 			Starling.juggler.add(mParticleSystem);
-			
-			var heroBitmap:Bitmap = new DigitHero.Hero() as Bitmap;
-			_hero = Image.fromBitmap(heroBitmap);
-			addChild(_hero);
+
+		}
+		
+		public function takeOff():void {
+			_heroIsFlying = true;
 			
 		}
 		
-		public function update():void
+		public function update(rollingX:Number = 0):void
 		{
+			if (!_heroIsFlying) {
+//				if (mParticleSystems[0].emissionRate < 80) mParticleSystems[0].emissionRate += 1;
+//				if (mParticleSystems[1].emissionRate < 80) mParticleSystems[1].emissionRate += 1;
+			}
 			
-			//x += (Starling.current.nativeStage.mouseX - x) * 0.3;
-			//y += (Starling.current.nativeStage.mouseY - y) * 0.3;
-			x += (Starling.current.nativeStage.mouseX - x) * 0.5 - _hero.width*0.5;
-			y += (Starling.current.nativeStage.mouseY - y) * 0.5 - _hero.height*0.5;
+			this.x += (this.x - (this.x + rollingX * 20)) * 0.6;
+			
+			if (this.x < _heroLeftLimit) this.x = _heroLeftLimit;
+			if (this.x > _heroRightLimit) this.x = _heroRightLimit;
 		}
 	}
 }

@@ -1,5 +1,11 @@
 package gr.funkytaps.digitized.objects
 {
+	import gr.funkytaps.digitized.core.Assets;
+	import gr.funkytaps.digitized.core.Settings;
+	
+	import starling.display.Image;
+	import starling.extensions.ParallaxLayer;
+
 	/**
 	 * @author — Dimitris Chatzieleftheriou
 	 * @company — Funkytaps, Athens
@@ -8,92 +14,65 @@ package gr.funkytaps.digitized.objects
 	 *
 	 **/
 	
-	import flash.display.Bitmap;
 	
-	import gr.funkytaps.digitized.core.Assets;
-	
-	import starling.display.BlendMode;
-	import starling.display.Image;
-	import starling.display.Sprite;
-
-	import starling.textures.ConcreteTexture;
-	import starling.textures.Texture;
-	import starling.textures.TextureAtlas;
-	import starling.utils.AssetManager;
 	
 	public class Background extends AbstractObject
 	{
-//		[Embed(source="../../../../../assets/flash/images/stars_front1.png")]
-//		public static const StarsFront1:Class;
-//		
-//		[Embed(source="../../../../../assets/flash/images/stars_front2.png")]
-//		public static const StarsFront2:Class;
-//		
-//		[Embed(source="../../../../../assets/flash/images/stars_back1.png")]
-//		public static const StarsBack1:Class;
-//
-//		[Embed(source="../../../../../assets/flash/images/stars_back2.png")]
-//		public static const StarsBack2:Class;
 		
-		private var _sky1:Image;
-		private var _sky2:Image;
+		private var _starsFrontLayer:ParallaxLayer;
+		
+		private var _starsBackLayer:ParallaxLayer;
+		
+		private var _glowLeftPart:Image;
+		
+		private var _glowRightPart:Image;
 		
 		private var _speed:Number;
 		
-		private var _isFront:Boolean = false;
+		private var _isScrolling:Boolean = false;
 		
-		public function Background(isFront:Boolean)
+		public function get isScrolling():Boolean { return _isScrolling; }
+		public function set isScrolling(value:Boolean):void { _isScrolling = value; }
+		
+		public function Background()
 		{
-			_isFront = isFront;
 			super();
 		}
 		
+
 		override protected function _init():void {
-			var assets:AssetManager = Assets.manager;
-			
-			var atlas:TextureAtlas;
 			
 			touchable = false;
 			
-			var bmSky1:Texture;
-			var bmSky2:Texture;
-			if(_isFront){
-				_speed = 4;
-				atlas = assets.getTextureAtlas("stars_front");
-				bmSky1 = atlas.getTexture("stars_front1.png");
-				bmSky2 = atlas.getTexture("stars_front2.png");
-			}
-			else{
-				_speed = 3;	
-				atlas = assets.getTextureAtlas("stars_back");
-				bmSky1 = atlas.getTexture("stars_back1.png");
-				bmSky2 = atlas.getTexture("stars_back2.png");
-			}
-			_sky1 = new Image(bmSky1);
-			//_sky1.blendMode = BlendMode.NONE;
-			addChild(_sky1);
-
-			_sky2 = new Image(bmSky2);
-			//_sky2.blendMode = BlendMode.NONE;
-			_sky2.y = -800;
-			addChild(_sky2);
+			_glowLeftPart = new Image(Assets.manager.getTexture('glow'));
+			addChild(_glowLeftPart);
+			
+			_glowLeftPart.y = 20;
+			
+			_glowRightPart = new Image(Assets.manager.getTexture('glow'));
+			addChild(_glowRightPart);
+			_glowRightPart.scaleX = -1;
+			_glowRightPart.scaleY = -1;
+			
+			_glowRightPart.x = Settings.WIDTH;
+			_glowRightPart.y = _glowRightPart.height + 250
+			
+			_starsBackLayer = new ParallaxLayer(Assets.manager.getTexture('stars-back'), 1, 0.1, true, false, false);
+			_starsBackLayer.baseSpeed = 1;
+			_starsBackLayer.speedFactor = 0.2;
+			addChild(_starsBackLayer);
+			
+			_starsFrontLayer = new ParallaxLayer(Assets.manager.getTexture('stars-front'), 2, 0.5, true, false, false);
+			_starsFrontLayer.baseSpeed = 2;
+			_starsFrontLayer.speedFactor = 0.8;
+			addChild(_starsFrontLayer);
 			
 		}
 		
-		public function update():void
+		public function update(passedTime:Number = 0):void
 		{
-			if(_sky1){			
-				_sky1.y += _speed;
-				if(_sky1.y == 800){
-					_sky1.y = -800;
-				}
-			}
-			if(_sky2){
-				_sky2.y += _speed;
-				if(_sky2.y == 800){
-					_sky2.y = -800;
-				}
-			}
+			_starsBackLayer.advanceStep(_starsBackLayer.baseSpeed);
+			_starsFrontLayer.advanceStep(_starsFrontLayer.baseSpeed);
 		}
 	}
 }

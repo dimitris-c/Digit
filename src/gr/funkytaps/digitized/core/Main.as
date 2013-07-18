@@ -66,6 +66,7 @@ package gr.funkytaps.digitized.core
 				ScaleMode.SHOW_ALL, iOS);
 			
 			var iPhone5:Boolean = (screenHeight == 1136);
+			var isPad:Boolean = (screenWidth == 768 || screenWidth == 1536);
 			var scaleFactor:int = viewPort.width < 480 ? 1 : 2;
 			var appDir:File = File.applicationDirectory;
 			
@@ -96,7 +97,7 @@ package gr.funkytaps.digitized.core
 			_mStarling.antiAliasing = 1;
 			
 			stage.doubleClickEnabled = true;
-			stage.addEventListener(MouseEvent.DOUBLE_CLICK, onDoubleClick)
+			stage.addEventListener(MouseEvent.DOUBLE_CLICK, onDoubleClick);
 			
 			_mStarling.addEventListener(starling.events.Event.ROOT_CREATED, _handleRootCreated);
 			

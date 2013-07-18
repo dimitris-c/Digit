@@ -9,7 +9,7 @@ package gr.funkytaps.digitized.views
 	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
 	import gr.funkytaps.digitized.game.GameWorld;
-	import gr.funkytaps.digitized.objects.DigitHeroIntroView;
+	import gr.funkytaps.digitized.game.objects.DigitHeroIntroView;
 	import gr.funkytaps.digitized.ui.buttons.StartButton;
 	
 	import starling.core.Starling;

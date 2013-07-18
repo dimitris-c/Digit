@@ -20,7 +20,7 @@ package gr.funkytaps.digitized.interfaces
 		
 		function view():DisplayObject;
 		
-		function update(...args):void;
+		function update(passedTime:Number = 0):void;
 		
 		function destroy():void;
 	}

@@ -37,7 +37,7 @@ package gr.funkytaps.digitized.views
 			return this as DisplayObject
 		}
 		
-		public function update(...args):void{
+		public function update(passedTime:Number = 0):void{
 			//override
 		}
 		

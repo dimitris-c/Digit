@@ -1,20 +1,25 @@
 package gr.funkytaps.digitized.views
 {
+	import com.greensock.easing.Expo;
+	
 	import flash.events.AccelerometerEvent;
 	import flash.sensors.Accelerometer;
 	
 	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
-	import gr.funkytaps.digitized.game.Dashboard;
 	import gr.funkytaps.digitized.game.GameWorld;
-	import gr.funkytaps.digitized.objects.Background;
-	import gr.funkytaps.digitized.objects.DigitHero;
+	import gr.funkytaps.digitized.game.objects.Background;
+	import gr.funkytaps.digitized.game.objects.Dashboard;
+	import gr.funkytaps.digitized.game.objects.DigitHero;
 	
+	import starling.animation.Juggler;
 	import starling.animation.Transitions;
 	import starling.animation.Tween;
 	import starling.core.Starling;
 	import starling.display.Image;
 	import starling.display.Sprite;
+	import starling.events.Event;
+	import starling.events.TouchEvent;
 	
 	public class GameView extends AbstractView
 	{
@@ -28,13 +33,13 @@ package gr.funkytaps.digitized.views
 		
 		private var _hero:DigitHero;
 		
+		private var _startScrollingBackground:Boolean = false;
+		
 		private var _gameSpeed:Number;
 		
 		private var _gradient:Image;
 		
 		private var _dashboard:Dashboard;
-		
-		private const FACTOR:Number = 0.25;
 		
 		private var _accelerometer:Accelerometer;
 		
@@ -75,7 +80,8 @@ package gr.funkytaps.digitized.views
 			addChild(_hero);
 			
 			_hero.x = Settings.HALF_WIDTH;
-			_hero.y = Settings.HEIGHT - _takeOffLand.height - (_hero.heroHeight >> 1);
+			_hero.y = Settings.HEIGHT - _takeOffLand.height - (_hero.heroHeight >> 1) + 20;
+			_hero.scaleX = _hero.scaleY = 0.65;
 			
 			// Start accelerometer if supported
 			if (Accelerometer.isSupported) {
@@ -89,7 +95,7 @@ package gr.funkytaps.digitized.views
 		
 		private function _onAccelerometerUpdate(event:AccelerometerEvent):void {
 			
-			_rollingX = (event.accelerationX * FACTOR) + (_rollingX * (1 - FACTOR)); 
+			_rollingX = (event.accelerationX * 0.25) + (_rollingX * (1 - 0.25)); 
 			
 			if (_rollingX < -0.05) {  // tilting the device to the right
 				_hero.scaleX = -0.65;
@@ -107,30 +113,32 @@ package gr.funkytaps.digitized.views
 		 */		
 		private function _takeOff():void {
 			
-			var scaleHero:Tween = new Tween(_hero, 1.4, Transitions.EASE_IN);
+			var scaleHero:Tween = new Tween(_hero, 1.3, Transitions.EASE_IN_BACK);
 			scaleHero.delay = 0.42;
 //			scaleHero.scaleTo(0.65);
 			scaleHero.animate('y', _hero.y - 50);
 			
 			Starling.juggler.add(scaleHero);
 			
-			var moveLand:Tween = new Tween(_takeOffLand, 1.3, Transitions.LINEAR);
+			var moveLand:Tween = new Tween(_takeOffLand, 1.3, Transitions.EASE_IN_OUT);
 			moveLand.delay = 0.423;
 			moveLand.animate('y', _takeOffLand.y + 45);
-			moveLand.scaleTo(1.2);
+//			moveLand.scaleTo(1.2);
 			moveLand.onComplete = function():void {
+				
 				_takeOffLand.visible = false;
 				Starling.juggler.remove(moveLand);
 				
 				_hero.takeOff();
 				
 				if (_accelerometer) _accelerometer.addEventListener(AccelerometerEvent.UPDATE, _onAccelerometerUpdate);
-			}
+			};
+			
+			Starling.juggler.delayCall(_background.startScrolling, 0.8);
 			
 			Starling.juggler.add(moveLand);
 			
 		}
-		
 
 		override public function tweenIn():void {
 			
@@ -140,13 +148,15 @@ package gr.funkytaps.digitized.views
 			
 		}
 		
-		override public function update(...params):void {
+		override public function update(passedTime:Number = 0):void {
 			
 			if (_hero) {
 				_hero.update( _rollingX );
 			}
 			
-			if (_background) _background.update(params[0]);
+			if (_background) {
+				if (_background.isScrolling) _background.update( passedTime );
+			}
 			
 		}
 	}

@@ -103,7 +103,8 @@ package gr.funkytaps.digitized.views
 			_starIcon.x = 10;
 			_starIcon.y = 10;
 			
-			_starTextfield = new TextField(100, 36, '0000', Settings.AGORA_FONT_38, -1, 0xFFFFFF);
+			_starTextfield = new TextField(100, 36, _stars.toString(), Settings.AGORA_FONT_38, -1, 0xFFFFFF);
+			_starTextfield.batchable = true;
 			_starTextfield.vAlign = VAlign.TOP;
 			_starTextfield.hAlign = HAlign.LEFT;
 			_headerContainer.addChild(_starTextfield);
@@ -117,7 +118,8 @@ package gr.funkytaps.digitized.views
 			_scoreTitle.x = (Settings.HALF_WIDTH - (_scoreTitle.width >> 1) + 2) | 0;
 			_scoreTitle.y = 20;
 			
-			_scoreTextfield = new TextField(170, 48, '55.268', Settings.AGORA_FONT_60, -1, 0xFFFFFF);
+			_scoreTextfield = new TextField(170, 48, _score.toString(), Settings.AGORA_FONT_60, -1, 0xFFFFFF);
+			_scoreTextfield.batchable = true;
 			_scoreTextfield.autoScale = true;
 			_scoreTextfield.vAlign = VAlign.TOP;
 			_scoreTextfield.hAlign = HAlign.CENTER;
@@ -132,7 +134,8 @@ package gr.funkytaps.digitized.views
 			_totalScoreTitle.x = (Settings.HALF_WIDTH - (_totalScoreTitle.width >> 1)) | 0;
 			_totalScoreTitle.y = _scoreTextfield.y + _scoreTextfield.height - 5;
 			
-			_totalScoreTextfield = new TextField(300, 56, '136.845', Settings.AGORA_FONT_88, -1, 0xFFFFFF);
+			_totalScoreTextfield = new TextField(300, 56, _totalScore.toString(), Settings.AGORA_FONT_88, -1, 0xFFFFFF);
+			_totalScoreTextfield.batchable = true;
 			_totalScoreTextfield.autoScale = true;
 			_totalScoreTextfield.vAlign = VAlign.TOP;
 			_totalScoreTextfield.hAlign = HAlign.CENTER;
@@ -140,6 +143,8 @@ package gr.funkytaps.digitized.views
 			
 			_totalScoreTextfield.x = (Settings.HALF_WIDTH - (_totalScoreTextfield.width >> 1) - 8) | 0;
 			_totalScoreTextfield.y = _totalScoreTitle.y + _totalScoreTitle.height - 5;
+			
+			_headerContainer.flatten();
 			
 		}
 		

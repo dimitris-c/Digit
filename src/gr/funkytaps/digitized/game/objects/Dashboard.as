@@ -49,25 +49,25 @@ package gr.funkytaps.digitized.game.objects
 			_starIcon = new Image(Assets.manager.getTexture('star-static-icon'));
 			addChild(_starIcon);
 			
-			_starIcon.x = 8;
-			_starIcon.y = 8;
+			_starIcon.x = 0;
+			_starIcon.y = 0;
 			
-			_starTextfield = new TextField(90, 36, '10000', Settings.AGORA_FONT_38, -1, 0xffffff);
+			_starTextfield = new TextField(90, 36, '80050', Settings.AGORA_FONT_38, -1, 0xffffff);
 			_starTextfield.autoScale = true;
 			_starTextfield.batchable = true;
 			_starTextfield.vAlign = VAlign.TOP;
 			_starTextfield.hAlign = HAlign.LEFT;
 			addChild(_starTextfield);
 			
-			_starTextfield.x = 4;
+			_starTextfield.x = -2;
 			_starTextfield.y = _starIcon.y + _starIcon.height;
 			
 			// Create the score title and count
 			_scoreTitle = new Image(Assets.manager.getTexture('score-title'));
 			addChild(_scoreTitle);
 			
-			_scoreTitle.x = _starTextfield.x + _starTextfield.width + 2;
-			_scoreTitle.y = 9;
+			_scoreTitle.x = _starTextfield.x + _starTextfield.width;
+			_scoreTitle.y = 0;
 			
 			_scoreTextfield = new TextField(110, 36, '100000', Settings.AGORA_FONT_38, -1, 0xffffff);
 			_scoreTextfield.autoScale = true;
@@ -84,7 +84,7 @@ package gr.funkytaps.digitized.game.objects
 			addChild(_energyTitle);
 			
 			_energyTitle.x = _scoreTitle.x + _scoreTitle.width + 25;
-			_energyTitle.y = 9;
+			_energyTitle.y = 0;
 			
 			_createEnergyBar();
 		}
@@ -103,14 +103,17 @@ package gr.funkytaps.digitized.game.objects
 			_energyBar.ratio = 1;
 			
 			_energyBarContainer.x = _energyTitle.x;
-			_energyBarContainer.y = _energyTitle.y + _energyTitle.height + 5;
+			_energyBarContainer.y = _energyTitle.y + _energyTitle.height + 9;
 		}
 		
 		/**
-		 * Updates the energy bar ratio/progress
+		 * Updates the energy bar ratio/progress. <br />
+		 * 
+		 * @param ratio A value between 0 and 1, the latter means the progress is full.
+		 * 
 		 */	
 		public function updateEnergyBar(ratio:Number):void {
-			
+			if (_energyBar) _energyBar.ratio = ratio;	
 		}
 		
 		/**

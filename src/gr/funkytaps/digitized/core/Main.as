@@ -93,7 +93,6 @@ package gr.funkytaps.digitized.core
 			_mStarling = new Starling(GameWorld, stage, new Rectangle(0, 0, screenWidth, screenHeight));
 			_mStarling.stage.stageWidth = stageWidth;
 			_mStarling.stage.stageHeight = iPhone5 ? 568 : stageHeight;
-//			_mStarling.showStats = Capabilities.isDebugger;
 			_mStarling.antiAliasing = 1;
 			
 			stage.doubleClickEnabled = true;
@@ -108,7 +107,6 @@ package gr.funkytaps.digitized.core
 		
 		protected function onDoubleClick(event:MouseEvent):void
 		{
-			// TODO Auto-generated method stub
 			_mStarling.showStats = !_mStarling.showStats;
 		}
 		
@@ -123,6 +121,8 @@ package gr.funkytaps.digitized.core
 			
 			app.start(background);
 			_mStarling.start();
+			
+			background = null;
 		}
 		
 		private function _onDeactivate(event:flash.events.Event):void

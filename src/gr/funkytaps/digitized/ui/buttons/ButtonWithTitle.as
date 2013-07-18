@@ -45,7 +45,7 @@ package gr.funkytaps.digitized.ui.buttons
 			_holder.addChild(_title);
 			
 			_title.x = ((_backgroundWidth >> 1) - (_title.width >> 1)) | 0;
-			_title.y = ((_backgroundHeight  >> 1) - (_title.height >> 1) - 4) | 0;
+			_title.y = ((_backgroundHeight  >> 1) - (_title.height >> 1) - 3) | 0;
 			
 		}
 		
@@ -70,7 +70,7 @@ package gr.funkytaps.digitized.ui.buttons
 		protected function _updateTitlePosition():void {
 			
 			_title.x = ((_backgroundWidth >> 1) - (_title.width >> 1));
-			_title.y = ((_backgroundHeight >> 1) - (_title.height >> 1)) - 4;
+			_title.y = ((_backgroundHeight >> 1) - (_title.height >> 1)) - 3;
 
 		}
 		

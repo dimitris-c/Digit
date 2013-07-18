@@ -4,17 +4,14 @@ package gr.funkytaps.digitized.views
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Expo;
 	
-	import flash.display.Sprite;
-	
 	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
 	import gr.funkytaps.digitized.game.GameWorld;
 	import gr.funkytaps.digitized.game.objects.DigitHeroIntroView;
 	import gr.funkytaps.digitized.ui.buttons.StartButton;
 	
-	import starling.core.Starling;
+	import starling.animation.Juggler;
 	import starling.display.Image;
-	import starling.display.MovieClip;
 	import starling.events.Event;
 
 	/**
@@ -29,7 +26,10 @@ package gr.funkytaps.digitized.views
 	{
 		private var _gameWorld:GameWorld;
 		
+		private var _introJuggler:Juggler;
+		
 		private var _starsBackground:Image;
+		
 		private var _gradient:Image;
 		
 		private var _digitHero:DigitHeroIntroView;
@@ -55,6 +55,8 @@ package gr.funkytaps.digitized.views
 			_starsBackground = new Image( Assets.manager.getTexture('generic-background') );
 			addChild(_starsBackground);
 			
+			_introJuggler = new Juggler();
+			
 			_gradient = new Image(Assets.manager.getTexture('gradient'));
 			addChild(_gradient);
 			
@@ -64,7 +66,7 @@ package gr.funkytaps.digitized.views
 			_planet.x = Settings.WIDTH - _planet.width + 1;
 			_planet.y = 75;
 			
-			_digitHero = new DigitHeroIntroView();
+			_digitHero = new DigitHeroIntroView( _introJuggler );
 			addChild(_digitHero);
 			
 			_digitHero.x = Settings.WIDTH + _digitHero.width + 200;
@@ -89,6 +91,7 @@ package gr.funkytaps.digitized.views
 			
 			tweenIn();
 			
+			
 		}
 		
 		private function _onStartButtonTriggered(event:Event):void
@@ -98,7 +101,7 @@ package gr.funkytaps.digitized.views
 		
 		override public function tweenIn():void {
 			
-			_timeline = new TimelineLite({  });
+			_timeline = new TimelineLite();
 			_timeline.autoRemoveChildren = true;
 			
 			_timeline.append( TweenLite.to(_digitHero, 1.4, {bezierThrough:[{x:200, y:450}, {x:_digitHeroFinalX, y:30}], ease:Expo.easeOut}) );
@@ -107,13 +110,19 @@ package gr.funkytaps.digitized.views
 			
 			_timeline.play();
 			
-			Starling.juggler.delayCall(_digitHero.animate, 1.6);
+			_introJuggler.delayCall(_digitHero.animate, 1.6);
 			
 		}
 		
 		override public function tweenOut(onComplete:Function=null, onCompleteParams:Array = null):void {
 			
 			TweenLite.to(this, 0.35, {alpha:0, onComplete:onComplete, onCompleteParams:onCompleteParams});
+			
+		}
+		
+		override public function update(passedTime:Number=0):void {
+			
+			_introJuggler.advanceTime( passedTime );
 			
 		}
 		

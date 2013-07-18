@@ -191,6 +191,8 @@
             <filename>../../fonts/2x/Agora38.png</filename>
             <filename>../../fonts/2x/Agora60.png</filename>
             <filename>../../fonts/2x/Agora88.png</filename>
+            <filename>../../images/game/2x/rocket-fires/fire6-01.png</filename>
+            <filename>../../images/game/2x/rocket-fires/fire6-02.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

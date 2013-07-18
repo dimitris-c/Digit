@@ -8,16 +8,10 @@ package gr.funkytaps.digitized.game.objects
 	 *
 	 **/
 	
-	import com.greensock.TimelineLite;
-	import com.greensock.TimelineMax;
-	import com.greensock.TweenLite;
-	import com.greensock.easing.Linear;
-	
 	import gr.funkytaps.digitized.core.Assets;
 	
+	import starling.animation.Juggler;
 	import starling.animation.Tween;
-	import starling.core.Starling;
-	import starling.core.starling_internal;
 	import starling.display.Image;
 	import starling.display.MovieClip;
 	import starling.events.Event;
@@ -32,10 +26,17 @@ package gr.funkytaps.digitized.game.objects
 		private var _digitHeroRightRocket:MovieClip;
 
 		private var _floatingTween:Tween;
+		private var _introJuggler:Juggler;
 		
-		public function DigitHeroIntroView()
+		/**
+		 * The hero for the intro view only
+		 * @param introJuggler - A juggler object for all the animation required 
+		 */		
+		public function DigitHeroIntroView(introJuggler:Juggler)
 		{
 			super();
+			
+			_introJuggler = introJuggler;
 			
 		}
 		
@@ -58,8 +59,8 @@ package gr.funkytaps.digitized.game.objects
 			_digitHeroRightRocket.x = 258;
 			_digitHeroRightRocket.y = 195;
 			
-			Starling.juggler.add(_digitHeroLeftRocket);
-			Starling.juggler.add(_digitHeroRightRocket);
+			_introJuggler.add(_digitHeroLeftRocket);
+			_introJuggler.add(_digitHeroRightRocket);
 		
 		}
 		
@@ -73,15 +74,15 @@ package gr.funkytaps.digitized.game.objects
 			_floatingTween.animate('y', 30);
 			_floatingTween.animate('y', 45);
 			
-			Starling.juggler.add(_floatingTween);
+			_introJuggler.add(_floatingTween);
 			
 		}
 		
 		override public function dispose():void {
 			
-			Starling.juggler.remove(_floatingTween);
-			Starling.juggler.remove(_digitHeroLeftRocket);
-			Starling.juggler.remove(_digitHeroRightRocket);
+			_introJuggler.remove(_floatingTween);
+			_introJuggler.remove(_digitHeroLeftRocket);
+			_introJuggler.remove(_digitHeroRightRocket);
 			
 			super.dispose();
 			

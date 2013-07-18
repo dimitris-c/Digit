@@ -20,8 +20,6 @@ package gr.funkytaps.digitized.game
 	import gr.funkytaps.digitized.views.IntroView;
 	import gr.funkytaps.digitized.views.MenuView;
 	
-	import starling.animation.Transitions;
-	import starling.animation.Tween;
 	import starling.core.Starling;
 	import starling.display.Image;
 	import starling.display.Sprite;
@@ -102,19 +100,14 @@ package gr.funkytaps.digitized.game
 		
 		private function _startupWorld():void {
 			
-			var fadeOut:Tween = new Tween(_loadingBackground, 0.35, Transitions.EASE_OUT);
-			fadeOut.fadeTo(0);
-			fadeOut.onComplete = function():void {
-				_loadingBackground.removeFromParent(true);
-				_loadingBackground = null;
-			};
-			Starling.juggler.add(fadeOut);
+			_loadingBackground.removeFromParent(true);
+			_loadingBackground = null;
 			
 			_loadProgress.destroy();
 			_loadProgress.removeFromParent(true);
 			_loadProgress = null;
-
-			// finally
+			
+			// about time
 			_initWorld();
 			
 			// clean-up
@@ -130,13 +123,15 @@ package gr.funkytaps.digitized.game
 			_currentView = new IntroView(this);
 			_viewsContainer.addChild(_currentView.view());
 			
+			// Create the menu button. Stays on top of everything!
 			_menuButton = new MenuButton();
 			_menuButton.addEventListener(Event.TRIGGERED, _onMenuButtonTriggered);
 			addChild(_menuButton);
 			
 			_menuButton.x = Settings.WIDTH - _menuButton.width - 10;
-			_menuButton.y = 10;
+			_menuButton.y = 16;
 			
+			// Check on every frame makes our game alive
 			addEventListener(EnterFrameEvent.ENTER_FRAME, update);
 
 		}
@@ -146,9 +141,7 @@ package gr.funkytaps.digitized.game
 			_menuButton.isEnabled = false;
 			
 			if (_menuView) {
-				if (_currentState == GameWorld.PLAY_STATE) {
-					_gamePaused = false;
-				}
+				_gamePaused = false;
 				_menuView.tweenOut(_removeMenuView);
 				return;
 			}
@@ -158,8 +151,10 @@ package gr.funkytaps.digitized.game
 		
 		private function _createMenuView():void {
 			_menuButton.isEnabled = true;
+			_gamePaused = true;
 			
 			_menuView = new MenuView(this);
+			_menuView.alpha = 1;
 			addChild(_menuView);
 			
 			setChildIndex(_menuButton, numChildren-1);
@@ -167,10 +162,6 @@ package gr.funkytaps.digitized.game
 			_menuView.tweenIn();
 			
 			SystemIdleMonitor.normalMode();
-			
-			if (_currentState == GameWorld.PLAY_STATE) {
-				_gamePaused = true;
-			}
 			
 		}
 		

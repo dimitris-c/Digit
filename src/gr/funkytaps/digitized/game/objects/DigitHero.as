@@ -11,6 +11,7 @@ package gr.funkytaps.digitized.game.objects
 	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
 	
+	import starling.animation.Juggler;
 	import starling.core.Starling;
 	import starling.display.Image;
 	import starling.extensions.PDParticleSystem;
@@ -32,9 +33,12 @@ package gr.funkytaps.digitized.game.objects
 		private var _leftRocketParticle:ParticleSystem;
 		private var _rightRocketParticle:ParticleSystem;
 		
-		public function DigitHero()
+		private var _gameJuggler:Juggler;
+		
+		public function DigitHero(gameJuggler:Juggler = null)
 		{
 			super();
+			_gameJuggler = gameJuggler;
 		}
 		
 		public function get heroHeight():Number { return _heroHeight; }
@@ -43,6 +47,8 @@ package gr.funkytaps.digitized.game.objects
 
 		override protected function _init():void
 		{
+			
+			touchable = false; // for performance.
 			
 			_createRocketFlames();
 			
@@ -71,11 +77,11 @@ package gr.funkytaps.digitized.game.objects
 			_leftRocketParticle.start();
 			
 			addChild(_leftRocketParticle);
-			Starling.juggler.add(_leftRocketParticle);
+			_gameJuggler.add(_leftRocketParticle);
 			
 			_rightRocketParticle = new PDParticleSystem(Assets.manager.getXml('rocketflame'), Assets.manager.getTexture('flameparticle'));
 			_rightRocketParticle.maxCapacity = 10;
-			_rightRocketParticle.emitterX = 187;
+			_rightRocketParticle.emitterX = 189;
 			_rightRocketParticle.emitterY = 178;
 			_rightRocketParticle.scaleX = _rightRocketParticle.scaleY = 0.65;
 			PDParticleSystem(_rightRocketParticle).maxNumParticles = 1;
@@ -83,7 +89,7 @@ package gr.funkytaps.digitized.game.objects
 			_rightRocketParticle.start();
 			
 			addChild(_rightRocketParticle);
-			Starling.juggler.add(_rightRocketParticle);
+			_gameJuggler.add(_rightRocketParticle);
 
 		}
 		

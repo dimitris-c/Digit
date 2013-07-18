@@ -178,8 +178,6 @@
             <filename>../../images/game/1x/gradient.png</filename>
             <filename>../../images/game/1x/energy-title.png</filename>
             <filename>../../images/game/1x/star-static-icon.png</filename>
-            <filename>../../images/buttons/1x/go-button-hover.png</filename>
-            <filename>../../images/buttons/1x/go-button-normal.png</filename>
             <filename>../../images/credits/1x/credits-alien.png</filename>
             <filename>../../images/credits/1x/credits-designcode-title.png</filename>
             <filename>../../images/credits/1x/credits-ditigized-title.png</filename>
@@ -190,6 +188,8 @@
             <filename>../../fonts/1x/Agora38.png</filename>
             <filename>../../fonts/1x/Agora60.png</filename>
             <filename>../../fonts/1x/Agora88.png</filename>
+            <filename>../../images/game/1x/rocket-fires/fire6-01.png</filename>
+            <filename>../../images/game/1x/rocket-fires/fire6-02.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

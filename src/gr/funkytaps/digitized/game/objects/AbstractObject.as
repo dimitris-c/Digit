@@ -17,6 +17,9 @@ package gr.funkytaps.digitized.game.objects
 			_init();
 		}
 		
+		/**
+		 * Initialize the object once it's added to the stage 
+		 */		
 		protected function _init():void{
 			
 		}

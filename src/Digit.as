@@ -18,6 +18,8 @@ package
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
+	import flash.media.SoundMixer;
+	import flash.system.Capabilities;
 	import flash.system.System;
 	
 	import gr.funkytaps.digitized.core.Main;
@@ -44,6 +46,12 @@ package
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
 			
+			// For use with the mute switch button on iOS
+			if (Capabilities.manufacturer.indexOf('iOS') != -1) {
+				SoundMixer.audioPlaybackMode = 'ambient';
+			}
+			
+			// Initializes the Main class
 			_digitMain = new Main();
 			addChild(_digitMain);
 			

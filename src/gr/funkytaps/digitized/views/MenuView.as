@@ -8,8 +8,11 @@ package gr.funkytaps.digitized.views
 	 *
 	 **/
 	
+	import com.dimmdesign.utils.GlobalSound;
 	import com.dimmdesign.utils.Web;
 	import com.greensock.TweenLite;
+	
+	import flash.media.SoundMixer;
 	
 	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
@@ -210,7 +213,7 @@ package gr.funkytaps.digitized.views
 		
 		private function _onSoundButtonTriggered(event:Event):void
 		{
-			
+			GlobalSound.volume = (GlobalSound.volume == 0) ? 1 : 0;
 		}
 		
 		private function _onPlayAgainTriggered(event:Event):void

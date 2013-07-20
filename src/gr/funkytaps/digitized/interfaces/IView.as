@@ -10,7 +10,7 @@ package gr.funkytaps.digitized.interfaces
 	 *
 	 **/
 	
-	public interface IView
+	public interface IView extends IUpdateable
 	{
 		function removeFromParent(dispose:Boolean=false):void;
 		
@@ -19,8 +19,6 @@ package gr.funkytaps.digitized.interfaces
 		function tweenOut(onComplete:Function=null, onCompleteParams:Array = null):void;
 		
 		function view():DisplayObject;
-		
-		function update(passedTime:Number = 0):void;
 		
 		function destroy():void;
 	}

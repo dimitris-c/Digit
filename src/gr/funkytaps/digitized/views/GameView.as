@@ -9,6 +9,7 @@ package gr.funkytaps.digitized.views
 	import gr.funkytaps.digitized.game.objects.Background;
 	import gr.funkytaps.digitized.game.objects.Dashboard;
 	import gr.funkytaps.digitized.game.objects.DigitHero;
+	import gr.funkytaps.digitized.managers.SoundManager;
 	
 	import starling.animation.Juggler;
 	import starling.animation.Transitions;
@@ -58,6 +59,9 @@ package gr.funkytaps.digitized.views
 		{
 
 			_gameJuggler = new Juggler();
+			
+//			SoundManager.stopSound('intro');
+//			SoundManager.playSound('game-theme', int.MAX_VALUE, 0.5);
 			
 			_gradient = new Image(Assets.manager.getTexture('gradient'));
 			addChild(_gradient);
@@ -116,12 +120,11 @@ package gr.funkytaps.digitized.views
 		 */		
 		private function _takeOff():void {
 			
-			var scaleHero:Tween = new Tween(_hero, 1.3, Transitions.EASE_IN_BACK);
-			scaleHero.delay = 0.42;
-//			scaleHero.scaleTo(0.65);
-			scaleHero.animate('y', _hero.y - 60);
+			var takeOff:Tween = new Tween(_hero, 1.3, Transitions.EASE_IN_BACK);
+			takeOff.delay = 0.42;
+			takeOff.animate('y', _hero.y - 70);
 			
-			_gameJuggler.add(scaleHero);
+			_gameJuggler.add(takeOff);
 			
 			var moveLand:Tween = new Tween(_takeOffLand, 1.3, Transitions.EASE_IN_OUT);
 			moveLand.delay = 0.423;
@@ -134,8 +137,9 @@ package gr.funkytaps.digitized.views
 				
 				_hero.takeOff();
 				
-				if (_accelerometer) _accelerometer.addEventListener(AccelerometerEvent.UPDATE, _onAccelerometerUpdate);
 			};
+			
+			if (_accelerometer) _accelerometer.addEventListener(AccelerometerEvent.UPDATE, _onAccelerometerUpdate);
 			
 			_gameJuggler.delayCall(_background.startScrolling, 0.8);
 			

@@ -8,11 +8,12 @@ package gr.funkytaps.digitized.game.objects
 	 *
 	 **/
 	
+	import flash.geom.Matrix;
+	
 	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
 	
 	import starling.animation.Juggler;
-	import starling.core.Starling;
 	import starling.display.Image;
 	import starling.extensions.PDParticleSystem;
 	import starling.extensions.ParticleSystem;
@@ -34,6 +35,7 @@ package gr.funkytaps.digitized.game.objects
 		private var _rightRocketParticle:ParticleSystem;
 		
 		private var _gameJuggler:Juggler;
+		private var _rightRocketMatrix:Matrix;
 		
 		public function DigitHero(gameJuggler:Juggler = null)
 		{
@@ -77,6 +79,7 @@ package gr.funkytaps.digitized.game.objects
 			_leftRocketParticle.start();
 			
 			addChild(_leftRocketParticle);
+			
 			_gameJuggler.add(_leftRocketParticle);
 			
 			_rightRocketParticle = new PDParticleSystem(Assets.manager.getXml('rocketflame'), Assets.manager.getTexture('flameparticle'));
@@ -89,6 +92,7 @@ package gr.funkytaps.digitized.game.objects
 			_rightRocketParticle.start();
 			
 			addChild(_rightRocketParticle);
+			
 			_gameJuggler.add(_rightRocketParticle);
 
 		}
@@ -102,14 +106,14 @@ package gr.funkytaps.digitized.game.objects
 		{
 			if (!_heroIsFlying) {
 				if (_leftRocketParticle) {
-					if (PDParticleSystem(_leftRocketParticle).maxNumParticles < 80) PDParticleSystem(_leftRocketParticle).maxNumParticles += 3;
+					if (PDParticleSystem(_leftRocketParticle).maxNumParticles < 60) PDParticleSystem(_leftRocketParticle).maxNumParticles += 3;
 					if (PDParticleSystem(_leftRocketParticle).speed < 150) PDParticleSystem(_leftRocketParticle).speed += 3;
 					if (PDParticleSystem(_rightRocketParticle).maxNumParticles < 80) PDParticleSystem(_rightRocketParticle).maxNumParticles += 3;
 					if (PDParticleSystem(_rightRocketParticle).speed < 150) PDParticleSystem(_rightRocketParticle).speed += 3;
 				}
 			}
 			
-			this.x += (this.x - (this.x + rollingX * 20)) * 0.6;
+			this.x += (this.x - (this.x + rollingX * 25)) * 0.8;
 			
 			if (this.x < _heroLeftLimit) this.x = _heroLeftLimit;
 			if (this.x > _heroRightLimit) this.x = _heroRightLimit;

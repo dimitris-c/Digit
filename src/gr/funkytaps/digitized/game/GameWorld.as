@@ -8,11 +8,13 @@ package gr.funkytaps.digitized.game
 	 *
 	 **/
 	
+	import flash.media.Sound;
 	import flash.system.System;
 	
 	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
 	import gr.funkytaps.digitized.interfaces.IView;
+	import gr.funkytaps.digitized.managers.SoundManager;
 	import gr.funkytaps.digitized.managers.SystemIdleMonitor;
 	import gr.funkytaps.digitized.ui.GamePreloader;
 	import gr.funkytaps.digitized.ui.buttons.MenuButton;
@@ -116,6 +118,9 @@ package gr.funkytaps.digitized.game
 		}
 		
 		private function _initWorld():void {
+			
+			// play the intro sound
+//			SoundManager.playSound('intro', int.MAX_VALUE, 0.3);
 			
 			_viewsContainer = new Sprite();
 			addChild(_viewsContainer);

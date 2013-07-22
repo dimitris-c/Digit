@@ -8,13 +8,11 @@ package gr.funkytaps.digitized.game
 	 *
 	 **/
 	
-	import flash.media.Sound;
 	import flash.system.System;
 	
 	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
 	import gr.funkytaps.digitized.interfaces.IView;
-	import gr.funkytaps.digitized.managers.SoundManager;
 	import gr.funkytaps.digitized.managers.SystemIdleMonitor;
 	import gr.funkytaps.digitized.ui.GamePreloader;
 	import gr.funkytaps.digitized.ui.buttons.MenuButton;
@@ -80,7 +78,6 @@ package gr.funkytaps.digitized.game
 			_loadProgress.x = ((Settings.HALF_WIDTH) - (_loadProgress.width >> 1)) | 0;
 			_loadProgress.y = (Settings.HEIGHT - _loadProgress.height - 100) | 0;
 			
-			Assets.manager.verbose = true;
 			// Load the queue 
 			Assets.manager.loadQueue( _onProgress );
 			

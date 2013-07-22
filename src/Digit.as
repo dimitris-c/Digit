@@ -61,8 +61,10 @@ package
 
 		private function onExiting(event:Event):void
 		{
-			_digitMain.destroy();
-			_digitMain = null;
+			if (_digitMain) {
+				_digitMain.destroy();
+				_digitMain = null;
+			}
 			
 			System.pauseForGCIfCollectionImminent();
 			System.gc();

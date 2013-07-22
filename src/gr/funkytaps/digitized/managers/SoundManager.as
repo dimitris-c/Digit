@@ -58,6 +58,7 @@ package gr.funkytaps.digitized.managers
 		 * 
 		 */		
 		public static function playSoundFX(name:String, volume:Number = 1):void {
+			stopSound(name);
 			playSound(name, 0, volume, false);
 		}
 		

@@ -32,6 +32,8 @@ package gr.funkytaps.digitized.game.objects
 		private var _energyBarBackground:Image;
 		private var _energyBar:Gauge;
 		
+		private var _currentStarCount:int;
+		
 		public function Dashboard()
 		{
 			super();
@@ -120,7 +122,8 @@ package gr.funkytaps.digitized.game.objects
 		 * Updates the current stars textfield value 
 		 */	
 		public function updateStars(count:Number):void {
-			if (_starTextfield) _starTextfield.text = count.toString();
+			_currentStarCount += count;
+			if (_starTextfield) _starTextfield.text = _currentStarCount.toString();
 		}
 		
 		/**

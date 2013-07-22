@@ -1,45 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://texturepacker.com-->
-<!-- $TexturePacker:SmartUpdate:5f68ce94b3476bad40b8a8aa0f7dcd76$ -->
+<!-- $TexturePacker:SmartUpdate:5c9f7780d22dbd0b94199a51f7504616$ -->
 <TextureAtlas imagePath="game_atlas.png">
-    <SubTexture name="alien1" x="626" y="1138" width="161" height="235"/>
-    <SubTexture name="energy0000" x="1203" y="1531" width="53" height="53" frameX="-2" frameY="-5" frameWidth="57" frameHeight="63"/>
-    <SubTexture name="energy0001" x="1149" y="1531" width="53" height="53" frameX="-3" frameY="-5" frameWidth="57" frameHeight="63"/>
-    <SubTexture name="energy0002" x="1095" y="1531" width="53" height="53" frameX="-4" frameY="-5" frameWidth="57" frameHeight="63"/>
-    <SubTexture name="energy0003" x="1103" y="1738" width="51" height="53" frameX="-6" frameY="-5" frameWidth="57" frameHeight="63"/>
-    <SubTexture name="energy0004" x="1153" y="1792" width="49" height="53" frameX="-8" frameY="-5" frameWidth="57" frameHeight="63"/>
-    <SubTexture name="energy0005" x="689" y="1849" width="45" height="55" frameX="-11" frameY="-4" frameWidth="57" frameHeight="63"/>
-    <SubTexture name="energy0006" x="917" y="1783" width="41" height="55" frameX="-13" frameY="-4" frameWidth="57" frameHeight="63"/>
-    <SubTexture name="energy0007" x="997" y="1783" width="37" height="55" frameX="-15" frameY="-4" frameWidth="57" frameHeight="63"/>
-    <SubTexture name="energy0008" x="1069" y="1783" width="33" height="55" frameX="-16" frameY="-4" frameWidth="57" frameHeight="63"/>
-    <SubTexture name="energy0009" x="957" y="1531" width="29" height="55" frameX="-17" frameY="-4" frameWidth="57" frameHeight="63"/>
+    <SubTexture name="alien1" x="375" y="1647" width="161" height="235"/>
+    <SubTexture name="energy0000" x="1462" y="1858" width="53" height="53" frameX="-2" frameY="-5" frameWidth="57" frameHeight="63"/>
+    <SubTexture name="energy0001" x="1761" y="327" width="53" height="53" frameX="-3" frameY="-5" frameWidth="57" frameHeight="63"/>
+    <SubTexture name="energy0002" x="1707" y="327" width="53" height="53" frameX="-4" frameY="-5" frameWidth="57" frameHeight="63"/>
+    <SubTexture name="energy0003" x="1462" y="1966" width="51" height="53" frameX="-6" frameY="-5" frameWidth="57" frameHeight="63"/>
+    <SubTexture name="energy0004" x="1514" y="1966" width="49" height="53" frameX="-8" frameY="-5" frameWidth="57" frameHeight="63"/>
+    <SubTexture name="energy0005" x="421" y="1883" width="45" height="55" frameX="-11" frameY="-4" frameWidth="57" frameHeight="63"/>
+    <SubTexture name="energy0006" x="509" y="1883" width="41" height="55" frameX="-13" frameY="-4" frameWidth="57" frameHeight="63"/>
+    <SubTexture name="energy0007" x="589" y="1871" width="37" height="55" frameX="-15" frameY="-4" frameWidth="57" frameHeight="63"/>
+    <SubTexture name="energy0008" x="661" y="1871" width="33" height="55" frameX="-16" frameY="-4" frameWidth="57" frameHeight="63"/>
+    <SubTexture name="energy0009" x="725" y="1871" width="29" height="55" frameX="-17" frameY="-4" frameWidth="57" frameHeight="63"/>
     <SubTexture name="energy0010" x="88" y="1943" width="23" height="57" frameX="-19" frameY="-3" frameWidth="57" frameHeight="63"/>
     <SubTexture name="energy0011" x="130" y="1943" width="17" height="57" frameX="-22" frameY="-3" frameWidth="57" frameHeight="63"/>
     <SubTexture name="energy0012" x="162" y="1943" width="13" height="57" frameX="-23" frameY="-3" frameWidth="57" frameHeight="63"/>
     <SubTexture name="energy0013" x="148" y="1943" width="13" height="57" frameX="-20" frameY="-3" frameWidth="57" frameHeight="63"/>
     <SubTexture name="energy0014" x="112" y="1943" width="17" height="57" frameX="-18" frameY="-3" frameWidth="57" frameHeight="63"/>
     <SubTexture name="energy0015" x="64" y="1943" width="23" height="57" frameX="-14" frameY="-3" frameWidth="57" frameHeight="63"/>
-    <SubTexture name="energy0016" x="927" y="1531" width="29" height="55" frameX="-10" frameY="-4" frameWidth="57" frameHeight="63"/>
-    <SubTexture name="energy0017" x="1035" y="1783" width="33" height="55" frameX="-7" frameY="-4" frameWidth="57" frameHeight="63"/>
-    <SubTexture name="energy0018" x="959" y="1783" width="37" height="55" frameX="-5" frameY="-4" frameWidth="57" frameHeight="63"/>
-    <SubTexture name="energy0019" x="875" y="1783" width="41" height="55" frameX="-3" frameY="-4" frameWidth="57" frameHeight="63"/>
-    <SubTexture name="energy0020" x="643" y="1849" width="45" height="55" frameX="-1" frameY="-4" frameWidth="57" frameHeight="63"/>
-    <SubTexture name="energy0021" x="1103" y="1792" width="49" height="53" frameX="0" frameY="-5" frameWidth="57" frameHeight="63"/>
-    <SubTexture name="energy0022" x="1257" y="1531" width="51" height="53" frameX="0" frameY="-5" frameWidth="57" frameHeight="63"/>
-    <SubTexture name="energy0023" x="1041" y="1531" width="53" height="53" frameX="0" frameY="-5" frameWidth="57" frameHeight="63"/>
-    <SubTexture name="energy0024" x="987" y="1531" width="53" height="53" frameX="-1" frameY="-5" frameWidth="57" frameHeight="63"/>
-    <SubTexture name="energy0025" x="735" y="1849" width="53" height="53" frameX="-2" frameY="-5" frameWidth="57" frameHeight="63"/>
+    <SubTexture name="energy0016" x="695" y="1871" width="29" height="55" frameX="-10" frameY="-4" frameWidth="57" frameHeight="63"/>
+    <SubTexture name="energy0017" x="627" y="1871" width="33" height="55" frameX="-7" frameY="-4" frameWidth="57" frameHeight="63"/>
+    <SubTexture name="energy0018" x="551" y="1871" width="37" height="55" frameX="-5" frameY="-4" frameWidth="57" frameHeight="63"/>
+    <SubTexture name="energy0019" x="467" y="1883" width="41" height="55" frameX="-3" frameY="-4" frameWidth="57" frameHeight="63"/>
+    <SubTexture name="energy0020" x="375" y="1883" width="45" height="55" frameX="-1" frameY="-4" frameWidth="57" frameHeight="63"/>
+    <SubTexture name="energy0021" x="1514" y="1912" width="49" height="53" frameX="0" frameY="-5" frameWidth="57" frameHeight="63"/>
+    <SubTexture name="energy0022" x="1462" y="1912" width="51" height="53" frameX="0" frameY="-5" frameWidth="57" frameHeight="63"/>
+    <SubTexture name="energy0023" x="1761" y="273" width="53" height="53" frameX="0" frameY="-5" frameWidth="57" frameHeight="63"/>
+    <SubTexture name="energy0024" x="1707" y="273" width="53" height="53" frameX="-1" frameY="-5" frameWidth="57" frameHeight="63"/>
+    <SubTexture name="energy0025" x="755" y="1871" width="53" height="53" frameX="-2" frameY="-5" frameWidth="57" frameHeight="63"/>
+    <SubTexture name="fire7-01" x="1" y="2022" width="11" height="15"/>
+    <SubTexture name="fire7-02" x="1" y="2006" width="11" height="15"/>
     <SubTexture name="flameparticle" x="1" y="1943" width="62" height="62" frameX="0" frameY="-1" frameWidth="64" frameHeight="64"/>
     <SubTexture name="glow" x="1" y="1138" width="373" height="804" frameX="0" frameY="0" frameWidth="411" frameHeight="840"/>
-    <SubTexture name="hero-static" x="375" y="1647" width="267" height="267" frameX="-16" frameY="-2" frameWidth="287" frameHeight="273"/>
+    <SubTexture name="hero-static" x="1707" y="150" width="122" height="122"/>
     <SubTexture name="land" x="176" y="1943" width="640" height="56"/>
-    <SubTexture name="planet1" x="643" y="1641" width="231" height="207" frameX="0" frameY="0" frameWidth="233" frameHeight="209"/>
-    <SubTexture name="planet2" x="1090" y="1585" width="193" height="152" frameX="-1" frameY="-1" frameWidth="195" frameHeight="154"/>
-    <SubTexture name="planet3" x="875" y="1598" width="214" height="184" frameX="-2" frameY="0" frameWidth="220" frameHeight="184"/>
-    <SubTexture name="planet4" x="817" y="1849" width="373" height="148" frameX="0" frameY="-1" frameWidth="375" frameHeight="154"/>
-    <SubTexture name="planet5" x="626" y="1374" width="300" height="223" frameX="-10" frameY="-3" frameWidth="320" frameHeight="235"/>
-    <SubTexture name="planet6" x="788" y="1138" width="244" height="219" frameX="-19" frameY="-9" frameWidth="320" frameHeight="235"/>
-    <SubTexture name="star0000" x="669" y="1598" width="42" height="42" frameX="-1" frameY="0" frameWidth="44" frameHeight="46"/>
+    <SubTexture name="planet1" x="1462" y="370" width="231" height="207" frameX="0" frameY="0" frameWidth="233" frameHeight="209"/>
+    <SubTexture name="planet2" x="1836" y="1" width="193" height="152" frameX="-1" frameY="-1" frameWidth="195" frameHeight="154"/>
+    <SubTexture name="planet3" x="1830" y="154" width="214" height="184" frameX="-2" frameY="0" frameWidth="220" frameHeight="184"/>
+    <SubTexture name="planet4" x="1462" y="1" width="373" height="148" frameX="0" frameY="-1" frameWidth="375" frameHeight="154"/>
+    <SubTexture name="planet5" x="537" y="1647" width="300" height="223" frameX="-10" frameY="-3" frameWidth="320" frameHeight="235"/>
+    <SubTexture name="planet6" x="1462" y="150" width="244" height="219" frameX="-19" frameY="-9" frameWidth="320" frameHeight="235"/>
+    <SubTexture name="star0000" x="1468" y="1758" width="42" height="42" frameX="-1" frameY="0" frameWidth="44" frameHeight="46"/>
     <SubTexture name="star0001" x="547" y="2000" width="42" height="44" frameX="-2" frameY="0" frameWidth="44" frameHeight="46"/>
     <SubTexture name="star0002" x="504" y="2000" width="42" height="44" frameX="-2" frameY="0" frameWidth="44" frameHeight="46"/>
     <SubTexture name="star0003" x="672" y="2000" width="40" height="44" frameX="-4" frameY="0" frameWidth="44" frameHeight="46"/>
@@ -64,10 +66,10 @@
     <SubTexture name="star0022" x="590" y="2000" width="40" height="44" frameX="0" frameY="0" frameWidth="44" frameHeight="46"/>
     <SubTexture name="star0023" x="461" y="2000" width="42" height="44" frameX="0" frameY="0" frameWidth="44" frameHeight="46"/>
     <SubTexture name="star0024" x="418" y="2000" width="42" height="44" frameX="0" frameY="0" frameWidth="44" frameHeight="46"/>
-    <SubTexture name="star0025" x="626" y="1598" width="42" height="42" frameX="-1" frameY="0" frameWidth="44" frameHeight="46"/>
+    <SubTexture name="star0025" x="1468" y="1715" width="42" height="42" frameX="-1" frameY="0" frameWidth="44" frameHeight="46"/>
     <SubTexture name="stardust1" x="375" y="1138" width="250" height="508" frameX="-1" frameY="-1" frameWidth="260" frameHeight="514"/>
-    <SubTexture name="stardust2" x="927" y="1358" width="633" height="172" frameX="-2" frameY="-1" frameWidth="637" frameHeight="174"/>
-    <SubTexture name="stardust3" x="1191" y="1846" width="629" height="142"/>
-    <SubTexture name="stars-back" x="642" y="1" width="640" height="1136"/>
+    <SubTexture name="stardust2" x="828" y="1871" width="633" height="172" frameX="-2" frameY="-1" frameWidth="637" frameHeight="174"/>
+    <SubTexture name="stardust3" x="838" y="1715" width="629" height="142"/>
+    <SubTexture name="stars-back" x="838" y="578" width="640" height="1136"/>
     <SubTexture name="stars-front" x="1" y="1" width="640" height="1136"/>
 </TextureAtlas>

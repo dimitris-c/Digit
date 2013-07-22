@@ -56,7 +56,7 @@ package gr.funkytaps.digitized.game.objects
 			_digitHeroRightRocket = new MovieClip(Assets.manager.getTextures('fire6-'), 10);
 			addChild(_digitHeroRightRocket);
 			_digitHeroRightRocket.rotation = deg2rad(2);
-			_digitHeroRightRocket.x = 258;
+			_digitHeroRightRocket.x = 259;
 			_digitHeroRightRocket.y = 195;
 			
 			_introJuggler.add(_digitHeroLeftRocket);

@@ -1,10 +1,9 @@
 package gr.funkytaps.digitized.game.items
 {
-	public class ItemsType extends Object
+	public class ItemsType
 	{
-		public function ItemsType()
-		{
-			super();
-		}
+		public static const STAR:String = 'star0';
+		
+		public static const ENERGY:String = 'energy0';
 	}
 }

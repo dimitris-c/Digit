@@ -1,12 +1,14 @@
 package gr.funkytaps.digitized.game.items
 {
 	import flash.display.BitmapData;
-	import flash.display.DisplayObjectContainer;
 	import flash.geom.Rectangle;
 	
+	import gr.funkytaps.digitized.interfaces.IUpdateable;
+	
 	import starling.display.DisplayObject;
+	import starling.display.MovieClip;
 
-	public interface IItem
+	public interface IItem extends IUpdateable
 	{
 		/**
 		 * The bitmapData of the obstacle. Use this carefully
@@ -52,11 +54,48 @@ package gr.funkytaps.digitized.game.items
 		function get score():Number;
 		
 		/**
+		 * Returns a number that defines the custom radius of the item for the collision detection 
+		 */		
+		function get collisionRadius():Number;
+		
+		/**
+		 * Returns the item's width. Use this instead of the width property. 
+		 */		
+		function get itemWidth():Number;
+		
+		/**
+		 * Returns the item's height. Use this instead of the height property. 
+		 */
+		function get itemHeight():Number;
+		
+		/**
+		 * Returns the item's id. 
+		 */		
+		function get itemID():int;
+		
+		function set itemID(value:int):void;
+		
+		/**
+		 * Returns the animated property of the item, use this in case you need this movieclip to juggler.  
+		 */		
+		function get itemAnimated():MovieClip;
+		
+		/**
+		 * Initializes the item before. Call createItem to add the item to the stage.
+		 * @param isAnimated - If <code>true</code> the item has a movieclip and will be animated.
+		 * @param isStatic - If <code>true</code> the item has an image.
+		 * @param itemType - The type of the item.
+		 * @param itemScore - The score of the item.
+		 * 
+		 */		
+		function initItem(isAnimated:Boolean, isStatic:Boolean, itemType:String, itemScore:Number, itemSpeed:Number, radius:Number):void;
+		
+		/**
 		 * Creates the obstacle's elements. <br />
 		 * Note: Call this function after you add the item to the display list.
 		 */		
 		function createItem():void;
-		
+
 		/**
 		 * Returns itself as a DisplayObject. Useful fro adding interfaces to the display list. <br />
 		 * <code> addChild(anInterfaceVariable.view()); </code> 
@@ -64,10 +103,18 @@ package gr.funkytaps.digitized.game.items
 		function view():DisplayObject;
 
 		/**
-		 * 
+		 * Destroys the contents of the item. 
+		 */		
+		function destroy():void;
+		
+		/**
+		 * Call this with caution. Use the itemWidth instead but after you have called the createItem method. 
 		 */		
 		function get height():Number;
 		
+		/**
+		 * Call this with caution. Use the itemWidth instead but after you have called the createItem method. 
+		 */		
 		function get width():Number;
 		
 		function get x():Number;
@@ -88,7 +135,9 @@ package gr.funkytaps.digitized.game.items
 		
 		function get bounds():Rectangle;
 		
-		function get parent():DisplayObjectContainer;
+		function set alpha(value:Number):void;
+		
+		function get alpha():Number;
 		
 		function addChild(child:DisplayObject):DisplayObject;
 		

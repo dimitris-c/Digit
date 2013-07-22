@@ -203,7 +203,7 @@ package de.polygonal.core
 		 * @param func The function's name.
 		 * @param args The function's arguments.
 		 */
-		public function initialze(func:String, args:Array):void
+		public function initialize(func:String, args:Array):void
 		{
 			var n:ObjNode = _head;
 			while (n)

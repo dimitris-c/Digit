@@ -77,6 +77,7 @@ package gr.funkytaps.digitized.core
 			assetsManager.verbose = false;
 			
 			assetsManager.enqueue( 
+				appDir.resolvePath( 'assets/stars' ),
 				appDir.resolvePath( 'assets/particles' ),
 				appDir.resolvePath( 'assets/sounds' ),
 				appDir.resolvePath( formatString('assets/fonts/{0}x', scaleFactor) ),

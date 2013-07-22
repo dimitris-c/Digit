@@ -8,15 +8,14 @@ package gr.funkytaps.digitized.game.objects
 	 *
 	 **/
 	
-	import flash.geom.Matrix;
-	
 	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
 	
 	import starling.animation.Juggler;
 	import starling.display.Image;
-	import starling.extensions.PDParticleSystem;
-	import starling.extensions.ParticleSystem;
+	import starling.display.MovieClip;
+	import starling.display.Quad;
+	import starling.utils.deg2rad;
 	
 	public class DigitHero extends AbstractObject
 	{
@@ -29,13 +28,22 @@ package gr.funkytaps.digitized.game.objects
 		private var _heroLeftLimit:Number;
 		private var _heroRightLimit:Number;
 		
+		private var _heroPosition:Number;
+		private var _deceleration:Number = 0.09;
+		public function get deceleration():Number { return _deceleration; }
+
+		private var _sensitivity:Number = 20;
+		public function get sensitivity():Number { return _sensitivity; }
+
+		private var _maximumVelocity:Number = 80;
+		public function get maximumVelocity():Number { return _maximumVelocity; }
+		
 		private var _heroIsFlying:Boolean = false;
 		
-		private var _leftRocketParticle:ParticleSystem;
-		private var _rightRocketParticle:ParticleSystem;
+		private var _leftRocketFire:MovieClip;
+		private var _rightRocketFire:MovieClip;
 		
 		private var _gameJuggler:Juggler;
-		private var _rightRocketMatrix:Matrix;
 		
 		public function DigitHero(gameJuggler:Juggler = null)
 		{
@@ -51,50 +59,36 @@ package gr.funkytaps.digitized.game.objects
 		{
 			
 			touchable = false; // for performance.
+				
+			_leftRocketFire = new MovieClip(Assets.manager.getTextures('fire7'), 10);
+			addChild(_leftRocketFire);
+			_leftRocketFire.play();
 			
-			_createRocketFlames();
+			_rightRocketFire = new MovieClip(Assets.manager.getTextures('fire7'), 10);
+			addChild(_rightRocketFire);
+			_rightRocketFire.play();
+			
+			_gameJuggler.add(_rightRocketFire);
+			_gameJuggler.add(_leftRocketFire);
 			
 			_hero = new Image(Assets.manager.getTexture('hero-static'));
 			addChild(_hero);
 			
-			pivotX = width >> 1;
-			pivotY = height >> 1;
-			
 			_heroWidth = width;
 			_heroHeight = height;
-			_heroLeftLimit = pivotX - _limitPadding;
-			_heroRightLimit = Settings.WIDTH - pivotX + _limitPadding;
 			
-		}
-		
-		private function _createRocketFlames():void {
+			_hero.pivotX = _heroWidth >> 1;
+			_hero.pivotY = _heroHeight >> 1;
 			
-			_leftRocketParticle = new PDParticleSystem(Assets.manager.getXml('rocketflame'), Assets.manager.getTexture('flameparticle'));
-			_leftRocketParticle.maxCapacity = 10;
-			_leftRocketParticle.emitterX = 22;
-			_leftRocketParticle.emitterY = 178;
-			_leftRocketParticle.scaleX = _leftRocketParticle.scaleY = 0.65;
-			PDParticleSystem(_leftRocketParticle).maxNumParticles = 1;
-			PDParticleSystem(_leftRocketParticle).speed = 1;
-			_leftRocketParticle.start();
+			_leftRocketFire.x = -_hero.pivotX;
+			_leftRocketFire.y = _hero.pivotY - 6;
 			
-			addChild(_leftRocketParticle);
+			_rightRocketFire.x = _hero.pivotX - 10;
+			_rightRocketFire.y = _hero.pivotY - 7;
 			
-			_gameJuggler.add(_leftRocketParticle);
+			_heroLeftLimit = _hero.pivotX - _limitPadding;
+			_heroRightLimit = Settings.WIDTH - _hero.pivotY + _limitPadding;
 			
-			_rightRocketParticle = new PDParticleSystem(Assets.manager.getXml('rocketflame'), Assets.manager.getTexture('flameparticle'));
-			_rightRocketParticle.maxCapacity = 10;
-			_rightRocketParticle.emitterX = 189;
-			_rightRocketParticle.emitterY = 178;
-			_rightRocketParticle.scaleX = _rightRocketParticle.scaleY = 0.65;
-			PDParticleSystem(_rightRocketParticle).maxNumParticles = 1;
-			PDParticleSystem(_rightRocketParticle).speed = 1;
-			_rightRocketParticle.start();
-			
-			addChild(_rightRocketParticle);
-			
-			_gameJuggler.add(_rightRocketParticle);
-
 		}
 		
 		public function takeOff():void {
@@ -102,21 +96,27 @@ package gr.funkytaps.digitized.game.objects
 			
 		}
 		
-		public function update(rollingX:Number = 0):void
+		public function update(rollingX:Number = 0, noAcceletometer:Boolean = false):void
 		{
 			if (!_heroIsFlying) {
-				if (_leftRocketParticle) {
-					if (PDParticleSystem(_leftRocketParticle).maxNumParticles < 60) PDParticleSystem(_leftRocketParticle).maxNumParticles += 3;
-					if (PDParticleSystem(_leftRocketParticle).speed < 150) PDParticleSystem(_leftRocketParticle).speed += 3;
-					if (PDParticleSystem(_rightRocketParticle).maxNumParticles < 80) PDParticleSystem(_rightRocketParticle).maxNumParticles += 3;
-					if (PDParticleSystem(_rightRocketParticle).speed < 150) PDParticleSystem(_rightRocketParticle).speed += 3;
-				}
+				
 			}
 			
-			this.x += (this.x - (this.x + rollingX * 25)) * 0.8;
+			_heroPosition = this.x;
+			_heroPosition += rollingX;
 			
-			if (this.x < _heroLeftLimit) this.x = _heroLeftLimit;
-			if (this.x > _heroRightLimit) this.x = _heroRightLimit;
+			if (this.x < 0) {
+				_heroPosition = Settings.WIDTH;
+			}
+			if (this.x > Settings.WIDTH) {
+				_heroPosition = 0;
+			}
+			
+			if (!noAcceletometer) this.rotation = deg2rad(rollingX * 0.85);
+			
+			if (!noAcceletometer) this.x = _heroPosition;
+			else this.x -= (this.x - rollingX) * 0.3;
+			
 		}
 		
 	}

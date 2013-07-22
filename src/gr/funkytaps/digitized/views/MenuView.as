@@ -12,8 +12,6 @@ package gr.funkytaps.digitized.views
 	import com.dimmdesign.utils.Web;
 	import com.greensock.TweenLite;
 	
-	import flash.media.SoundMixer;
-	
 	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
 	import gr.funkytaps.digitized.game.GameWorld;

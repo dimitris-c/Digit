@@ -54,8 +54,8 @@ package gr.funkytaps.digitized.game.objects
 			_starIcon.x = 0;
 			_starIcon.y = 0;
 			
-			_starTextfield = new TextField(90, 36, '80050', Settings.AGORA_FONT_38, -1, 0xffffff);
-			_starTextfield.autoScale = true;
+			_starTextfield = new TextField(90, 36, '0', Settings.AGORA_FONT_38, -1, 0xffffff);
+//			_starTextfield.autoScale = true;
 			_starTextfield.batchable = true;
 			_starTextfield.vAlign = VAlign.TOP;
 			_starTextfield.hAlign = HAlign.LEFT;
@@ -71,7 +71,7 @@ package gr.funkytaps.digitized.game.objects
 			_scoreTitle.x = _starTextfield.x + _starTextfield.width;
 			_scoreTitle.y = 0;
 			
-			_scoreTextfield = new TextField(110, 36, '100000', Settings.AGORA_FONT_38, -1, 0xffffff);
+			_scoreTextfield = new TextField(110, 36, '0', Settings.AGORA_FONT_38, -1, 0xffffff);
 			_scoreTextfield.autoScale = true;
 			_scoreTextfield.batchable = true;
 			_scoreTextfield.vAlign = VAlign.TOP;

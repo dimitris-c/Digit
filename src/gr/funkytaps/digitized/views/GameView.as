@@ -2,7 +2,6 @@ package gr.funkytaps.digitized.views
 {
 	import flash.events.AccelerometerEvent;
 	import flash.sensors.Accelerometer;
-	import flash.system.Capabilities;
 	
 	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
@@ -136,8 +135,6 @@ package gr.funkytaps.digitized.views
 		}
 		
 		private function _onAccelerometerUpdate(event:AccelerometerEvent):void {
-			
-//			_rollingX = (event.accelerationX * 0.5) + (_rollingX * (1 - 0.5));
 			
 			_rollingX = _rollingX * _hero.deceleration - event.accelerationX * _hero.sensitivity;
 			_rollingX = (_rollingX > -_hero.maximumVelocity) ? ( _rollingX < _hero.maximumVelocity ) ? _rollingX : _hero.maximumVelocity : -_hero.maximumVelocity;

@@ -1,7 +1,10 @@
 package gr.funkytaps.digitized.game.objects
 {
+	import flash.globalization.LastOperationStatus;
+	
 	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
+	import gr.funkytaps.digitized.utils.NumberUtil;
 	
 	import starling.display.Image;
 	import starling.extensions.ParallaxLayer;
@@ -37,6 +40,11 @@ package gr.funkytaps.digitized.game.objects
 		
 		private var _isScrolling:Boolean = false;
 
+		//planets
+		private var _planetsPool:Array;
+		private var _curPlanet:Image;
+		private var _lastRandomPlanetIndex:Number = -1;
+		
 		/**
 		 * Returns the baseSpeed value for all the elements in the background. <br />
 		 * Note to update the baseSpeed value use setBaseSpeed method. 
@@ -83,8 +91,61 @@ package gr.funkytaps.digitized.game.objects
 			// These obstacles should not be ParallaxLayer, instead we should use an object pool that
 			// will have a method to randomly select an object and place it on the display list of this class.
 			// This selection should be done in a random time, and not very often 
+			_initPlanets();
+		}
+		
+		/**
+		 *Planets 
+		 * 
+		 */		
+		private function _initPlanets():void{
+			//create all planets
+			_planetsPool = new Array();
+			var planet:Image;
+			for(var i:int = 1; i<=6; i++){				
+				planet = new Image(Assets.manager.getTexture('planet' + i.toString()));
+				_planetsPool.push(planet);
+			}
+			planet = null;
+			_addPlanetOnStage();			
+		}
+		
+		private function _addPlanetOnStage():void{
+			//TODO check if we need to display more than 1 planet at a time. 
+			//if yes then implement a better adding-to-stage/removeing-from-stage mechanism
+			
+			//destroy previous planet
+			if(_curPlanet){
+				removeChild(_curPlanet);
+				_curPlanet = null;
+			}
+
+			//get random index but make sure than it's not the same as the last 1
+			var  random:Number;
+			do{
+				random = NumberUtil.randomNumber(0, 5);
+			}
+			while(random == _lastRandomPlanetIndex);			
+			_lastRandomPlanetIndex = random;
+			
+			_curPlanet = _planetsPool[random];
+			
+			//random scaling
+			var scaleFactor:Number = NumberUtil.randomNumber(0.7, 1.3);
+			//random positioning
+			var xPos:Number = NumberUtil.randomNumber(_curPlanet.width*0.5*scaleFactor, this.stage.stageWidth - (_curPlanet.width*0.5*scaleFactor));
+			
+			_curPlanet.scaleX = _curPlanet.scaleY = scaleFactor;
+			_curPlanet.y = -_curPlanet.height*scaleFactor;
+			_curPlanet.x = xPos;
+			addChild(_curPlanet);
 			
 		}
+		
+		private function _removePlanetFromStage():void{
+			
+		}
+		
 		
 		private function _createPlanet():void {
 			
@@ -117,6 +178,11 @@ package gr.funkytaps.digitized.game.objects
 			if (_baseSpeed <= _maxSpeed) _baseSpeed += 0.08;
 			_starsBackLayer.advanceStep(_baseSpeed);
 			_starsFrontLayer.advanceStep(_baseSpeed);
+			
+			_curPlanet.y += _baseSpeed;
+			if(_curPlanet.y >= this.stage.stageHeight){
+				_addPlanetOnStage();
+			}
 		}
 	}
 }

@@ -3,10 +3,15 @@ package gr.funkytaps.digitized.game.items
 	import flash.display.BitmapData;
 	import flash.geom.Rectangle;
 	
+	import de.polygonal.core.ObjectPool;
+	
 	import gr.funkytaps.digitized.interfaces.IUpdateable;
 	
+	import starling.animation.Juggler;
 	import starling.display.DisplayObject;
 	import starling.display.MovieClip;
+	import starling.extensions.PDParticleSystem;
+	import starling.textures.Texture;
 
 	public interface IItem extends IUpdateable
 	{
@@ -26,6 +31,11 @@ package gr.funkytaps.digitized.game.items
 		 *  NOTE: Bothe @see isAnimated and isStatic can be <code>true</code>
 		 */		
 		function get isStatic():Boolean;
+		
+		/**
+		 * Returns the current juggle that the item is using. 
+		 */		
+		function get juggler():Juggler;
 		
 		/**
 		 * Returns a <code>String</code> representing the item's type.
@@ -49,6 +59,35 @@ package gr.funkytaps.digitized.game.items
 		function get destroyed():Boolean;
 		
 		/**
+		 * If <code>true</code> the obstacle has been destroyed
+		 */		
+		function set destroyed(value:Boolean):void;
+
+		/**
+		 * Returns the current particle system assigned to the item.
+		 */		
+		function get itemParticleSystem():PDParticleSystem;
+		
+		/**
+		 * Returns the current particle system (a movieclip) assigned to the item.
+		 */		
+		function get itemParticleMovieclip():MovieClip
+
+		/**
+		 * Returns the current pool that the particle system has taken it's particle movieclip or PDParticleSystem.
+		 */			
+		function get itemParticlePool():ObjectPool
+			
+		/**
+		 * Indicates if the item has collided
+		 */		
+		function get collided():Boolean;
+		
+		/**
+		 */		
+		function set collided(value:Boolean):void;
+		
+		/**
 		 *  Returns the score of the item that the hero should get. if any score.
 		 */		
 		function get score():Number;
@@ -69,10 +108,25 @@ package gr.funkytaps.digitized.game.items
 		function get itemHeight():Number;
 		
 		/**
+		 * Set the animatedTextures for the item. <br />
+		 * Note only set this is the <code>_isAnimated</code> property is <code>true</code>. 
+		 */		
+		function set animatedTextures(value:Vector.<Texture>):void;
+		
+		/**
+		 * Get the animatedTextures for the item. <br />
+		 * Note only set this is the <code>_isAnimated</code> property is <code>true</code>. 
+		 */
+		function get animatedTextures():Vector.<Texture>;
+		
+		/**
 		 * Returns the item's id. 
 		 */		
 		function get itemID():int;
 		
+		/**
+		 * Set the item's id. 
+		 */		
 		function set itemID(value:int):void;
 		
 		/**
@@ -86,16 +140,32 @@ package gr.funkytaps.digitized.game.items
 		 * @param isStatic - If <code>true</code> the item has an image.
 		 * @param itemType - The type of the item.
 		 * @param itemScore - The score of the item.
+		 * @param itemSpeed - The speed of the item.
+		 * @param radius - The collision radius of the item.
+		 * @param animatedTextures - (Optional) If this is set it will be used as the animatedTextures for the movieclip. Use this for performance.
 		 * 
 		 */		
-		function initItem(isAnimated:Boolean, isStatic:Boolean, itemType:String, itemScore:Number, itemSpeed:Number, radius:Number):void;
+		function initItem(isAnimated:Boolean, isStatic:Boolean, itemType:String, itemScore:Number, itemSpeed:Number, radius:Number, animatedTextures:Vector.<Texture> = null, juggler:Juggler = null):void;
 		
 		/**
 		 * Creates the obstacle's elements. <br />
 		 * Note: Call this function after you add the item to the display list.
 		 */		
 		function createItem():void;
-
+		
+		/**
+		 * Sets a particle system for the item.
+		 * The method can take either a MovieClip or a PDParticleSystem. <br />
+		 * An optional fromPool property can be set if the objects are coming from a pool.
+		 * Use this to return the object back to the pool once it has finished its course.
+		 */		
+		function setParticleSystem(movieClip:MovieClip, particleSystem:PDParticleSystem = null, fromPool:ObjectPool = null):void;
+		
+		/**
+		 * Method to be executed when a collision has collision. 
+		 */		
+		function hit():void;
+		
 		/**
 		 * Returns itself as a DisplayObject. Useful fro adding interfaces to the display list. <br />
 		 * <code> addChild(anInterfaceVariable.view()); </code> 

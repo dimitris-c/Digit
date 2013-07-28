@@ -115,7 +115,7 @@ package gr.funkytaps.digitized.game.objects
 		 * 
 		 */	
 		public function updateEnergyBar(ratio:Number):void {
-			if (_energyBar) _energyBar.ratio = ratio;	
+			if (_energyBar) _energyBar.ratio = ratio;
 		}
 		
 		/**

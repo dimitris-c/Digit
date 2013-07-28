@@ -21,6 +21,15 @@ package gr.funkytaps.digitized.ui.buttons
 	{
 		
 		private var _isToggled:Boolean = true;
+
+		public function get isToggled():Boolean { return _isToggled; }
+
+		public function set isToggled(value:Boolean):void
+		{
+			_isToggled = value;
+			(_isToggled) ? _setNormalState() : _setDownState();
+		}
+
 		
 		public function SoundButton()
 		{
@@ -48,7 +57,7 @@ package gr.funkytaps.digitized.ui.buttons
 					touch.globalY > buttonRect.y + buttonRect.height + MAX_DRAG_DIST)
 				{
 					_isToggled = !_isToggled;
-					_toggleButton();
+//					_toggleButton();
 					_isDown = false;
 				}
 			}

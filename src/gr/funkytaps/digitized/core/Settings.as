@@ -17,7 +17,6 @@ package gr.funkytaps.digitized.core
 		public static const HALF_WIDTH:int = 160;
 		public static var HALF_HEIGHT:int = 240;
 		
-		
 		/**
 		 * Fonts 
 		 */		
@@ -25,9 +24,6 @@ package gr.funkytaps.digitized.core
 		public static const AGORA_FONT_60:String = 'Agora60';
 		public static const AGORA_FONT_88:String = 'Agora88';
 		
-		/**
-		 * Items 
-		 */		
 		
 	}
 }

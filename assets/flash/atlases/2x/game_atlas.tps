@@ -158,9 +158,10 @@
             <filename>../../images/game/2x/hero-static.png</filename>
             <filename>../../images/game/2x/star-animated</filename>
             <filename>../../images/game/2x/energy-animated</filename>
-            <filename>../../particles/flameparticle.png</filename>
             <filename>../../images/game/2x/rocket-fires/fire7-01.png</filename>
             <filename>../../images/game/2x/rocket-fires/fire7-02.png</filename>
+            <filename>../../particles/starparticletexture.png</filename>
+            <filename>../../particles/starexplosion</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

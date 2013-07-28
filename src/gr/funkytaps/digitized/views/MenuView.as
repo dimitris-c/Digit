@@ -23,6 +23,7 @@ package gr.funkytaps.digitized.views
 	import gr.funkytaps.digitized.ui.buttons.SoundButton;
 	
 	import starling.display.Image;
+	import starling.display.Quad;
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.text.TextField;
@@ -35,7 +36,7 @@ package gr.funkytaps.digitized.views
 		
 		private var _gradient:Image;
 		
-		private var _background:Image;
+		private var _background:Quad;
 		
 		private var _buttonsContainer:Sprite;
 		
@@ -81,8 +82,9 @@ package gr.funkytaps.digitized.views
 
 		override protected function _init():void {
 			
-			_background = new Image(Assets.manager.getTexture('generic-background'));
-			addChild(_background);
+			 _background = new Quad(Settings.WIDTH, Settings.HEIGHT, 0x000000);
+			 _background.alpha = 0.3;
+			 addChild(_background);
 
 			_gradient = new Image(Assets.manager.getTexture('gradient'));
 			addChild(_gradient);
@@ -90,6 +92,7 @@ package gr.funkytaps.digitized.views
 			_createHeader();
 			
 			_createButtons();
+			
 		}
 		
 		private function _createHeader():void {
@@ -219,13 +222,22 @@ package gr.funkytaps.digitized.views
 			
 		}
 		
-		override public function tweenIn():void { 
-			y = Settings.HEIGHT;
-			TweenLite.to(this, 0.75, {y:0});
+		override public function tweenIn():void {
+			
+			_soundButton.isToggled = !(GlobalSound.volume == 0);
+//			y = Settings.HEIGHT;
+//			TweenLite.to(this, 0.75, {y:0});
+			alpha = 0;
+			TweenLite.to(this, 0.75, {alpha:1, scaleX: 1, scaleY: 1});
 		}
 		
 		override public function tweenOut(onComplete:Function=null, onCompleteParams:Array=null):void {
-			TweenLite.to(this, 0.55, {y:Settings.HEIGHT, onComplete:onComplete, onCompleteParams:onCompleteParams});
+//			TweenLite.to(this, 0.55, {y:Settings.HEIGHT, onComplete:onComplete, onCompleteParams:onCompleteParams});
+			TweenLite.to(this, 0.35, { 
+				alpha:0, 
+				onComplete:onComplete,
+				onCompleteParams:onCompleteParams
+			});
 		}
 		
 	}

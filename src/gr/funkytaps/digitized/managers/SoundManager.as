@@ -1,13 +1,12 @@
 package gr.funkytaps.digitized.managers
 {
+	import flash.media.Sound;
 	import flash.media.SoundChannel;
 	import flash.media.SoundTransform;
 	import flash.utils.Dictionary;
 	
 	import gr.funkytaps.digitized.core.Assets;
 	
-	import starling.core.Starling;
-
 	/**
 	 * @author — Dimitris Chatzieleftheriou
 	 * @company — Funkytaps, Athens
@@ -22,6 +21,8 @@ package gr.funkytaps.digitized.managers
 		// holds the soundchannels created
 		private static var _currentSounds:Dictionary = new Dictionary(true);
 		
+		private static var _st:SoundTransform = new SoundTransform();
+		
 		/**
 		 * Plays a sound.
 		 * 
@@ -35,17 +36,23 @@ package gr.funkytaps.digitized.managers
 			if (!Assets.manager.getSound(name)) return;
 			
 			if (_currentSounds[name]) {
-				_currentSounds[name] = Assets.manager.getSound(name).play(0, loop);
+				_st.volume = volume;
+				_currentSounds[name] = Assets.manager.getSound(name).play(0, 0, _st);
 				return;
 			}
 				
-			if (volume != 1) var st:SoundTransform = new SoundTransform(volume);
-			var soundChannel:SoundChannel = Assets.manager.getSound(name).play(0, loop, st);
+			if (volume != 1) _st.volume = volume;
+			var sound:Sound = Assets.manager.getSound(name);
+			var soundChannel:SoundChannel = sound.play(0, loop, _st);
 			
 			if (keepInCache) _currentSounds[name] = soundChannel;
 			
 		}
 		
+		/**
+		 * Stops a certain sound from being playing 
+		 */		
+		[Inline]
 		public static function stopSound(name:String):void {
 			if (_currentSounds[name]) _currentSounds[name].stop();
 		}
@@ -57,11 +64,10 @@ package gr.funkytaps.digitized.managers
 		 * @param volume - The volume of the effect sound
 		 * 
 		 */		
+		[Inline]
 		public static function playSoundFX(name:String, volume:Number = 1):void {
-			stopSound(name);
-			playSound(name, 0, volume, false);
+			playSound(name, 0, volume, true);
 		}
-		
 		
 	}
 }

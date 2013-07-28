@@ -81,9 +81,10 @@ package starling.animation
             
             var dispatcher:EventDispatcher = object as EventDispatcher;
             if (dispatcher) dispatcher.removeEventListener(Event.REMOVE_FROM_JUGGLER, onRemove);
-
-            var index:int = mObjects.indexOf(object);
+            
+			var index:int = mObjects.indexOf(object);
             if (index != -1) mObjects[index] = null;
+			
         }
         
         /** Removes all tweens with a certain target. */

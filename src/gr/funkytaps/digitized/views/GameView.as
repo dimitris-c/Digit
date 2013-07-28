@@ -43,6 +43,8 @@ package gr.funkytaps.digitized.views
 		private var _gameSpeed:Number;
 		public function get gameSpeed():Number { return _gameSpeed; }
 		
+		private static const MAX_GAME_SPEED:Number = 5; 
+		
 		private var _starsManager:StarsManager;
 		public function get starsManager():StarsManager { return _starsManager; }
 
@@ -80,7 +82,7 @@ package gr.funkytaps.digitized.views
 			_gameJuggler = new Juggler();
 			
 //			SoundManager.stopSound('intro');
-//			SoundManager.playSound('game-theme', int.MAX_VALUE, 0.5);
+//			SoundManager.playSound('game-theme', int.MAX_VALUE, 0.3);
 			
 			_gameSpeed = 3;
 			
@@ -94,7 +96,7 @@ package gr.funkytaps.digitized.views
 			addChild(_dashboard);
 			_dashboard.x = _dashboard.y = 7;
 			
-			_background = new Background();
+			_background = new Background(this);
 			_gameContainer.addChild(_background);
 			
 			_takeOffLand = new Image( Assets.manager.getTexture('land') );
@@ -111,7 +113,6 @@ package gr.funkytaps.digitized.views
 			_hero.y = Settings.HEIGHT - _takeOffLand.height - (_hero.heroHeight >> 1);
 			
 			_starsManager = new StarsManager(this);
-			Starling.juggler.delayCall(_starsManager._buildStarPattern, 2);
 			
 			// Start accelerometer if supported
 			if (Accelerometer.isSupported) {
@@ -164,14 +165,8 @@ package gr.funkytaps.digitized.views
 			var moveLand:Tween = new Tween(_takeOffLand, 1.3, Transitions.EASE_IN_OUT);
 			moveLand.delay = 0.423;
 			moveLand.animate('y', _takeOffLand.y + 45);
-			moveLand.onComplete = function():void {
-				
-				_takeOffLand.visible = false;
-				_gameJuggler.remove(moveLand);
-				
-				_hero.takeOff();
-				
-			};
+			moveLand.onComplete = _onMoveLandComplete;
+			moveLand.onCompleteArgs = [moveLand];
 			
 			if (_accelerometer) _accelerometer.addEventListener(AccelerometerEvent.UPDATE, _onAccelerometerUpdate);
 			
@@ -199,6 +194,14 @@ package gr.funkytaps.digitized.views
 			
 			if (_starsManager) _starsManager.update( passedTime );
 			
+		}
+		
+		protected function _onMoveLandComplete(tween:Tween):void
+		{
+			_takeOffLand.visible = false;
+			_gameJuggler.remove(tween);
+			
+			_hero.takeOff();
 		}
 		
 	}

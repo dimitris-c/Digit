@@ -40,7 +40,7 @@ package gr.funkytaps.digitized.game
 		private var _currentView:IView;
 		
 		/**
-		 * A container to hold all the views.
+		 * A container to hold all the views. Except the menu view.
 		 */		
 		private var _viewsContainer:Sprite;
 		
@@ -138,12 +138,14 @@ package gr.funkytaps.digitized.game
 
 		}
 		
-		private function _onMenuButtonTriggered(event:Event):void
+		private function _onMenuButtonTriggered(event:Event ):void
 		{
 			_menuButton.isEnabled = false;
 			
 			if (_menuView) {
 				_gamePaused = false;
+				_viewsContainer.touchable = true;
+//				_viewsContainer.filter = null;
 				_menuView.tweenOut(_removeMenuView);
 				return;
 			}
@@ -162,6 +164,9 @@ package gr.funkytaps.digitized.game
 			setChildIndex(_menuButton, numChildren-1);
 			
 			_menuView.tweenIn();
+			
+			_viewsContainer.touchable = false;
+//			_viewsContainer.filter = new BlurFilter(1, 1);
 			
 			SystemIdleMonitor.normalMode();
 			
@@ -208,8 +213,6 @@ package gr.funkytaps.digitized.game
 					SystemIdleMonitor.normalMode();
 					break;
 				}
-					
-				
 			}
 			
 			_viewsContainer.addChild(_currentView.view());

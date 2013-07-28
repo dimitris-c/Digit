@@ -80,7 +80,7 @@ package starling.extensions
             mEmissionTime = 0.0;
             mFrameTime = 0.0;
             mEmitterX = mEmitterY = 0;
-            mMaxCapacity = Math.min(8192, maxCapacity);
+            mMaxCapacity = (8192 < maxCapacity) ? 8192 : maxCapacity;
             
             mBlendFactorDestination = blendFactorDest || Context3DBlendFactor.ONE_MINUS_SOURCE_ALPHA;
             mBlendFactorSource = blendFactorSource ||
@@ -135,7 +135,7 @@ package starling.extensions
         private function raiseCapacity(byAmount:int):void
         {
             var oldCapacity:int = capacity;
-            var newCapacity:int = Math.min(mMaxCapacity, capacity + byAmount);
+            var newCapacity:int = (mMaxCapacity < capacity + byAmount) ? mMaxCapacity : capacity + byAmount;
             var context:Context3D = Starling.context;
             
             if (context == null) throw new MissingContextError();
@@ -268,7 +268,7 @@ package starling.extensions
                 }
                 
                 if (mEmissionTime != Number.MAX_VALUE)
-                    mEmissionTime = Math.max(0.0, mEmissionTime - passedTime);
+                    mEmissionTime = (0.0 > mEmissionTime - passedTime) ? 0.0 : mEmissionTime - passedTime;
             }
             
             // update vertex data
@@ -373,7 +373,7 @@ package starling.extensions
          *  their lifespans. */
         public function populate(count:int):void
         {
-            count = Math.min(count, mMaxCapacity - mNumParticles);
+            count = (count < mMaxCapacity - mNumParticles) ? count : mMaxCapacity - mNumParticles;
             
             if (mNumParticles + count > capacity)
                 raiseCapacity(count - capacity);
@@ -435,7 +435,7 @@ package starling.extensions
         public function get numParticles():int { return mNumParticles; }
         
         public function get maxCapacity():int { return mMaxCapacity; }
-        public function set maxCapacity(value:int):void { mMaxCapacity = Math.min(8192, value); }
+        public function set maxCapacity(value:int):void { mMaxCapacity =  (8192 < value) ? 8192 : value; }
         
         public function get emissionRate():Number { return mEmissionRate; }
         public function set emissionRate(value:Number):void { mEmissionRate = value; }

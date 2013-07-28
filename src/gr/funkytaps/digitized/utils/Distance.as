@@ -19,5 +19,9 @@ package gr.funkytaps.digitized.utils
 		public static function calculate(x1:Number, x2:Number, y1:Number, y2:Number):Number {
 			return ((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2));
 		}
+		
+		public static function calculateInt(x1:Number, x2:Number, y1:Number, y2:Number):int {
+			return int ( calculate(x1, x2, y1, y2) );
+		}
 	}
 }

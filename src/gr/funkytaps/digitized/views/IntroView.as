@@ -12,6 +12,7 @@ package gr.funkytaps.digitized.views
 	
 	import starling.animation.Juggler;
 	import starling.display.Image;
+	import starling.display.Quad;
 	import starling.events.Event;
 
 	/**
@@ -30,7 +31,7 @@ package gr.funkytaps.digitized.views
 		
 		private var _starsBackground:Image;
 		
-		private var _gradient:Image;
+		private var _gradient:Quad;
 		
 		private var _digitHero:DigitHeroIntroView;
 		
@@ -57,7 +58,15 @@ package gr.funkytaps.digitized.views
 			
 			_introJuggler = new Juggler();
 			
-			_gradient = new Image(Assets.manager.getTexture('gradient'));
+			_gradient = new Quad(Settings.WIDTH, 260);
+			_gradient.setVertexColor(0, 0x000000);
+			_gradient.setVertexAlpha(1, 0.6);
+			_gradient.setVertexColor(1, 0x000000);
+			_gradient.setVertexAlpha(1, 0.4);
+			_gradient.setVertexColor(2, 0x000000);
+			_gradient.setVertexAlpha(2, 0);
+			_gradient.setVertexColor(3, 0x000000);
+			_gradient.setVertexAlpha(3, 0);
 			addChild(_gradient);
 			
 			_planet = new Image( Assets.manager.getTexture('intro-planet') );

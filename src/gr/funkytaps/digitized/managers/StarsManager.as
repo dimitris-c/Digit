@@ -173,7 +173,7 @@ package gr.funkytaps.digitized.managers
 			
 			if (_timeSinceNextInterval >= 2) {
 				var r:Number = Mathematics.getRandomInt(0, 100);
-				if (r >= 0 && r <= 30) buildStarPattern();
+				if (r >= 0 && r <= 40) buildStarPattern();
 				_timeSinceNextInterval = 0;
 			}
 			_timeSinceNextInterval += passedTime;

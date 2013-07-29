@@ -169,8 +169,6 @@
             <filename>../../images/menu/2x/score-title.png</filename>
             <filename>../../images/menu/2x/total-score-title.png</filename>
             <filename>../../images/game/2x/star-static-icon.png</filename>
-            <filename>../../particles/flameparticle.png</filename>
-            <filename>../../images/game/2x/gradient.png</filename>
             <filename>../../images/buttons/2x/go-button-hover.png</filename>
             <filename>../../images/buttons/2x/go-button-normal.png</filename>
             <filename>../../images/credits/2x/credits-alien.png</filename>
@@ -193,6 +191,10 @@
             <filename>../../fonts/2x/Agora88.png</filename>
             <filename>../../images/game/2x/rocket-fires/fire6-01.png</filename>
             <filename>../../images/game/2x/rocket-fires/fire6-02.png</filename>
+            <filename>../../images/buttons/2x/titles/play-hover.png</filename>
+            <filename>../../images/buttons/2x/titles/play-normal.png</filename>
+            <filename>../../images/buttons/2x/titles/resume-hover.png</filename>
+            <filename>../../images/buttons/2x/titles/resume-normal.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

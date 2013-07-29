@@ -18,6 +18,7 @@ package gr.funkytaps.digitized.views
 	import starling.animation.Tween;
 	import starling.core.Starling;
 	import starling.display.Image;
+	import starling.display.Quad;
 	import starling.display.Sprite;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
@@ -51,7 +52,7 @@ package gr.funkytaps.digitized.views
 		private var _collisionManager:CollisionManager;
 		public function get collisionManager():CollisionManager { return _collisionManager; }
 		
-		private var _gradient:Image;
+		private var _gradient:Quad;
 		
 		private var _dashboard:Dashboard;
 		public function get dashboard():Dashboard { return _dashboard; }
@@ -86,7 +87,15 @@ package gr.funkytaps.digitized.views
 			
 			_gameSpeed = 3;
 			
-			_gradient = new Image(Assets.manager.getTexture('gradient'));
+			_gradient = new Quad(Settings.WIDTH, 260);
+			_gradient.setVertexColor(0, 0x000000);
+			_gradient.setVertexAlpha(1, 0.6);
+			_gradient.setVertexColor(1, 0x000000);
+			_gradient.setVertexAlpha(1, 0.4);
+			_gradient.setVertexColor(2, 0x000000);
+			_gradient.setVertexAlpha(2, 0);
+			_gradient.setVertexColor(3, 0x000000);
+			_gradient.setVertexAlpha(3, 0);
 			addChild(_gradient);
 
 			_gameContainer = new Sprite();
@@ -96,7 +105,7 @@ package gr.funkytaps.digitized.views
 			addChild(_dashboard);
 			_dashboard.x = _dashboard.y = 7;
 			
-			_background = new Background(this);
+			_background = new Background();
 			_gameContainer.addChild(_background);
 			
 			_takeOffLand = new Image( Assets.manager.getTexture('land') );

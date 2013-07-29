@@ -34,7 +34,7 @@ package gr.funkytaps.digitized.views
 	{
 		private var _gameWorld:GameWorld;
 		
-		private var _gradient:Image;
+		private var _gradient:Quad;
 		
 		private var _background:Quad;
 		
@@ -83,10 +83,18 @@ package gr.funkytaps.digitized.views
 		override protected function _init():void {
 			
 			 _background = new Quad(Settings.WIDTH, Settings.HEIGHT, 0x000000);
-			 _background.alpha = 0.3;
+			 _background.alpha = 0.65;
 			 addChild(_background);
 
-			_gradient = new Image(Assets.manager.getTexture('gradient'));
+			_gradient = new Quad(Settings.WIDTH, 260);
+			_gradient.setVertexColor(0, 0x000000);
+			_gradient.setVertexAlpha(1, 0.6);
+			_gradient.setVertexColor(1, 0x000000);
+			_gradient.setVertexAlpha(1, 0.4);
+			_gradient.setVertexColor(2, 0x000000);
+			_gradient.setVertexAlpha(2, 0);
+			_gradient.setVertexColor(3, 0x000000);
+			_gradient.setVertexAlpha(3, 0);
 			addChild(_gradient);
 			
 			_createHeader();
@@ -104,8 +112,8 @@ package gr.funkytaps.digitized.views
 			_starIcon = new Image( Assets.manager.getTexture('star-static-icon')  );
 			_headerContainer.addChild(_starIcon);
 			
-			_starIcon.x = 10;
-			_starIcon.y = 10;
+			_starIcon.x = 7;
+			_starIcon.y = 7;
 			
 			_starTextfield = new TextField(100, 36, _stars.toString(), Settings.AGORA_FONT_38, -1, 0xFFFFFF);
 			_starTextfield.batchable = true;

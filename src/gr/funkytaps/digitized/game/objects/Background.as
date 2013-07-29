@@ -1,14 +1,16 @@
-package gr.funkytaps.digitized.game.objects
-{
-	import flash.globalization.LastOperationStatus;
+package gr.funkytaps.digitized.game.objects {
+	
+	import de.polygonal.core.ObjectPool;
 	
 	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
-	import gr.funkytaps.digitized.utils.NumberUtil;
+	import gr.funkytaps.digitized.game.objects.AbstractObject;
+	import gr.funkytaps.digitized.game.objects.BackgroundPlanet;
+	import gr.funkytaps.digitized.utils.Mathematics;
 	
 	import starling.display.Image;
+	import starling.display.Sprite;
 	import starling.extensions.ParallaxLayer;
-	import starling.utils.Color;
 
 	/**
 	 * @author — Dimitris Chatzieleftheriou
@@ -31,6 +33,8 @@ package gr.funkytaps.digitized.game.objects
 		
 		private var _glowRightPart:Image;
 		
+		private var _planetsLayer:Sprite;
+		
 		private var _maxSpeed:Number = 2;
 		
 		public function get maxSpeed():Number { return _maxSpeed; }
@@ -40,10 +44,12 @@ package gr.funkytaps.digitized.game.objects
 		
 		private var _isScrolling:Boolean = false;
 
-		//planets
-		private var _planetsPool:Array;
-		private var _curPlanet:Image;
+		// Planets
+		private var _planetsPool:ObjectPool;
+		private var _currentPlanet:BackgroundPlanet;
 		private var _lastRandomPlanetIndex:Number = -1;
+		private var _nextPlanetCreation:Number = 0;
+		private var _planetCreationInterval:Number = 15;
 		
 		/**
 		 * Returns the baseSpeed value for all the elements in the background. <br />
@@ -77,14 +83,19 @@ package gr.funkytaps.digitized.game.objects
 			_glowRightPart.x = Settings.WIDTH;
 			_glowRightPart.y = _glowRightPart.height + 250;
 			
+			
 			_starsBackLayer = new ParallaxLayer(Assets.manager.getTexture('stars-back'), 1, 0.1, true, false, false);
 			_starsBackLayer.baseSpeed = _baseSpeed;
 			_starsBackLayer.speedFactor = 0.2;
 			addChild(_starsBackLayer);
 			
+			_planetsLayer = new Sprite();
+			addChild(_planetsLayer);
+			
 			_starsFrontLayer = new ParallaxLayer(Assets.manager.getTexture('stars-front'), 2, 0.5, true, false, false);
 			_starsFrontLayer.baseSpeed = _baseSpeed;
 			_starsFrontLayer.speedFactor = 0.842;
+			_starsFrontLayer.alpha = 0.6;
 			addChild(_starsFrontLayer);
 		
 			// TODO: Implement the scrolling of other elements that should be a part of the background.
@@ -100,54 +111,33 @@ package gr.funkytaps.digitized.game.objects
 		 */		
 		private function _initPlanets():void{
 			//create all planets
-			_planetsPool = new Array();
-			var planet:Image;
-			for(var i:int = 1; i<=6; i++){				
-				planet = new Image(Assets.manager.getTexture('planet' + i.toString()));
-				_planetsPool.push(planet);
-			}
-			planet = null;
-			_addPlanetOnStage();			
+			_planetsPool = new ObjectPool(false);
+			_planetsPool.allocate(10, BackgroundPlanet);
+			
+			_addPlanetOnStage();
 		}
 		
 		private function _addPlanetOnStage():void{
-			//TODO check if we need to display more than 1 planet at a time. 
-			//if yes then implement a better adding-to-stage/removeing-from-stage mechanism
 			
-			//destroy previous planet
-			if(_curPlanet){
-				removeChild(_curPlanet);
-				_curPlanet = null;
-			}
-
 			//get random index but make sure than it's not the same as the last 1
-			var  random:Number;
+			var random:Number;
 			do{
-				random = NumberUtil.randomNumber(0, 5);
+				random = Mathematics.getRandomInt(1, 6);
 			}
-			while(random == _lastRandomPlanetIndex);			
+			while(random == _lastRandomPlanetIndex);
 			_lastRandomPlanetIndex = random;
 			
-			_curPlanet = _planetsPool[random];
+			_currentPlanet = _planetsPool.object as BackgroundPlanet;
+			var speedFactor:Number = Math.random(); // get a random float number.
+			_currentPlanet.createPlanet( 'planet' + random, (speedFactor < 0.3) ? 0.3 : (speedFactor > 0.5) ? 0.5 : speedFactor );
 			
-			//random scaling
-			var scaleFactor:Number = NumberUtil.randomNumber(0.7, 1.3);
+			//random scalings
+			var scaleFactor:Number = Mathematics.getRandomNumber(1.8, 2);
 			//random positioning
-			var xPos:Number = NumberUtil.randomNumber(_curPlanet.width*0.5*scaleFactor, this.stage.stageWidth - (_curPlanet.width*0.5*scaleFactor));
-			
-			_curPlanet.scaleX = _curPlanet.scaleY = scaleFactor;
-			_curPlanet.y = -_curPlanet.height*scaleFactor;
-			_curPlanet.x = xPos;
-			addChild(_curPlanet);
-			
-		}
-		
-		private function _removePlanetFromStage():void{
-			
-		}
-		
-		
-		private function _createPlanet():void {
+			_currentPlanet.scaleX = _currentPlanet.scaleY = scaleFactor;
+			_currentPlanet.y = -_currentPlanet.height;
+			_currentPlanet.x = Mathematics.getRandomNumber(-(_currentPlanet.width >> 1), Settings.WIDTH - 30);;
+			_planetsLayer.addChild(_currentPlanet);
 			
 		}
 		
@@ -176,12 +166,28 @@ package gr.funkytaps.digitized.game.objects
 		public function update(passedTime:Number = 0):void
 		{
 			if (_baseSpeed <= _maxSpeed) _baseSpeed += 0.08;
+
 			_starsBackLayer.advanceStep(_baseSpeed);
 			_starsFrontLayer.advanceStep(_baseSpeed);
 			
-			_curPlanet.y += _baseSpeed;
-			if(_curPlanet.y >= this.stage.stageHeight){
-				_addPlanetOnStage();
+			if (!_currentPlanet) { // start creation of the planet once there is none.
+				if (_nextPlanetCreation >= _planetCreationInterval) {
+					_addPlanetOnStage();
+					_nextPlanetCreation = 0;
+				}
+				_nextPlanetCreation += passedTime;
+			}
+			
+			if (!_currentPlanet) return; // stop here if there is no planet.
+			
+			_currentPlanet.y += _baseSpeed * _currentPlanet.speedFactor;
+			
+			if (_currentPlanet.y >= Settings.HEIGHT) {
+				_nextPlanetCreation = 0;
+				_currentPlanet.destroy();
+				_currentPlanet.removeFromParent(true);
+				_planetsPool.object = _currentPlanet;
+				_currentPlanet = null;
 			}
 		}
 	}

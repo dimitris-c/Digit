@@ -15,6 +15,10 @@ package gr.funkytaps.digitized.utils
 			return ((Math.random() * (1 + max - min) + min) >> 0);
 		}
 		
+		[Inline]
+		public static function getRandomNumber(min:Number, max:Number):int {
+			return (Math.random() * (1 + max - min) + min);
+		}
 		
 	}
 }

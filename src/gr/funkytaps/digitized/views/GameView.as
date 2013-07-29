@@ -16,7 +16,6 @@ package gr.funkytaps.digitized.views
 	import starling.animation.Juggler;
 	import starling.animation.Transitions;
 	import starling.animation.Tween;
-	import starling.core.Starling;
 	import starling.display.Image;
 	import starling.display.Quad;
 	import starling.display.Sprite;
@@ -83,7 +82,7 @@ package gr.funkytaps.digitized.views
 			_gameJuggler = new Juggler();
 			
 //			SoundManager.stopSound('intro');
-//			SoundManager.playSound('game-theme', int.MAX_VALUE, 0.3);
+			SoundManager.playSound('game-theme', int.MAX_VALUE, 0.3);
 			
 			_gameSpeed = 3;
 			
@@ -106,6 +105,7 @@ package gr.funkytaps.digitized.views
 			_dashboard.x = _dashboard.y = 7;
 			
 			_background = new Background();
+			_background.maxSpeed = _gameSpeed;
 			_gameContainer.addChild(_background);
 			
 			_takeOffLand = new Image( Assets.manager.getTexture('land') );

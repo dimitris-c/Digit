@@ -1,5 +1,7 @@
 package gr.funkytaps.digitized.game.objects {
 	
+	import flash.geom.Rectangle;
+	
 	import de.polygonal.core.ObjectPool;
 	
 	import gr.funkytaps.digitized.core.Assets;
@@ -33,8 +35,6 @@ package gr.funkytaps.digitized.game.objects {
 		
 		private var _glowRightPart:Image;
 		
-		private var _planetsLayer:Sprite;
-		
 		private var _maxSpeed:Number = 2;
 		
 		public function get maxSpeed():Number { return _maxSpeed; }
@@ -50,6 +50,7 @@ package gr.funkytaps.digitized.game.objects {
 		private var _lastRandomPlanetIndex:Number = -1;
 		private var _nextPlanetCreation:Number = 0;
 		private var _planetCreationInterval:Number = 15;
+		private var _planetButtomLimit:int;
 		
 		/**
 		 * Returns the baseSpeed value for all the elements in the background. <br />
@@ -83,14 +84,10 @@ package gr.funkytaps.digitized.game.objects {
 			_glowRightPart.x = Settings.WIDTH;
 			_glowRightPart.y = _glowRightPart.height + 250;
 			
-			
 			_starsBackLayer = new ParallaxLayer(Assets.manager.getTexture('stars-back'), 1, 0.1, true, false, false);
 			_starsBackLayer.baseSpeed = _baseSpeed;
 			_starsBackLayer.speedFactor = 0.2;
 			addChild(_starsBackLayer);
-			
-			_planetsLayer = new Sprite();
-			addChild(_planetsLayer);
 			
 			_starsFrontLayer = new ParallaxLayer(Assets.manager.getTexture('stars-front'), 2, 0.5, true, false, false);
 			_starsFrontLayer.baseSpeed = _baseSpeed;
@@ -112,7 +109,7 @@ package gr.funkytaps.digitized.game.objects {
 		private function _initPlanets():void{
 			//create all planets
 			_planetsPool = new ObjectPool(false);
-			_planetsPool.allocate(10, BackgroundPlanet);
+			_planetsPool.allocate(3, BackgroundPlanet);
 			
 			_addPlanetOnStage();
 		}
@@ -129,16 +126,14 @@ package gr.funkytaps.digitized.game.objects {
 			
 			_currentPlanet = _planetsPool.object as BackgroundPlanet;
 			var speedFactor:Number = Math.random(); // get a random float number.
-			_currentPlanet.createPlanet( 'planet' + random, (speedFactor < 0.3) ? 0.3 : (speedFactor > 0.5) ? 0.5 : speedFactor );
+			_currentPlanet.createPlanet( 'planet' + random, (speedFactor < 0.18) ? 0.18 : (speedFactor > 0.3) ? 0.3 : speedFactor );
 			
 			//random scalings
-			var scaleFactor:Number = Mathematics.getRandomNumber(1.8, 2);
-			//random positioning
-			_currentPlanet.scaleX = _currentPlanet.scaleY = scaleFactor;
-			_currentPlanet.y = -_currentPlanet.height;
-			_currentPlanet.x = Mathematics.getRandomNumber(-(_currentPlanet.width >> 1), Settings.WIDTH - 30);;
-			_planetsLayer.addChild(_currentPlanet);
+			_currentPlanet.y = - (_currentPlanet.planetHeight + _currentPlanet.pivotY);
+			_currentPlanet.x = Mathematics.getRandomNumber(-(_currentPlanet.planetWidth >> 1), Settings.WIDTH - 30);
+			addChild(_currentPlanet);
 			
+			_planetButtomLimit = Settings.HEIGHT + (_currentPlanet.planetHeight >> 1);
 		}
 		
 		private function _createStardust():void {
@@ -181,8 +176,9 @@ package gr.funkytaps.digitized.game.objects {
 			if (!_currentPlanet) return; // stop here if there is no planet.
 			
 			_currentPlanet.y += _baseSpeed * _currentPlanet.speedFactor;
+//			_currentPlanet.rotation = _currentPlanet.y * _currentPlanet.speedFactor;
 			
-			if (_currentPlanet.y >= Settings.HEIGHT) {
+			if (_currentPlanet.y >= _planetButtomLimit) {
 				_nextPlanetCreation = 0;
 				_currentPlanet.destroy();
 				_currentPlanet.removeFromParent(true);

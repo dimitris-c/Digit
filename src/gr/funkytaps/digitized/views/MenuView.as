@@ -167,38 +167,38 @@ package gr.funkytaps.digitized.views
 			
 //			_buttonsContainer.filter = BlurFilter.createDropShadow();
 			
-			_soundButton = new SoundButton();
-			_soundButton.addEventListener(Event.TRIGGERED, _onSoundButtonTriggered);
-			_buttonsContainer.addChild(_soundButton);
-			
-			// all the buttons have the same height so we just store it, 
-			// instead of making repeated calls to 'thebutton'.height
-			_buttonsHeight = _soundButton.height;
-			
-			_playAgainButton = new PlayAgainButton();
-			_playAgainButton.addEventListener(Event.TRIGGERED, _onPlayAgainTriggered);
-			_buttonsContainer.addChild(_playAgainButton);
-			_playAgainButton.y = _soundButton.y + _buttonsHeight - 5;
-			
 			_shareScoreButton = new ShareScoreButton();
 			_shareScoreButton.addEventListener(Event.TRIGGERED, _onPlayAgainTriggered);
 			_buttonsContainer.addChild(_shareScoreButton);
-			_shareScoreButton.y = _playAgainButton.y + _buttonsHeight - 5;
+			
+			// all the buttons have the same height so we just store it, 
+			// instead of making repeated calls to 'thebutton'.height
+			_buttonsHeight = _shareScoreButton.height;
 			
 			_leaderboardButton = new LeaderboardButton();
 			_leaderboardButton.addEventListener(Event.TRIGGERED, _onLeaderboardButtonTriggered);
 			_buttonsContainer.addChild(_leaderboardButton);
-			_leaderboardButton.y = _shareScoreButton.y + _buttonsHeight - 5;
+			_leaderboardButton.y =_shareScoreButton.y + _buttonsHeight - 5;
+			
+			_playAgainButton = new PlayAgainButton();
+			_playAgainButton.addEventListener(Event.TRIGGERED, _onPlayAgainTriggered);
+			_buttonsContainer.addChild(_playAgainButton);
+			_playAgainButton.y = _leaderboardButton.y + _buttonsHeight - 5;
 			
 			_creditsButton = new CreditsButton();
 			_creditsButton.addEventListener(Event.TRIGGERED, _onCreditsButtonTriggered);
 			_buttonsContainer.addChild(_creditsButton);
-			_creditsButton.y = _leaderboardButton.y + _buttonsHeight - 5;
+			_creditsButton.y = _playAgainButton.y + _buttonsHeight - 5;
+
+			_soundButton = new SoundButton();
+			_soundButton.addEventListener(Event.TRIGGERED, _onSoundButtonTriggered);
+			_buttonsContainer.addChild(_soundButton);
+			_soundButton.y = _creditsButton.y + _buttonsHeight - 5;
 			
 			_getDigitizedButton = new GetDigitizedButton();
 			_getDigitizedButton.addEventListener(Event.TRIGGERED, _onGetDigitizedButtonTriggered);
 			_buttonsContainer.addChild(_getDigitizedButton);
-			_getDigitizedButton.y = _creditsButton.y + _buttonsHeight - 5;
+			_getDigitizedButton.y = _soundButton.y + _buttonsHeight - 5;
 			
 			_buttonsContainer.x = (Settings.HALF_WIDTH - (_buttonsContainer.width >> 1)) | 0;
 			_buttonsContainer.y = 160;

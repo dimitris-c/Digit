@@ -81,11 +81,11 @@ package gr.funkytaps.digitized.managers
 			Assets.manager.getTextures(ItemsType.STAR, _starsTextures);
 			
 			_starsPool = new ObjectPool(false);
-			_starsPool.allocate(80, Item);
+			_starsPool.allocate(200, Item);
 			_starsPool.initialize('initItem', [true, false, ItemsType.STAR, 1, 0.5, 10, _starsTextures, _starsJuggler]);
 			
-			_starParticlePool = new ObjectPool(true);
-			_starParticlePool.allocate(80, StarParticle);
+			_starParticlePool = new ObjectPool(false);
+			_starParticlePool.allocate(200, StarParticle);
 			
 			_heroCollisionThreshold = (_game.hero.width >> 1);
 			
@@ -172,8 +172,10 @@ package gr.funkytaps.digitized.managers
 		public function update (passedTime:Number = 0):void {
 			
 			if (_timeSinceNextInterval >= 2) {
-				var r:Number = Mathematics.getRandomInt(0, 100);
-				if (r >= 0 && r <= 40) buildStarPattern();
+				if (_starsPool.usageCount <= 55) { // limit the creation of stars to 60
+					var r:Number = Mathematics.getRandomInt(0, 100);
+					if (r >= 0 && r <= 40) buildStarPattern();
+				}
 				_timeSinceNextInterval = 0;
 			}
 			_timeSinceNextInterval += passedTime;

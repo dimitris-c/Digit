@@ -18,6 +18,7 @@ package gr.funkytaps.digitized.core
 	import flash.filesystem.File;
 	import flash.geom.Rectangle;
 	import flash.system.Capabilities;
+	import flash.system.Security;
 	import flash.system.System;
 	
 	import gr.funkytaps.digitized.game.GameWorld;
@@ -78,7 +79,6 @@ package gr.funkytaps.digitized.core
 			
 			assetsManager.enqueue( 
 				appDir.resolvePath( 'assets/stars' ),
-				appDir.resolvePath( 'assets/particles' ),
 				appDir.resolvePath( 'assets/sounds' ),
 				appDir.resolvePath( formatString('assets/fonts/{0}x', scaleFactor) ),
 				appDir.resolvePath( formatString('assets/atlases/{0}x', scaleFactor) )

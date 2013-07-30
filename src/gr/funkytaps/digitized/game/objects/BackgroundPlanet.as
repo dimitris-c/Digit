@@ -6,7 +6,6 @@ package gr.funkytaps.digitized.game.objects
 	
 	import starling.display.Image;
 	import starling.textures.TextureSmoothing;
-	import starling.utils.Color;
 
 	/**
 	 * @author — Dimitris Chatzieleftheriou
@@ -53,11 +52,15 @@ package gr.funkytaps.digitized.game.objects
 			_planetName = planetName;
 			_speedFactor = speedFactor;
 			_planet = new Image(Assets.manager.getTexture( _planetName ));
-			_planet.smoothing = TextureSmoothing.TRILINEAR;
 			addChild(_planet);
+			
+			_planet.pivotX = _planet.width >> 1;
+			_planet.pivotY = _planet.height >> 1;
 			
 			_planetWidth = this.width;
 			_planetHeight = this.height;
+			
+			flatten();
 		}
 
 		public function destroy():void {

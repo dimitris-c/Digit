@@ -1,5 +1,9 @@
 package gr.funkytaps.digitized.managers
 {
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
+	import flash.display.Shape;
+	import flash.geom.Matrix;
 	import flash.geom.Point;
 	import flash.media.SoundTransform;
 	
@@ -17,7 +21,10 @@ package gr.funkytaps.digitized.managers
 	import gr.funkytaps.digitized.views.GameView;
 	
 	import starling.animation.Juggler;
+	import starling.core.Starling;
+	import starling.display.Image;
 	import starling.display.MovieClip;
+	import starling.display.Quad;
 	import starling.textures.Texture;
 
 	/**
@@ -90,7 +97,7 @@ package gr.funkytaps.digitized.managers
 			_heroCollisionThreshold = (_game.hero.width >> 1);
 			
 			// precalculated since it's static. Each star item has a collision radius of 10.
-			_collisionDistanceThreshold = (_heroCollisionThreshold + 10) * (_heroCollisionThreshold + 10);
+			_collisionDistanceThreshold = (_heroCollisionThreshold) * (_heroCollisionThreshold);
 		
 			// Hack! It appears that if we run this directly on an enterframe (see collision detection on update method)
 			// it slows things down

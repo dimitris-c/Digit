@@ -89,8 +89,6 @@ package gr.funkytaps.digitized.game.objects
 			_heroLeftLimit = _hero.pivotX + _limitPadding;
 			_heroRightLimit = Settings.WIDTH + _hero.pivotX + _limitPadding;
 		
-			var q:Quad = new Quad(2, 2, 0xFF0000);
-			addChild(q);
 		}
 		
 		public function takeOff():void {

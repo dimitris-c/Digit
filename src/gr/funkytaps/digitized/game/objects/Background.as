@@ -13,6 +13,7 @@ package gr.funkytaps.digitized.game.objects {
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.extensions.ParallaxLayer;
+	import starling.utils.deg2rad;
 
 	/**
 	 * @author — Dimitris Chatzieleftheriou
@@ -116,19 +117,12 @@ package gr.funkytaps.digitized.game.objects {
 		
 		private function _addPlanetOnStage():void{
 			
-			//get random index but make sure than it's not the same as the last 1
-			var random:Number;
-			do{
-				random = Mathematics.getRandomInt(1, 6);
-			}
-			while(random == _lastRandomPlanetIndex);
-			_lastRandomPlanetIndex = random;
+			var random:Number = Mathematics.getRandomInt(1, 6);
 			
 			_currentPlanet = _planetsPool.object as BackgroundPlanet;
 			var speedFactor:Number = Math.random(); // get a random float number.
 			_currentPlanet.createPlanet( 'planet' + random, (speedFactor < 0.18) ? 0.18 : (speedFactor > 0.3) ? 0.3 : speedFactor );
 			
-			//random scalings
 			_currentPlanet.y = - (_currentPlanet.planetHeight + _currentPlanet.pivotY);
 			_currentPlanet.x = Mathematics.getRandomNumber(-(_currentPlanet.planetWidth >> 1), Settings.WIDTH - 30);
 			addChild(_currentPlanet);
@@ -176,7 +170,7 @@ package gr.funkytaps.digitized.game.objects {
 			if (!_currentPlanet) return; // stop here if there is no planet.
 			
 			_currentPlanet.y += _baseSpeed * _currentPlanet.speedFactor;
-//			_currentPlanet.rotation = _currentPlanet.y * _currentPlanet.speedFactor;
+//			_currentPlanet.rotation = deg2rad(_currentPlanet.y * _currentPlanet.speedFactor * _currentPlanet.speedFactor);
 			
 			if (_currentPlanet.y >= _planetButtomLimit) {
 				_nextPlanetCreation = 0;

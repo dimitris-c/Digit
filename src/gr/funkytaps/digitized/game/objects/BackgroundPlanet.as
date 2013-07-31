@@ -5,7 +5,6 @@ package gr.funkytaps.digitized.game.objects
 	import gr.funkytaps.digitized.core.Assets;
 	
 	import starling.display.Image;
-	import starling.textures.TextureSmoothing;
 
 	/**
 	 * @author — Dimitris Chatzieleftheriou
@@ -33,7 +32,7 @@ package gr.funkytaps.digitized.game.objects
 		public function get planetHeight():Number { return _planetHeight; }
 
 
-		public function get speedFactor():Number	{ return _speedFactor; }
+		public function get speedFactor():Number { return _speedFactor; }
 
 		public function set speedFactor(value:Number):void { _speedFactor = value; }
 

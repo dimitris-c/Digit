@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://texturepacker.com-->
-<!-- $TexturePacker:SmartUpdate:b64ee1a81fdf8f680e13263c7cd5957f$ -->
+<!-- $TexturePacker:SmartUpdate:67b12728932b751d929c21aa313a6a91$ -->
 <TextureAtlas imagePath="game_atlas.png">
-    <SubTexture name="alien1" x="1283" y="1" width="161" height="235"/>
     <SubTexture name="energy0000" x="688" y="1801" width="53" height="53" frameX="-2" frameY="-5" frameWidth="57" frameHeight="63"/>
     <SubTexture name="energy0001" x="688" y="1747" width="53" height="53" frameX="-3" frameY="-5" frameWidth="57" frameHeight="63"/>
     <SubTexture name="energy0002" x="688" y="1693" width="53" height="53" frameX="-4" frameY="-5" frameWidth="57" frameHeight="63"/>

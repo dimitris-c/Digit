@@ -151,7 +151,6 @@
             <filename>../../images/game/2x/planets/planet4.png</filename>
             <filename>../../images/game/2x/planets/planet5.png</filename>
             <filename>../../images/game/2x/planets/planet6.png</filename>
-            <filename>../../images/game/2x/aliens/alien1.png</filename>
             <filename>../../images/game/2x/background-elements/glow.png</filename>
             <filename>../../images/game/2x/background-elements/stardust3.png</filename>
             <filename>../../images/game/2x/land.png</filename>

@@ -149,7 +149,7 @@ package gr.funkytaps.digitized.game.items
 		
 		private function _onParticleSystemCompleted(event:Event):void
 		{
-			_destroParticleSystem()
+			_destroyParticleSystem();
 		}
 		
 		public function hit():void {
@@ -176,7 +176,7 @@ package gr.funkytaps.digitized.game.items
 		
 		public function destroy():void {
 			
-			_destroParticleSystem();
+			_destroyParticleSystem();
 			
 			if (_isAnimated) {
 				if (_itemAnimated) {
@@ -198,7 +198,7 @@ package gr.funkytaps.digitized.game.items
 		 * Checks to see what current system we have either a MovieClip or PDParticleSystem and destroys it. 
 		 */
 		[Inline]
-		private final function _destroParticleSystem():void {
+		private final function _destroyParticleSystem():void {
 			if (_itemParticleMovieclip) {
 				if (_itemParticlePool) _itemParticlePool.object = _itemParticleMovieclip;
 				_itemParticleMovieclip.stop();

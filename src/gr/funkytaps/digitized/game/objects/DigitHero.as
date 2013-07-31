@@ -14,6 +14,7 @@ package gr.funkytaps.digitized.game.objects
 	import starling.animation.Juggler;
 	import starling.display.Image;
 	import starling.display.MovieClip;
+	import starling.display.Quad;
 	import starling.utils.deg2rad;
 	
 	public class DigitHero extends AbstractObject
@@ -59,6 +60,9 @@ package gr.funkytaps.digitized.game.objects
 			
 			touchable = false; // for performance.
 				
+			_hero = new Image(Assets.manager.getTexture('hero-static'));
+			addChild(_hero);
+			
 			_leftRocketFire = new MovieClip(Assets.manager.getTextures('fire7'), 10);
 			addChild(_leftRocketFire);
 			_leftRocketFire.play();
@@ -70,24 +74,23 @@ package gr.funkytaps.digitized.game.objects
 			_gameJuggler.add(_rightRocketFire);
 			_gameJuggler.add(_leftRocketFire);
 			
-			_hero = new Image(Assets.manager.getTexture('hero-static'));
-			addChild(_hero);
-			
 			_heroWidth = width;
 			_heroHeight = height;
 			
-			_hero.pivotX = _heroWidth >> 1;
+			_hero.pivotX = (_heroWidth >> 1) - 4;
 			_hero.pivotY = _heroHeight >> 1;
 			
-			_leftRocketFire.x = -_hero.pivotX;
-			_leftRocketFire.y = _hero.pivotY - 6;
+			_leftRocketFire.x = -(_hero.pivotX-17);
+			_leftRocketFire.y = _hero.pivotY - 32;
 			
-			_rightRocketFire.x = _hero.pivotX - 10;
-			_rightRocketFire.y = _hero.pivotY - 7;
+			_rightRocketFire.x = _hero.pivotX - 17;
+			_rightRocketFire.y = _hero.pivotY - 33;
 			
 			_heroLeftLimit = _hero.pivotX + _limitPadding;
 			_heroRightLimit = Settings.WIDTH + _hero.pivotX + _limitPadding;
-			
+		
+			var q:Quad = new Quad(2, 2, 0xFF0000);
+			addChild(q);
 		}
 		
 		public function takeOff():void {

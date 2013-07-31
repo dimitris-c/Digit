@@ -82,7 +82,7 @@ package gr.funkytaps.digitized.views
 			_gameJuggler = new Juggler();
 			
 //			SoundManager.stopSound('intro');
-			SoundManager.playSound('game-theme', int.MAX_VALUE, 0);
+			SoundManager.playSound('game-theme', int.MAX_VALUE, 0.2);
 			
 			_gameSpeed = 3;
 			

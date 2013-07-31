@@ -81,11 +81,11 @@ package gr.funkytaps.digitized.managers
 			Assets.manager.getTextures(ItemsType.STAR, _starsTextures);
 			
 			_starsPool = new ObjectPool(false);
-			_starsPool.allocate(200, Item);
+			_starsPool.allocate(100, Item);
 			_starsPool.initialize('initItem', [true, false, ItemsType.STAR, 1, 0.5, 10, _starsTextures, _starsJuggler]);
 			
 			_starParticlePool = new ObjectPool(false);
-			_starParticlePool.allocate(200, StarParticle);
+			_starParticlePool.allocate(100, StarParticle);
 			
 			_heroCollisionThreshold = (_game.hero.width >> 1);
 			

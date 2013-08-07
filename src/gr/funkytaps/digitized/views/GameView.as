@@ -1,14 +1,19 @@
 package gr.funkytaps.digitized.views
 {
+	
 	import flash.events.AccelerometerEvent;
+	import flash.net.URLVariables;
 	import flash.sensors.Accelerometer;
 	
 	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
+	import gr.funkytaps.digitized.events.LeaderBoardEvent;
 	import gr.funkytaps.digitized.game.GameWorld;
 	import gr.funkytaps.digitized.game.objects.Background;
 	import gr.funkytaps.digitized.game.objects.Dashboard;
 	import gr.funkytaps.digitized.game.objects.DigitHero;
+	import gr.funkytaps.digitized.helpers.GameDataHelper;
+	import gr.funkytaps.digitized.helpers.POSTRequestHelper;
 	import gr.funkytaps.digitized.managers.CollisionManager;
 	import gr.funkytaps.digitized.managers.SoundManager;
 	import gr.funkytaps.digitized.managers.StarsManager;
@@ -19,6 +24,7 @@ package gr.funkytaps.digitized.views
 	import starling.display.Image;
 	import starling.display.Quad;
 	import starling.display.Sprite;
+	import starling.events.Event;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	
@@ -66,6 +72,10 @@ package gr.funkytaps.digitized.views
 		private var _touch:Touch;
 		private var _touchX:Number;
 		private var _touchY:Number;
+		
+		//POST
+		private var _score:String;
+		private var postHelper:POSTRequestHelper;
 		
 		public function GameView(gameWorld:GameWorld)
 		{
@@ -135,6 +145,11 @@ package gr.funkytaps.digitized.views
 			
 			// Take off the Hero
 			_takeOff();
+			
+			//TODO REMOVE THIS
+			//DEBUGGING END OF GAME
+			_score = "8001";
+			_onGameOver();
 		}
 		
 		private function _onTouch(event:TouchEvent):void
@@ -211,6 +226,88 @@ package gr.funkytaps.digitized.views
 			_gameJuggler.remove(tween);
 			
 			_hero.takeOff();
+		}
+		
+		/**
+		 * On Game over 
+		 */		
+		private function _onGameOver():void{
+			trace("onGameOver::::::::");
+			
+			//TODO save score if 
+			var user:Object = GameDataHelper.getUser();
+			trace("-----------------------");
+			trace("user is type: ", user);
+			trace("user_uid:", user["user_uid"]);
+			trace("name:", user["name"]);
+			trace("email:", user["email"]);
+			trace("high score:", user["highScore"]);
+			trace("-----------------------");
+			
+			if(user && user["user_uid"]){
+				var savedScore:int = int(user["highScore"]);
+				if(savedScore <= int(_score)){
+					//HIGH SCORE - save score	
+					_initPOST();
+				}
+				else{
+					//NOT A HIGH SCORE - do nothing 
+					_notifyParent();
+				}
+			}
+			else{
+				//do nothing - will save the score if the user registers in leaderboard
+				_notifyParent(_score);
+			}
+		}
+		
+		private function _initPOST():void{
+			postHelper = new POSTRequestHelper();
+			postHelper.addEventListener(POSTRequestHelper.POST_INITIALIZED, _onInit);
+			
+			postHelper.init(POSTRequestHelper.ACTION_SAVE_HIGH_SCORE);
+		}
+		
+		private function _onInit(e:Event):void {
+			postHelper.removeEventListener(POSTRequestHelper.POST_INITIALIZED, _onInit);
+			_saveHighScore();
+		}
+		
+		private function _saveHighScore():void{
+			trace("Saving high score:", _score);
+			//TODO
+			//The user has already registered and the high score is sent OLNy if it's greater than the one in db
+			var user:Object = GameDataHelper.getUser();
+			var uid:String = user["user_uid"];
+			var params:URLVariables = new URLVariables();
+			params.user_uid = uid;
+			params.high_score = _score;
+			
+			postHelper.saveHighScore(_saveHighScoreResponseHandler, params);
+		}
+		
+		private function _saveHighScoreResponseHandler(data:Object):void{
+			if(data && data["success"]){
+				if(data["success"] == "1"){
+					//ok high score saved in db now save it locally
+					var user:Object = data["user"];
+					GameDataHelper.saveHighScore(user["high_score"]);
+				}
+				else{
+					//error
+				}
+			}
+			else{
+				//error
+			}
+		}
+		
+		private function _notifyParent(highScore:String = null):void{
+			var ev:LeaderBoardEvent = new LeaderBoardEvent(LeaderBoardEvent.OPEN_LEADERBOARD, true);
+			ev.displayOnUserDemand = false;
+			ev.highScore = highScore;
+			this.dispatchEvent(ev);
+			
 		}
 		
 	}

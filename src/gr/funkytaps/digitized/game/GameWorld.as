@@ -12,12 +12,14 @@ package gr.funkytaps.digitized.game
 	
 	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
+	import gr.funkytaps.digitized.events.LeaderBoardEvent;
 	import gr.funkytaps.digitized.interfaces.IView;
 	import gr.funkytaps.digitized.managers.SystemIdleMonitor;
 	import gr.funkytaps.digitized.ui.GamePreloader;
 	import gr.funkytaps.digitized.ui.buttons.MenuButton;
 	import gr.funkytaps.digitized.views.GameView;
 	import gr.funkytaps.digitized.views.IntroView;
+	import gr.funkytaps.digitized.views.LeaderboardView;
 	import gr.funkytaps.digitized.views.MenuView;
 	
 	import starling.core.Starling;
@@ -30,7 +32,6 @@ package gr.funkytaps.digitized.game
 	
 	public class GameWorld extends Sprite
 	{
-		
 		public static const INTRO_STATE:int = 0;
 		public static const PLAY_STATE:int = 2;
 		public static const GAME_END_STATE:int = 3;
@@ -49,6 +50,8 @@ package gr.funkytaps.digitized.game
 		 */		
 		private var _menuView:MenuView;
 		private var _menuButton:MenuButton;
+		
+		private var _leaderBoardView:LeaderboardView;
 		
 		private var _assets:AssetManager;
 		private var _loadProgress:GamePreloader;
@@ -94,10 +97,11 @@ package gr.funkytaps.digitized.game
 				// and then we init the freaking world
 				Starling.juggler.delayCall(_startupWorld, 0.15);
 			}
-
 		}
 		
 		private function _startupWorld():void {
+			
+			this.addEventListener(LeaderBoardEvent.OPEN_LEADERBOARD, _onShowLeaderBoard);
 			
 			_loadingBackground.removeFromParent(true);
 			_loadingBackground = null;
@@ -158,6 +162,7 @@ package gr.funkytaps.digitized.game
 			_gamePaused = true;
 			
 			_menuView = new MenuView(this);
+			_menuView
 			_menuView.alpha = 1;
 			addChild(_menuView);
 			
@@ -176,6 +181,33 @@ package gr.funkytaps.digitized.game
 			_menuButton.isEnabled = true;
 			_menuView.removeFromParent(true);
 			_menuView = null;
+		}
+		
+		//Leader Board
+		private function _onShowLeaderBoard(e:LeaderBoardEvent):void{
+			e.stopPropagation();
+			//add a custom event so we can know whether we are coming from an ended game or from menu 
+			_createLeaderBoardView(e.displayOnUserDemand, e.highScore);
+		}
+		
+		private function _createLeaderBoardView(displayedOnUserDemand:Boolean, highScore:String):void{
+			if(!_leaderBoardView){
+				trace("Creating Leaderboard");
+				_leaderBoardView = new LeaderboardView(displayedOnUserDemand, highScore);
+				_leaderBoardView.addEventListener(Event.REMOVED, _onRemoved);
+				addChild(_leaderBoardView);
+			}
+		}
+		
+		private function _onRemoved(e:Event):void{
+			_destroyLeaderBoardView();
+		}
+		
+		private function _destroyLeaderBoardView():void{
+			if(_leaderBoardView){
+				_leaderBoardView.removeEventListener(Event.REMOVED, _onRemoved);
+				_leaderBoardView = null;
+			}
 		}
 		
 		public function changeState(state:int):void {

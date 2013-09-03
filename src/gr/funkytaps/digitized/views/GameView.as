@@ -119,7 +119,7 @@ package gr.funkytaps.digitized.views
 			_gameContainer.addChild(_hero);
 			
 			_hero.x = Settings.HALF_WIDTH;
-			_hero.y = Settings.HEIGHT - _takeOffLand.height - (_hero.heroHeight >> 1);
+			_hero.y = Settings.HEIGHT - _takeOffLand.height - 20;
 			
 			_starsManager = new StarsManager(this);
 			
@@ -202,6 +202,7 @@ package gr.funkytaps.digitized.views
 			if (_background) if (_background.isScrolling) _background.update( passedTime );
 			
 			if (_starsManager) _starsManager.update( passedTime );
+			
 			
 		}
 		

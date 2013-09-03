@@ -34,6 +34,7 @@ package gr.funkytaps.digitized.game
 		public static const INTRO_STATE:int = 0;
 		public static const PLAY_STATE:int = 2;
 		public static const GAME_END_STATE:int = 3;
+		public static const PAUSE_STATE:int = 4;
 		
 		private var _currentState:int = INTRO_STATE;
 		
@@ -57,6 +58,7 @@ package gr.funkytaps.digitized.game
 		private var _gamePaused:Boolean;
 		
 		private var _gradient:Image;
+		private var _isPlaying:Boolean;
 		
 		public function GameWorld()
 		{
@@ -176,6 +178,8 @@ package gr.funkytaps.digitized.game
 			_menuButton.isEnabled = true;
 			_menuView.removeFromParent(true);
 			_menuView = null;
+			
+			if (_isPlaying) SystemIdleMonitor.keepAwakeMode();
 		}
 		
 		public function changeState(state:int):void {
@@ -204,9 +208,14 @@ package gr.funkytaps.digitized.game
 				case PLAY_STATE:
 				{
 					_currentView = new GameView(this);
+					_isPlaying = true;
 					SystemIdleMonitor.keepAwakeMode();
 					break;
 				}
+					
+				case PAUSE_STATE:
+					_isPlaying = false;
+					break;
 					
 				case GAME_END_STATE:
 				{

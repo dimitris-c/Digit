@@ -17,6 +17,7 @@ package gr.funkytaps.digitized.core
 	import flash.events.MouseEvent;
 	import flash.filesystem.File;
 	import flash.geom.Rectangle;
+	import flash.media.SoundMixer;
 	import flash.system.Capabilities;
 	import flash.system.Security;
 	import flash.system.System;
@@ -141,6 +142,8 @@ package gr.funkytaps.digitized.core
 		
 		public function destroy():void
 		{
+			SoundMixer.stopAll();
+			
 			_mStarling.stop();
 			_mStarling.dispose();
 			_mStarling = null;

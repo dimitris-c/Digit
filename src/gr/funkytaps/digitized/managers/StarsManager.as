@@ -1,11 +1,6 @@
 package gr.funkytaps.digitized.managers
 {
-	import flash.display.Bitmap;
-	import flash.display.BitmapData;
-	import flash.display.Shape;
-	import flash.geom.Matrix;
 	import flash.geom.Point;
-	import flash.media.SoundTransform;
 	
 	import de.polygonal.core.ObjectPool;
 	
@@ -21,10 +16,7 @@ package gr.funkytaps.digitized.managers
 	import gr.funkytaps.digitized.views.GameView;
 	
 	import starling.animation.Juggler;
-	import starling.core.Starling;
-	import starling.display.Image;
 	import starling.display.MovieClip;
-	import starling.display.Quad;
 	import starling.textures.Texture;
 
 	/**
@@ -97,7 +89,7 @@ package gr.funkytaps.digitized.managers
 			_heroCollisionThreshold = (_game.hero.width >> 1);
 			
 			// precalculated since it's static. Each star item has a collision radius of 10.
-			_collisionDistanceThreshold = (_heroCollisionThreshold) * (_heroCollisionThreshold);
+			_collisionDistanceThreshold = (_heroCollisionThreshold - 10) * (_heroCollisionThreshold - 10);
 		
 			// Hack! It appears that if we run this directly on an enterframe (see collision detection on update method)
 			// it slows things down
@@ -175,14 +167,12 @@ package gr.funkytaps.digitized.managers
 			_starsPool.object = item as IItem;
 		}
 		
-		private var prevTime:Number;
 		public function update (passedTime:Number = 0):void {
 			
 			if (_timeSinceNextInterval >= 2) {
-				if (_starsPool.usageCount <= 55) { // limit the creation of stars to 60
-					var r:Number = Mathematics.getRandomInt(0, 100);
-					if (r >= 0 && r <= 40) buildStarPattern();
-				}
+				var r:Number = Mathematics.getRandomInt(0, 100);
+				if (r >= 0 && r <= 50) buildStarPattern();
+				
 				_timeSinceNextInterval = 0;
 			}
 			_timeSinceNextInterval += passedTime;
@@ -195,7 +185,7 @@ package gr.funkytaps.digitized.managers
 			_heroPoint.y = _game.hero.y;
 			var i:int;
 			
-			for (i = _activeStarsLength-1; i >= 0; --i) 
+			for (i = _activeStarsLength-1; i >= 0; --i)
 			{
 				_activeStars[i].y += _game.gameSpeed + _activeStars[i].speed;
 				

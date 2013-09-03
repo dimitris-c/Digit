@@ -195,6 +195,15 @@
             <filename>../../images/buttons/2x/titles/play-normal.png</filename>
             <filename>../../images/buttons/2x/titles/resume-hover.png</filename>
             <filename>../../images/buttons/2x/titles/resume-normal.png</filename>
+            <filename>../../images/leaderboard/2x/form-background.png</filename>
+            <filename>../../images/leaderboard/2x/leadboard-title.png</filename>
+            <filename>../../images/leaderboard/2x/submit-high-score-title.png</filename>
+            <filename>../../images/buttons/2x/orange-button-normal.png</filename>
+            <filename>../../images/buttons/2x/titles/submit-now-button-hover.png</filename>
+            <filename>../../images/buttons/2x/titles/submit-now-button-normal.png</filename>
+            <filename>../../images/buttons/2x/titles/submit-score-hover.png</filename>
+            <filename>../../images/buttons/2x/titles/submit-score-normal.png</filename>
+            <filename>../../images/buttons/2x/titles/sending-title-normal.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

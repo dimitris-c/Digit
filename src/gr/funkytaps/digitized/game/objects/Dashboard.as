@@ -32,7 +32,8 @@ package gr.funkytaps.digitized.game.objects
 		private var _energyBarBackground:Image;
 		private var _energyBar:Gauge;
 		
-		private var _currentStarCount:int;
+		private var _currentStarCount:Number = 0;
+		private var _currentScore:Number = 0;
 		
 		public function Dashboard()
 		{
@@ -43,6 +44,10 @@ package gr.funkytaps.digitized.game.objects
 			addEventListener(Event.ADDED_TO_STAGE, _onAddedToStage);
 		}
 		
+		public function get currentScore():int { return _currentScore; }
+
+		public function get currentStarCount():int { return _currentStarCount; }
+
 		private function _onAddedToStage(event:Event):void
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, _onAddedToStage);
@@ -124,13 +129,15 @@ package gr.funkytaps.digitized.game.objects
 		public function updateStars(count:Number):void {
 			_currentStarCount += count;
 			if (_starTextfield) _starTextfield.text = _currentStarCount.toString();
+			
 		}
 		
 		/**
 		 * Updates the current score's textfield value 
 		 */		
 		public function updateScore(score:Number):void {
-			if (_scoreTextfield) _scoreTextfield.text = score.toString();
+			_currentScore += score;
+			if (_scoreTextfield) _scoreTextfield.text = _currentScore.toString();
 		}
 	}
 }

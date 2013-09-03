@@ -193,6 +193,12 @@
             <filename>../../images/buttons/1x/titles/play-normal.png</filename>
             <filename>../../images/buttons/1x/titles/resume-hover.png</filename>
             <filename>../../images/buttons/1x/titles/resume-normal.png</filename>
+            <filename>../../images/buttons/1x/orange-button-normal.png</filename>
+            <filename>../../images/buttons/1x/titles/submit-now-button-hover.png</filename>
+            <filename>../../images/buttons/1x/titles/submit-now-button-normal.png</filename>
+            <filename>../../images/buttons/1x/titles/submit-score-hover.png</filename>
+            <filename>../../images/buttons/1x/titles/submit-score-normal.png</filename>
+            <filename>../../images/buttons/1x/titles/sending-title-normal.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -124,7 +124,7 @@ package gr.funkytaps.digitized.game.objects {
 			_currentPlanet.createPlanet( 'planet' + random, (speedFactor < 0.18) ? 0.18 : (speedFactor > 0.3) ? 0.3 : speedFactor );
 			
 			_currentPlanet.y = - (_currentPlanet.planetHeight + _currentPlanet.pivotY);
-			_currentPlanet.x = Mathematics.getRandomNumber(-(_currentPlanet.planetWidth >> 1), Settings.WIDTH - 30);
+			_currentPlanet.x = Mathematics.getRandomNumber(-(_currentPlanet.pivotX >> 1), Settings.WIDTH - 30);
 			addChild(_currentPlanet);
 			
 			_planetButtomLimit = Settings.HEIGHT + (_currentPlanet.planetHeight >> 1);

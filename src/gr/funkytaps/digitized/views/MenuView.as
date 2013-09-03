@@ -14,6 +14,7 @@ package gr.funkytaps.digitized.views
 	
 	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
+	import gr.funkytaps.digitized.events.LeaderBoardEvent;
 	import gr.funkytaps.digitized.game.GameWorld;
 	import gr.funkytaps.digitized.ui.buttons.CreditsButton;
 	import gr.funkytaps.digitized.ui.buttons.GetDigitizedButton;
@@ -217,7 +218,10 @@ package gr.funkytaps.digitized.views
 		
 		private function _onLeaderboardButtonTriggered(event:Event):void
 		{
-			
+			trace("onMenu Button Clicked::::::::");
+			var ev:LeaderBoardEvent = new LeaderBoardEvent(LeaderBoardEvent.OPEN_LEADERBOARD, true);
+			ev.displayOnUserDemand = true;
+			this.dispatchEvent(ev);
 		}
 		
 		private function _onSoundButtonTriggered(event:Event):void

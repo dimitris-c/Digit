@@ -12,6 +12,7 @@ package gr.funkytaps.digitized.views
 	
 	import flash.net.URLVariables;
 	
+	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
 	import gr.funkytaps.digitized.helpers.GameDataHelper;
 	import gr.funkytaps.digitized.helpers.POSTRequestHelper;
@@ -19,8 +20,14 @@ package gr.funkytaps.digitized.views
 	import gr.funkytaps.digitized.ui.buttons.MenuButton;
 	import gr.funkytaps.digitized.ui.buttons.RegisterButton;
 	
+	import starling.display.Image;
+	import starling.display.MovieClip;
 	import starling.display.Quad;
+	import starling.display.Sprite;
 	import starling.events.Event;
+	import starling.text.TextField;
+	import starling.utils.HAlign;
+	import starling.utils.VAlign;
 	
 	public class LeaderboardView extends AbstractView
 	{
@@ -28,8 +35,9 @@ package gr.funkytaps.digitized.views
 		//TODO repalce this with a close button
 		private var _closeButton:MenuButton;
 		
-		private var _background:Quad;
+		private var _background:Image;
 		private var _gradient:Quad;
+		private var _title:Image;
 		
 		private var postHelper:POSTRequestHelper;
 		
@@ -66,9 +74,11 @@ package gr.funkytaps.digitized.views
 		*/
 		
 		override protected function _init():void {
-			_background = new Quad(Settings.WIDTH, Settings.HEIGHT, 0x0000ff);
-			_background.alpha = 1.0;
+			_background = new Image( Assets.manager.getTexture('generic-background') );
 			addChild(_background);
+			//_background = new Quad(Settings.WIDTH, Settings.HEIGHT, 0x0000ff);
+			//_background.alpha = 1.0;
+			//addChild(_background);
 			
 			_gradient = new Quad(Settings.WIDTH, 260);
 			_gradient.setVertexColor(0, 0x000000);
@@ -84,6 +94,10 @@ package gr.funkytaps.digitized.views
 			_closeButton = new MenuButton();
 			_closeButton.addEventListener(Event.TRIGGERED, _onCloseButtonTriggered);
 			addChild(_closeButton);
+			
+			_title = new Image(Assets.manager.getTexture('leadboard-title'));
+			_title.x = (Settings.HALF_WIDTH - (_title.width >> 1)) | 0;
+			addChild(_title);
 			
 			_initPOST();
 		}
@@ -158,6 +172,9 @@ package gr.funkytaps.digitized.views
 		}
 		
 		private function _displayList(topTen:Array, user:Object):void{
+			//TODO remove
+			_createRegisterButton();
+			
 			if(user){
 				//we check to see if it exists inside the top 10
 				var userInTop10:Boolean = false;
@@ -170,6 +187,7 @@ package gr.funkytaps.digitized.views
 				if(userInTop10){
 					//if YES
 					//display the top 10 normallly - the user's score will be in top 10
+					_createTop10(topTen);
 				}
 				else{
 					//if NO
@@ -179,8 +197,10 @@ package gr.funkytaps.digitized.views
 			else{
 				//display the top 10 normallly
 				//display register button
-				if(!_displayedOnUserDemand){				
-					_createRegisterButton();
+				if(!_displayedOnUserDemand){	
+					//show register button
+					addChild(_registerButton);
+					//_createRegisterButton();
 				}
 					//onClick REGISTER button: show panel with email, name fields and a submit button
 					//onClick SUBMIT button: send to server name, email and score
@@ -189,12 +209,59 @@ package gr.funkytaps.digitized.views
 			
 		}
 		
+		//Scores  list
+		private function _createTop10(entries:Array):void{
+			var entry:Sprite;
+			var data:Object;
+			var yPos:int = 0;
+			var padding:int = 0;
+			for(var i:int = 0; i<entries.length; i++){
+				data = entries[i];
+				entry = _createEntry(data);
+				
+				if(_registerButton){
+					entry.x = _registerButton.x;
+				}
+				
+				entry.y = yPos;
+				yPos += entry.height + padding;
+				
+				addChild(entry);
+			}
+		}
+		
+		private function _createEntry(data:Object):Sprite{
+			//var entry:TextField = new TextField(110, 36, data["name"], Settings.AGORA_FONT_88, -1, 0xffffff);
+			var entry:Sprite = new Sprite();
+			
+			var name:TextField = new TextField(110, 36, data["name"], "Verdana", 24, 0xffffff, true);
+			name.autoScale = true;
+			name.batchable = true;
+			name.vAlign = VAlign.TOP;
+			name.hAlign = HAlign.LEFT;
+			
+			var score:TextField = new TextField(110, 36, data["high_score"], Settings.AGORA_FONT_60, -1, 0xffffff);
+			score.autoScale = true;
+			score.batchable = true;
+			score.vAlign = VAlign.TOP;
+			score.hAlign = HAlign.LEFT;
+			
+			score.y = name.height;
+			
+			entry.addChild(name);
+			entry.addChild(score);
+			
+			
+			return entry;
+		}
+		
 		//Register button
 		private function _createRegisterButton():void{
 			_registerButton = new RegisterButton();
 			_registerButton.addEventListener(Event.TRIGGERED, _onRegisterButtonTriggered);
 			addChild(_registerButton);
-			_registerButton.y = 200;
+			_registerButton.x = (Settings.HALF_WIDTH - (_registerButton.width >> 1)) | 0;
+			_registerButton.y = Settings.HEIGHT - _registerButton.height - _registerButton.x;
 		}
 		
 		private function _onRegisterButtonTriggered(event:Event):void{

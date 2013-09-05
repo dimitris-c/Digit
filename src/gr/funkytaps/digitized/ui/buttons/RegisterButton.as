@@ -17,12 +17,11 @@ package gr.funkytaps.digitized.ui.buttons
 			//TODO replace this with textures for regisater button
 			super(
 				Assets.manager.getTexture('green-button-normal'),
-				Assets.manager.getTexture('leaderboard-normal'), 
+				Assets.manager.getTexture('submit-score-normal'), 
 				Assets.manager.getTexture('green-button-hover'),
-				Assets.manager.getTexture('leaderboard-hover')
+				Assets.manager.getTexture('submit-score-hover')
 			);
 		}
 	}
 }
-import gr.funkytaps.digitized.ui.buttons;
 

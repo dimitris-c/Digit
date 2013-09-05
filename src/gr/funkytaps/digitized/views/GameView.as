@@ -149,7 +149,7 @@ package gr.funkytaps.digitized.views
 			//TODO REMOVE THIS
 			//DEBUGGING END OF GAME
 			_score = "8001";
-			_onGameOver();
+//			_onGameOver();
 		}
 		
 		private function _onTouch(event:TouchEvent):void

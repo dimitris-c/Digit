@@ -159,13 +159,7 @@
             <filename>../../images/buttons/1x/titles/share-score-normal.png</filename>
             <filename>../../images/buttons/1x/titles/leaderboard-normal.png</filename>
             <filename>../../images/game/1x/energy.png</filename>
-            <filename>../../images/instructions/1x/collect-energy-icon.png</filename>
-            <filename>../../images/instructions/1x/collect-energy-title.png</filename>
-            <filename>../../images/instructions/1x/collect-star-icon.png</filename>
-            <filename>../../images/instructions/1x/collect-star-title.png</filename>
             <filename>../../images/instructions/1x/howtoplay-title.png</filename>
-            <filename>../../images/instructions/1x/tilt-phone-icon.png</filename>
-            <filename>../../images/instructions/1x/tilt-phone-title.png</filename>
             <filename>../../images/game/1x/energy-background.png</filename>
             <filename>../../images/game/1x/energy-progress.png</filename>
             <filename>../../images/buttons/1x/titles/start-title-hover.png</filename>
@@ -199,6 +193,8 @@
             <filename>../../images/buttons/1x/titles/submit-score-hover.png</filename>
             <filename>../../images/buttons/1x/titles/submit-score-normal.png</filename>
             <filename>../../images/buttons/1x/titles/sending-title-normal.png</filename>
+            <filename>../../fonts/1x/AgoraName30.png</filename>
+            <filename>../../fonts/1x/AgoraPoints50.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

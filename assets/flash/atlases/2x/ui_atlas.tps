@@ -169,8 +169,6 @@
             <filename>../../images/menu/2x/score-title.png</filename>
             <filename>../../images/menu/2x/total-score-title.png</filename>
             <filename>../../images/game/2x/star-static-icon.png</filename>
-            <filename>../../images/buttons/2x/go-button-hover.png</filename>
-            <filename>../../images/buttons/2x/go-button-normal.png</filename>
             <filename>../../images/credits/2x/credits-alien.png</filename>
             <filename>../../images/credits/2x/credits-designcode-title.png</filename>
             <filename>../../images/credits/2x/credits-ditigized-title.png</filename>
@@ -179,12 +177,6 @@
             <filename>../../images/buttons/2x/titles/getdigitized-hover.png</filename>
             <filename>../../images/buttons/2x/titles/getdigitized-normal.png</filename>
             <filename>../../images/game/2x/energy-title.png</filename>
-            <filename>../../images/instructions/2x/collect-energy-icon.png</filename>
-            <filename>../../images/instructions/2x/collect-energy-title.png</filename>
-            <filename>../../images/instructions/2x/collect-star-icon.png</filename>
-            <filename>../../images/instructions/2x/collect-star-title.png</filename>
-            <filename>../../images/instructions/2x/tilt-phone-icon.png</filename>
-            <filename>../../images/instructions/2x/tilt-phone-title.png</filename>
             <filename>../../images/game/2x/energy-icon.png</filename>
             <filename>../../fonts/2x/Agora38.png</filename>
             <filename>../../fonts/2x/Agora60.png</filename>
@@ -204,6 +196,8 @@
             <filename>../../images/buttons/2x/titles/submit-score-hover.png</filename>
             <filename>../../images/buttons/2x/titles/submit-score-normal.png</filename>
             <filename>../../images/buttons/2x/titles/sending-title-normal.png</filename>
+            <filename>../../fonts/2x/AgoraName30.png</filename>
+            <filename>../../fonts/2x/AgoraPoints50.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

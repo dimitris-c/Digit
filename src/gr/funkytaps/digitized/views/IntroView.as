@@ -14,6 +14,10 @@ package gr.funkytaps.digitized.views
 	import starling.display.Image;
 	import starling.display.Quad;
 	import starling.events.Event;
+	import starling.text.TextField;
+	import starling.text.TextFieldAutoSize;
+	import starling.utils.HAlign;
+	import starling.utils.VAlign;
 
 	/**
 	 * @author — Dimitris Chatzieleftheriou
@@ -99,7 +103,6 @@ package gr.funkytaps.digitized.views
 			_startButton.y = _title.y + _title.height + 10;
 			
 			tweenIn();
-			
 			
 		}
 		

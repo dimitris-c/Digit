@@ -14,20 +14,24 @@ package gr.funkytaps.digitized.views
 	
 	import mx.utils.StringUtil;
 	
+	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
 	import gr.funkytaps.digitized.helpers.GameDataHelper;
 	import gr.funkytaps.digitized.helpers.POSTRequestHelper;
+	import gr.funkytaps.digitized.ui.buttons.CloseLeaderBoardViewButton;
 	import gr.funkytaps.digitized.ui.buttons.MenuButton;
 	import gr.funkytaps.digitized.ui.buttons.PlayAgainButton;
+	import gr.funkytaps.digitized.ui.buttons.SubmitNowButton;
 	
 	import starling.core.Starling;
+	import starling.display.Image;
 	import starling.display.Quad;
 	import starling.events.Event;
 
 	public class RegisterPanel extends AbstractView
 	{
-		private var _background:Quad;
-		private var _gradient:Quad;
+		private var _background:Image;
+		//private var _gradient:Quad;
 		
 		private var postHelper:POSTRequestHelper;
 		
@@ -35,11 +39,13 @@ package gr.funkytaps.digitized.views
 		private var _txtEmail:TextField;
 		private var _score:String;
 		
+		private var form_back:Image;
+		
 		//TODO repalce this with a close button
-		private var _closeButton:MenuButton;
+		private var _closeButton:CloseLeaderBoardViewButton;
 		
 		//TODO add a SubmitButton here
-		private var _submitButton:PlayAgainButton;
+		private var _submitButton:SubmitNowButton;
 		
 		public function RegisterPanel(score:String)
 		{
@@ -48,60 +54,68 @@ package gr.funkytaps.digitized.views
 		}
 		
 		override protected function _init():void {
-			_background = new Quad(300, 400, 0xff0000);
-			_background.alpha = 1.0;
+			_background = new Image( Assets.manager.getTexture('generic-background') );
 			addChild(_background);
 			
-			_gradient = new Quad(Settings.WIDTH, 260);
-			_gradient.setVertexColor(0, 0x000000);
-			_gradient.setVertexAlpha(1, 0.6);
-			_gradient.setVertexColor(1, 0x000000);
-			_gradient.setVertexAlpha(1, 0.4);
-			_gradient.setVertexColor(2, 0x000000);
-			_gradient.setVertexAlpha(2, 0);
-			_gradient.setVertexColor(3, 0x000000);
-			_gradient.setVertexAlpha(3, 0);
-			addChild(_gradient);
+//			_gradient = new Quad(Settings.WIDTH, 260);
+//			_gradient.setVertexColor(0, 0x000000);
+//			_gradient.setVertexAlpha(1, 0.6);
+//			_gradient.setVertexColor(1, 0x000000);
+//			_gradient.setVertexAlpha(1, 0.4);
+//			_gradient.setVertexColor(2, 0x000000);
+//			_gradient.setVertexAlpha(2, 0);
+//			_gradient.setVertexColor(3, 0x000000);
+//			_gradient.setVertexAlpha(3, 0);
+			//addChild(_gradient);
 			
-			_closeButton = new MenuButton();
+			form_back = new Image(Assets.manager.getTexture('form-background'));
+			form_back.x = (Settings.HALF_WIDTH - (form_back.width >> 1)) | 0;
+			form_back.y = (Settings.HALF_HEIGHT - (form_back.height >> 1)) | 0;
+			addChild(form_back);
+			
+			_closeButton = new CloseLeaderBoardViewButton();
+			_closeButton.x = 10;
+			_closeButton.y = 10;
 			_closeButton.addEventListener(Event.TRIGGERED, _onCloseButtonTriggered);
 			addChild(_closeButton);
 			
-
 			var textFormat:TextFormat = new TextFormat("Arial", 24, 0x000000);
 			textFormat.align = TextFormatAlign.LEFT;
 			
 			_txtName = new TextField();
-			_txtName.width = 200;
+			_txtName.width = 240;
 			_txtName.height = 40;
 			_txtName.defaultTextFormat = textFormat;
 			_txtName.type = TextFieldType.INPUT;
 			//_txtName.autoSize = TextFieldAutoSize.LEFT;
 			_txtName.background = true;
-			_txtName.backgroundColor = 0xffffff;
-			_txtName.x = 0;
-			_txtName.y = _closeButton.y + _closeButton.height + 5;
+			_txtName.backgroundColor = 0xff0000;
 			Starling.current.nativeOverlay.addChild(_txtName);
+			_txtName.x = 40;
+			_txtName.y = 181;
 			
 			_txtEmail = new TextField();
-			_txtEmail.width = 200;
+			_txtEmail.width = 240;
 			_txtEmail.height = 40;
 			_txtEmail.defaultTextFormat = textFormat;
 			_txtEmail.type = TextFieldType.INPUT;
 			//_txtEmail.autoSize = TextFieldAutoSize.LEFT;
 			_txtEmail.background = true;
-			_txtEmail.backgroundColor = 0xffffff;
-			_txtEmail.x = 0;
-			_txtEmail.y = _txtName.y + _txtName.height + 5;
+			_txtEmail.backgroundColor = 0x0000ff;
 			Starling.current.nativeOverlay.addChild(_txtEmail);
+			_txtEmail.x = 40;
+			_txtEmail.y = 281;
 
-			_submitButton = new PlayAgainButton();
+			_submitButton = new SubmitNowButton();
 			_submitButton.addEventListener(Event.TRIGGERED, _onSubmitButtonTriggered);
 			addChild(_submitButton);
-			_submitButton.y = _txtEmail.y + _txtEmail.height + 5;;
+			_submitButton.x = (Settings.HALF_WIDTH - (_submitButton.width >> 1)) | 0;
+			_submitButton.y = Settings.HEIGHT - _submitButton.height - _submitButton.x;
 		}
 		
 		private function _onCloseButtonTriggered(event:Event ):void{
+			Starling.current.nativeOverlay.removeChild(_txtName);
+			Starling.current.nativeOverlay.removeChild(_txtEmail);
 			this.removeFromParent(true);
 		}
 		
@@ -159,7 +173,6 @@ package gr.funkytaps.digitized.views
 				postHelper.removeEventListener(POSTRequestHelper.POST_INITIALIZED, _onInit);
 				postHelper = null;
 			}
-			
 		}
 		
 		//Tween view methods

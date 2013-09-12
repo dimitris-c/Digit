@@ -155,7 +155,7 @@ package gr.funkytaps.digitized.views
 			
 			//TODO REMOVE THIS
 			//DEBUGGING END OF GAME
-			_score = "8001";
+			//_score = "8001";
 //			_onGameOver();
 		}
 		
@@ -219,6 +219,7 @@ package gr.funkytaps.digitized.views
 		{
 			_gameEnded = true;
 			SoundManager.tweenSound('game-theme', 1, 0);
+			
 		}
 		
 		override public function update(passedTime:Number = 0):void {
@@ -231,7 +232,8 @@ package gr.funkytaps.digitized.views
 				if (_gameSpeed == 0) {
 					_gameWorld.gamePaused = true;
 					_gameWorld.gameEnded = true;
-					_gameWorld.showMenuOnGameEnd();
+					//_gameWorld.showMenuOnGameEnd();
+					_onGameOver();
 				}
 				
 			}
@@ -332,6 +334,7 @@ package gr.funkytaps.digitized.views
 					//ok high score saved in db now save it locally
 					var user:Object = data["user"];
 					GameDataHelper.saveHighScore(user["high_score"]);
+					_notifyParent();
 				}
 				else{
 					//error

@@ -16,6 +16,7 @@ package gr.funkytaps.digitized.views
 	import gr.funkytaps.digitized.core.Settings;
 	import gr.funkytaps.digitized.helpers.GameDataHelper;
 	import gr.funkytaps.digitized.helpers.POSTRequestHelper;
+	import gr.funkytaps.digitized.ui.buttons.CloseLeaderBoardViewButton;
 	import gr.funkytaps.digitized.ui.buttons.LeaderboardButton;
 	import gr.funkytaps.digitized.ui.buttons.MenuButton;
 	import gr.funkytaps.digitized.ui.buttons.RegisterButton;
@@ -26,6 +27,7 @@ package gr.funkytaps.digitized.views
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.text.TextField;
+	import starling.text.TextFieldAutoSize;
 	import starling.utils.HAlign;
 	import starling.utils.VAlign;
 	
@@ -33,7 +35,7 @@ package gr.funkytaps.digitized.views
 	{
 	
 		//TODO repalce this with a close button
-		private var _closeButton:MenuButton;
+		private var _closeButton:CloseLeaderBoardViewButton;
 		
 		private var _background:Image;
 		private var _gradient:Quad;
@@ -91,13 +93,18 @@ package gr.funkytaps.digitized.views
 			_gradient.setVertexAlpha(3, 0);
 			addChild(_gradient);
 			
-			_closeButton = new MenuButton();
+			_closeButton = new CloseLeaderBoardViewButton();
+			_closeButton.x = 10;
+			_closeButton.y = 10;
 			_closeButton.addEventListener(Event.TRIGGERED, _onCloseButtonTriggered);
 			addChild(_closeButton);
 			
 			_title = new Image(Assets.manager.getTexture('leadboard-title'));
 			_title.x = (Settings.HALF_WIDTH - (_title.width >> 1)) | 0;
+			_title.y = 30;
 			addChild(_title);
+			
+			_createRegisterButton();
 			
 			_initPOST();
 		}
@@ -149,6 +156,12 @@ package gr.funkytaps.digitized.views
 			var user:Object = data["user"];
 			if(user){			
 				trace("user found: " + user["user_uid"] + " high score is: " + user["high_score"]);
+				if(data["userIndex"] && data["userIndex"] > 4){				
+					user["userIndex"] = data["userIndex"];
+				}
+				else{
+					user["userIndex"] = -1;
+				}
 			}
 			else{
 				trace("No user found, it's first time");
@@ -173,13 +186,14 @@ package gr.funkytaps.digitized.views
 		
 		private function _displayList(topTen:Array, user:Object):void{
 			//TODO remove
-			_createRegisterButton();
+			//_createRegisterButton();
 			
 			if(user){
 				//we check to see if it exists inside the top 10
 				var userInTop10:Boolean = false;
 				for(var i:int = 0; i<topTen.length; i++){
 					if(topTen[i]["user_uid"] == user["user_uid"]){
+						topTen[i]["userIndex"] = user["userIndex"];
 						userInTop10 = true;
 						break;
 					}
@@ -192,10 +206,15 @@ package gr.funkytaps.digitized.views
 				else{
 					//if NO
 					//display top 10 and at the bottom display the user's high score - Meybe animate it???
+					//replace the 5th entry with the user's entry
+					topTen[4] = user;
+					_createTop10(topTen);					
 				}
 			}
 			else{
 				//display the top 10 normallly
+				_createTop10(topTen);
+				
 				//display register button
 				if(!_displayedOnUserDemand){	
 					//show register button
@@ -213,11 +232,24 @@ package gr.funkytaps.digitized.views
 		private function _createTop10(entries:Array):void{
 			var entry:Sprite;
 			var data:Object;
-			var yPos:int = 0;
+			var yPos:int = _title.y + _title.height;
 			var padding:int = 0;
 			for(var i:int = 0; i<entries.length; i++){
+				
 				data = entries[i];
-				entry = _createEntry(data);
+				
+				if(i == 4){
+					if(data["userIndex"] && data["userIndex"] != -1){
+						entry = _createEntry(data, data["userIndex"]+1);
+					}
+					else{
+						entry = _createEntry(data, i+1);
+					}
+				}
+				else{				
+					entry = _createEntry(data, i+1);
+				}
+				
 				
 				if(_registerButton){
 					entry.x = _registerButton.x;
@@ -230,26 +262,48 @@ package gr.funkytaps.digitized.views
 			}
 		}
 		
-		private function _createEntry(data:Object):Sprite{
+		private function _createEntry(data:Object, orderNumber:int):Sprite{
+			trace("Creating entry:", data["name"], ":", data["high_score"]);
 			//var entry:TextField = new TextField(110, 36, data["name"], Settings.AGORA_FONT_88, -1, 0xffffff);
 			var entry:Sprite = new Sprite();
+			var width:int = Settings.WIDTH - (2*_registerButton.x) - 20;
 			
-			var name:TextField = new TextField(110, 36, data["name"], "Verdana", 24, 0xffffff, true);
+			var indexField:TextField = new TextField(width, 30, orderNumber.toString(), Settings.AGORA_FONT_38, -1, 0xffffff);
+			indexField.autoScale = true;
+			indexField.batchable = true;
+			indexField.vAlign = VAlign.TOP;
+			indexField.hAlign = HAlign.LEFT;
+			
+			var name:TextField = new TextField(width, 30, data["name"], Settings.AGORA_FONT_NAME80, -1, 0xffffff);
 			name.autoScale = true;
 			name.batchable = true;
 			name.vAlign = VAlign.TOP;
 			name.hAlign = HAlign.LEFT;
 			
-			var score:TextField = new TextField(110, 36, data["high_score"], Settings.AGORA_FONT_60, -1, 0xffffff);
+			var score:TextField = new TextField(width, 35, data["high_score"] + " Points", Settings.AGORA_FONT_POINTS50, -1, 0xffffff);
 			score.autoScale = true;
 			score.batchable = true;
 			score.vAlign = VAlign.TOP;
 			score.hAlign = HAlign.LEFT;
+
+			var line:Quad = new Quad(width+20, 1, 0x5c5f9a);
 			
-			score.y = name.height;
+			//indexField.border = true;
+			//name.border = true;
+			//score.border = true;
+			
+			score.y = name.height - 10;
+			
+			name.x = score.x = 20;
+			indexField.y = (score.y + score.height)*0.5 - indexField.height*0.5;
+
+			line.x = 0;
+			line.y = score.y + score.height;
 			
 			entry.addChild(name);
 			entry.addChild(score);
+			entry.addChild(indexField);
+			entry.addChild(line);
 			
 			
 			return entry;
@@ -262,6 +316,7 @@ package gr.funkytaps.digitized.views
 			addChild(_registerButton);
 			_registerButton.x = (Settings.HALF_WIDTH - (_registerButton.width >> 1)) | 0;
 			_registerButton.y = Settings.HEIGHT - _registerButton.height - _registerButton.x;
+			removeChild(_registerButton);
 		}
 		
 		private function _onRegisterButtonTriggered(event:Event):void{

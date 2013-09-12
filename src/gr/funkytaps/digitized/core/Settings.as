@@ -23,6 +23,8 @@ package gr.funkytaps.digitized.core
 		public static const AGORA_FONT_38:String = 'Agora38';
 		public static const AGORA_FONT_60:String = 'Agora60';
 		public static const AGORA_FONT_88:String = 'Agora88';
+		public static const AGORA_FONT_NAME80:String = 'AgoraName30';
+		public static const AGORA_FONT_POINTS50:String = 'AgoraPoints50';
 		
 		
 	}

@@ -12,6 +12,8 @@ package gr.funkytaps.digitized.views
 	import com.dimmdesign.utils.Web;
 	import com.greensock.TweenLite;
 	
+	import flash.system.System;
+	
 	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
 	import gr.funkytaps.digitized.events.LeaderBoardEvent;
@@ -20,8 +22,10 @@ package gr.funkytaps.digitized.views
 	import gr.funkytaps.digitized.ui.buttons.GetDigitizedButton;
 	import gr.funkytaps.digitized.ui.buttons.LeaderboardButton;
 	import gr.funkytaps.digitized.ui.buttons.PlayAgainButton;
+	import gr.funkytaps.digitized.ui.buttons.ResumeButton;
 	import gr.funkytaps.digitized.ui.buttons.ShareScoreButton;
 	import gr.funkytaps.digitized.ui.buttons.SoundButton;
+	import gr.funkytaps.digitized.utils.DisplayUtils;
 	
 	import starling.display.Image;
 	import starling.display.Quad;
@@ -63,6 +67,7 @@ package gr.funkytaps.digitized.views
 		private var _score:Number = 0;
 		private var _totalScore:Number = 0;
 		private var _stars:Number = 0;
+		private var _resumeButton:ResumeButton;
 		
 		public function MenuView(gameWorld:GameWorld)
 		{
@@ -84,7 +89,7 @@ package gr.funkytaps.digitized.views
 		override protected function _init():void {
 			
 			 _background = new Quad(Settings.WIDTH, Settings.HEIGHT, 0x000000);
-			 _background.alpha = 0.65;
+			 _background.alpha = 0.8;
 			 addChild(_background);
 
 			_gradient = new Quad(Settings.WIDTH, 260);
@@ -175,35 +180,56 @@ package gr.funkytaps.digitized.views
 			// all the buttons have the same height so we just store it, 
 			// instead of making repeated calls to 'thebutton'.height
 			_buttonsHeight = _shareScoreButton.height;
+			var prevY:Number = _shareScoreButton.y;
 			
 			_leaderboardButton = new LeaderboardButton();
 			_leaderboardButton.addEventListener(Event.TRIGGERED, _onLeaderboardButtonTriggered);
 			_buttonsContainer.addChild(_leaderboardButton);
-			_leaderboardButton.y =_shareScoreButton.y + _buttonsHeight - 5;
+			_leaderboardButton.y = prevY + _buttonsHeight - 5;
+			prevY = _leaderboardButton.y;
 			
-			_playAgainButton = new PlayAgainButton();
-			_playAgainButton.addEventListener(Event.TRIGGERED, _onPlayAgainTriggered);
-			_buttonsContainer.addChild(_playAgainButton);
-			_playAgainButton.y = _leaderboardButton.y + _buttonsHeight - 5;
+			if (_gameWorld.isPlaying && !_gameWorld.gameEnded) {
+				_resumeButton = new ResumeButton();
+				_resumeButton.addEventListener(Event.TRIGGERED, _onResumeTriggered);
+				_buttonsContainer.addChild(_resumeButton);
+				_resumeButton.y = prevY + _buttonsHeight - 5;
+				prevY = _resumeButton.y;
+			}
+			else if (_gameWorld.gameEnded) {
+				_playAgainButton = new PlayAgainButton();
+				_playAgainButton.addEventListener(Event.TRIGGERED, _onPlayAgainTriggered);
+				_buttonsContainer.addChild(_playAgainButton);
+				_playAgainButton.y = prevY + _buttonsHeight - 5;
+				prevY = _playAgainButton.y;
+			}
 			
 			_creditsButton = new CreditsButton();
 			_creditsButton.addEventListener(Event.TRIGGERED, _onCreditsButtonTriggered);
 			_buttonsContainer.addChild(_creditsButton);
-			_creditsButton.y = _playAgainButton.y + _buttonsHeight - 5;
+			_creditsButton.y = prevY + _buttonsHeight - 5;
+			prevY = _creditsButton.y;
 
 			_soundButton = new SoundButton();
 			_soundButton.addEventListener(Event.TRIGGERED, _onSoundButtonTriggered);
 			_buttonsContainer.addChild(_soundButton);
 			_soundButton.y = _creditsButton.y + _buttonsHeight - 5;
+			prevY = _soundButton.y;
 			
 			_getDigitizedButton = new GetDigitizedButton();
 			_getDigitizedButton.addEventListener(Event.TRIGGERED, _onGetDigitizedButtonTriggered);
 			_buttonsContainer.addChild(_getDigitizedButton);
-			_getDigitizedButton.y = _soundButton.y + _buttonsHeight - 5;
+			_getDigitizedButton.y = prevY + _buttonsHeight - 5;
+			prevY = _getDigitizedButton.y;
 			
 			_buttonsContainer.x = (Settings.HALF_WIDTH - (_buttonsContainer.width >> 1)) | 0;
 			_buttonsContainer.y = 160;
 			
+		}
+		
+		private function _onResumeTriggered():void
+		{
+			// TODO Auto Generated method stub
+			_gameWorld.resumeGame();
 		}
 		
 		private function _onGetDigitizedButtonTriggered(event:Event):void
@@ -231,7 +257,7 @@ package gr.funkytaps.digitized.views
 		
 		private function _onPlayAgainTriggered(event:Event):void
 		{
-			
+			_gameWorld.playAgain();
 		}
 		
 		override public function tweenIn():void {
@@ -250,6 +276,29 @@ package gr.funkytaps.digitized.views
 				onComplete:onComplete,
 				onCompleteParams:onCompleteParams
 			});
+		}
+		
+		override public function destroy():void {
+			DisplayUtils.removeAllChildren(this, true, true, true);
+			
+			_gameWorld = null;
+			_gradient = null;
+			_background = null;
+			_buttonsContainer = null;
+			_soundButton = null;
+			_playAgainButton = null;
+			_shareScoreButton = null;
+			_leaderboardButton = null;
+			_creditsButton = null;
+			_getDigitizedButton = null;
+			_headerContainer = null;
+			_starIcon = null;
+			_starTextfield = null;
+			_scoreTitle = null;
+			_scoreTextfield = null;
+			_totalScoreTitle = null;
+			_totalScoreTextfield = null;
+			
 		}
 		
 	}

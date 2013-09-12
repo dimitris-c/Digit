@@ -1,19 +1,13 @@
 package gr.funkytaps.digitized.game.objects {
 	
-	import flash.geom.Rectangle;
-	
 	import de.polygonal.core.ObjectPool;
 	
 	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
-	import gr.funkytaps.digitized.game.objects.AbstractObject;
-	import gr.funkytaps.digitized.game.objects.BackgroundPlanet;
 	import gr.funkytaps.digitized.utils.Mathematics;
 	
 	import starling.display.Image;
-	import starling.display.Sprite;
 	import starling.extensions.ParallaxLayer;
-	import starling.utils.deg2rad;
 
 	/**
 	 * @author — Dimitris Chatzieleftheriou
@@ -121,7 +115,7 @@ package gr.funkytaps.digitized.game.objects {
 			
 			_currentPlanet = _planetsPool.object as BackgroundPlanet;
 			var speedFactor:Number = Math.random(); // get a random float number.
-			_currentPlanet.createPlanet( 'planet' + random, (speedFactor < 0.18) ? 0.18 : (speedFactor > 0.3) ? 0.3 : speedFactor );
+			_currentPlanet.createPlanet( 'planet' + random, (speedFactor < 0.1) ? 0.1 : (speedFactor > 0.2) ? 0.2 : speedFactor );
 			
 			_currentPlanet.y = - (_currentPlanet.planetHeight + _currentPlanet.pivotY);
 			_currentPlanet.x = Mathematics.getRandomNumber(-(_currentPlanet.pivotX >> 1), Settings.WIDTH - 30);

@@ -160,6 +160,7 @@
             <filename>../../images/game/2x/rocket-fires/fire7-01.png</filename>
             <filename>../../images/game/2x/rocket-fires/fire7-02.png</filename>
             <filename>../../particles/starexplosion</filename>
+            <filename>../../images/game/2x/bomb-animated</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

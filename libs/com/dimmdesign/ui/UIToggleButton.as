@@ -10,11 +10,14 @@ package com.dimmdesign.ui
 	 **/
 	
 	import com.dimmdesign.core.IDestroyable;
+	import com.dimmdesign.utils.TextUtils;
 	
 	import flash.display.Bitmap;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.text.TextField;
+	import flash.text.TextFormat;
 	
 	public class UIToggleButton extends UISimpleButton implements IDestroyable
 	{
@@ -26,13 +29,17 @@ package com.dimmdesign.ui
 		
 		protected var _isSelected:Boolean = true;
 		
+		protected var _title:String;
+		
+		protected var _titleTextfield:TextField;
+		
 		public function UIToggleButton(normalState:Bitmap, selectedState:Bitmap, callback:Function = null)
 		{
 			super(normalState, selectedState);
 			
 			_normalState = normalState;
 			_selectedState = selectedState;
-			
+						
 			_callback = callback;
 			
 		}

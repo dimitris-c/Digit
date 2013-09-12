@@ -27,7 +27,7 @@ package gr.funkytaps.digitized.ui.buttons
 		public function set isToggled(value:Boolean):void
 		{
 			_isToggled = value;
-			(_isToggled) ? _setNormalState() : _setDownState();
+			(_isToggled) ? setNormalState() : setDownState();
 		}
 
 		
@@ -73,9 +73,9 @@ package gr.funkytaps.digitized.ui.buttons
 		protected function _toggleButton():void {
 			
 			if (_isToggled) 
-				_setNormalState();
+				setNormalState();
 			else
-				_setDownState();
+				setDownState();
 			
 		}
 	}

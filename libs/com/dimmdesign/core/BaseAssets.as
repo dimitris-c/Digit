@@ -1,6 +1,7 @@
 package com.dimmdesign.core
 {
 	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	import flash.utils.Dictionary;
 	
 	/**
@@ -68,6 +69,10 @@ package com.dimmdesign.core
 			var bmp:Bitmap = obj as Bitmap;
 			bmp.smoothing = true;
 			return bmp;
+		}
+		
+		public static function getUniqueBitmapData(name:String):BitmapData {
+			return BaseAssets.getUniqueBitmap(name).bitmapData;
 		}
 		
 		public static function removeFromDictionary(bmp:Bitmap):void {

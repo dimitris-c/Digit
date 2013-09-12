@@ -16,12 +16,12 @@ package gr.funkytaps.digitized.game.items
 		public function StarItem()
 		{
 			super();
-			initItem(false, true, ItemsType.ENEMY, 0, 2, 15);
+			initItem(false, true, ItemsType.BOMB, 0, 2, 15);
 		}
 		
 		override public function createItem():void {
 			
-			if (_itemType == ItemsType.ENEMY) {
+			if (_itemType == ItemsType.BOMB) {
 				var r:int = Mathematics.getRandomInt(10, 20);
 				_tempQuad = new Quad(r, r-5, 0xD64183);
 				addChild(_tempQuad);

@@ -8,13 +8,18 @@ package gr.funkytaps.digitized.game.objects
 	 *
 	 **/
 	
+	import com.greensock.TweenLite;
+	import com.greensock.easing.Linear;
+	
 	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
+	import gr.funkytaps.digitized.utils.Mathematics;
+	import gr.funkytaps.digitized.views.GameView;
 	
 	import starling.animation.Juggler;
+	import starling.core.Starling;
 	import starling.display.Image;
 	import starling.display.MovieClip;
-	import starling.display.Quad;
 	import starling.utils.deg2rad;
 	
 	public class DigitHero extends AbstractObject
@@ -39,16 +44,21 @@ package gr.funkytaps.digitized.game.objects
 		public function get maximumVelocity():Number { return _maximumVelocity; }
 		
 		private var _heroIsFlying:Boolean = false;
+		private var _crashed:Boolean = false;
+
+		public function get crashed():Boolean { return _crashed; }
 		
 		private var _leftRocketFire:MovieClip;
 		private var _rightRocketFire:MovieClip;
 		
 		private var _gameJuggler:Juggler;
+		private var _gameView:GameView;
 		
-		public function DigitHero(gameJuggler:Juggler = null)
+		public function DigitHero(gameJuggler:Juggler = null, gameView:GameView = null)
 		{
 			super();
 			_gameJuggler = gameJuggler;
+			_gameView = gameView;
 		}
 		
 		public function get heroHeight():Number { return _heroHeight; }
@@ -80,10 +90,10 @@ package gr.funkytaps.digitized.game.objects
 			_hero.pivotX = (_heroWidth >> 1) - 4;
 			_hero.pivotY = _heroHeight >> 1;
 			
-			_leftRocketFire.x = -(_hero.pivotX-17);
+			_leftRocketFire.x = -(_hero.pivotX - 17);
 			_leftRocketFire.y = _hero.pivotY - 32;
 			
-			_rightRocketFire.x = _hero.pivotX - 17;
+			_rightRocketFire.x = _hero.pivotX - ((Starling.contentScaleFactor == 1) ? 19 : 17);
 			_rightRocketFire.y = _hero.pivotY - 33;
 			
 			_heroLeftLimit = _hero.pivotX + _limitPadding;
@@ -96,13 +106,19 @@ package gr.funkytaps.digitized.game.objects
 			
 		}
 		
+		public function crashHero():void {
+			_crashed = true;
+			_leftRocketFire.visible = false;
+			_rightRocketFire.visible = false;
+			TweenLite.to(this, 3, {y:100, rotation:deg2rad(-8),  ease:Linear.easeNone});
+		}
+		
 		public function update(rollingX:Number = 0, noAcceletometer:Boolean = false):void
 		{
-			
+			if (_crashed) return;
 			if (!_heroIsFlying) {
 				
 			}
-			
 			_heroPosition = this.x;
 			_heroPosition += rollingX;
 			

@@ -1,6 +1,8 @@
 package gr.funkytaps.digitized.views
 {
 	
+	import com.dimmdesign.utils.DisplayUtils;
+	
 	import flash.events.AccelerometerEvent;
 	import flash.net.URLVariables;
 	import flash.sensors.Accelerometer;
@@ -9,14 +11,15 @@ package gr.funkytaps.digitized.views
 	import gr.funkytaps.digitized.core.Settings;
 	import gr.funkytaps.digitized.events.LeaderBoardEvent;
 	import gr.funkytaps.digitized.game.GameWorld;
+	import gr.funkytaps.digitized.game.items.IItem;
 	import gr.funkytaps.digitized.game.objects.Background;
 	import gr.funkytaps.digitized.game.objects.Dashboard;
 	import gr.funkytaps.digitized.game.objects.DigitHero;
 	import gr.funkytaps.digitized.helpers.GameDataHelper;
 	import gr.funkytaps.digitized.helpers.POSTRequestHelper;
+	import gr.funkytaps.digitized.managers.ChunkManager;
 	import gr.funkytaps.digitized.managers.CollisionManager;
 	import gr.funkytaps.digitized.managers.SoundManager;
-	import gr.funkytaps.digitized.managers.StarsManager;
 	
 	import starling.animation.Juggler;
 	import starling.animation.Transitions;
@@ -46,13 +49,13 @@ package gr.funkytaps.digitized.views
 		
 		private var _startScrollingBackground:Boolean = false;
 		
+		private static const MAX_GAME_SPEED:Number = 5; 
+		
 		private var _gameSpeed:Number;
 		public function get gameSpeed():Number { return _gameSpeed; }
 		
-		private static const MAX_GAME_SPEED:Number = 5; 
-		
-		private var _starsManager:StarsManager;
-		public function get starsManager():StarsManager { return _starsManager; }
+		private var _chunkManager:ChunkManager;
+		public function get starsManager():ChunkManager { return _chunkManager; }
 
 		private var _collisionManager:CollisionManager;
 		public function get collisionManager():CollisionManager { return _collisionManager; }
@@ -68,10 +71,14 @@ package gr.funkytaps.digitized.views
 		private var _rollingX:Number = 0;
 
 		private var _xSpeed:Number;
+		
+		private var _distanceTravelled:Number = 0;
 
 		private var _touch:Touch;
 		private var _touchX:Number;
 		private var _touchY:Number;
+		
+		private var _gameEnded:Boolean;
 		
 		//POST
 		private var _score:String;
@@ -91,7 +98,7 @@ package gr.funkytaps.digitized.views
 
 			_gameJuggler = new Juggler();
 			
-//			SoundManager.stopSound('intro');
+			SoundManager.stopSound('intro');
 			SoundManager.playSound('game-theme', int.MAX_VALUE, 0.2);
 			
 			_gameSpeed = 3;
@@ -125,13 +132,13 @@ package gr.funkytaps.digitized.views
 			_takeOffLand.x = Settings.HALF_WIDTH;
 			_takeOffLand.y = Settings.HEIGHT - _takeOffLand.height;
 			
-			_hero = new DigitHero( _gameJuggler );
+			_hero = new DigitHero( _gameJuggler, this );
 			_gameContainer.addChild(_hero);
 			
 			_hero.x = Settings.HALF_WIDTH;
 			_hero.y = Settings.HEIGHT - _takeOffLand.height - 20;
 			
-			_starsManager = new StarsManager(this);
+			_chunkManager = new ChunkManager(this, _onBombCollision);
 			
 			// Start accelerometer if supported
 			if (Accelerometer.isSupported) {
@@ -208,7 +215,26 @@ package gr.funkytaps.digitized.views
 			
 		}
 		
+		private function _onBombCollision(bomb:IItem):void
+		{
+			_gameEnded = true;
+			SoundManager.tweenSound('game-theme', 1, 0);
+		}
+		
 		override public function update(passedTime:Number = 0):void {
+			
+			if (_gameEnded) {
+				// decrease the speed of the game and the background
+				if (_background.baseSpeed <= 0) _background.setBaseSpeed(0) else _background.setBaseSpeed(_background.baseSpeed - 0.1);
+				if (_gameSpeed <= 0) _gameSpeed = 0 else _gameSpeed = _gameSpeed - 0.1;
+				
+				if (_gameSpeed == 0) {
+					_gameWorld.gamePaused = true;
+					_gameWorld.gameEnded = true;
+					_gameWorld.showMenuOnGameEnd();
+				}
+				
+			}
 			
 			if (_gameJuggler) _gameJuggler.advanceTime( passedTime );
 			
@@ -216,8 +242,21 @@ package gr.funkytaps.digitized.views
 			
 			if (_background) if (_background.isScrolling) _background.update( passedTime );
 			
-			if (_starsManager) _starsManager.update( passedTime );
+			if (_chunkManager) _chunkManager.update( passedTime );
 			
+			_distanceTravelled += 1;
+			if (_distanceTravelled == 1000) {
+				_gameSpeed += 0.8;
+				_background.maxSpeed += 0.5;
+			}
+			if (_distanceTravelled == 2000) {
+				_gameSpeed += 0.8;
+				_background.maxSpeed += 0.5;
+			}
+			if (_distanceTravelled == 3000) {
+				_gameSpeed += 0.8;
+				_background.maxSpeed += 0.5;
+			}
 			
 		}
 		
@@ -308,6 +347,12 @@ package gr.funkytaps.digitized.views
 			ev.displayOnUserDemand = false;
 			ev.highScore = highScore;
 			this.dispatchEvent(ev);
+			
+		}
+		
+		override public function destroy():void {
+			DisplayUtils.removeAllChildren(this, true);
+			
 			
 		}
 		

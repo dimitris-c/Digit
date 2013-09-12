@@ -14,10 +14,9 @@ package com.dimmdesign.utils
 		}
 			
 		public static function getDistance (currentX:Number, currentY:Number, finalX:Number, finalY:Number):Number {
-			
-			var $distance:Number = Math.pow((currentX - finalX), 2) + Math.pow((currentY - finalY), 2);
-			
-			return $distance;
+			var dx:Number = currentX-finalX;
+			var dy:Number = currentY-finalY;
+			return Math.sqrt(dx * dx + dy * dy);
 		}
 		
 		/**

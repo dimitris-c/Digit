@@ -1,5 +1,6 @@
 package com.dimmdesign.utils
 {
+	import flash.display.Bitmap;
 	import flash.display.Sprite;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
@@ -24,6 +25,7 @@ package com.dimmdesign.utils
 		
 		private static var _sprites:Dictionary;
 		private static var _mouseUpCallbacks:Dictionary;
+		private static var _reportPosition:Dictionary;
 		private static var _draggingOffsetPoint:Point;
 		
 		private static var _lastSpriteDragged:Sprite = null;
@@ -33,6 +35,7 @@ package com.dimmdesign.utils
 		{
 			_sprites = new Dictionary(true);
 			_mouseUpCallbacks = new Dictionary(true);
+			_reportPosition = new Dictionary(true);
 		}
 		
 		/**
@@ -44,13 +47,14 @@ package com.dimmdesign.utils
 		 * @param onMouseUpCallback - (Optional) A function that gets called when the mouse is up
 		 * 
 		 */
-		public static function makeDraggable(sprite:Sprite, useKeys:Boolean = false, onMouseUpCallback:Function = null):void {
+		public static function makeDraggable(sprite:Sprite, useKeys:Boolean = false, reportPosition:Boolean = true, onMouseUpCallback:Function = null):void {
 			
 			sprite.buttonMode = true;
 			sprite.mouseEnabled = true;
 			sprite.mouseChildren = false;
 			
 			_sprites[sprite] = sprite as Sprite;
+			_reportPosition[sprite] = reportPosition;
 			_mouseUpCallbacks[sprite] = onMouseUpCallback;
 				
 			sprite.addEventListener(MouseEvent.MOUSE_DOWN, _onMouseDown);
@@ -58,6 +62,16 @@ package com.dimmdesign.utils
 			sprite.addEventListener(MouseEvent.ROLL_OUT, _onRollOut);
 			
 			if (useKeys) sprite.stage.addEventListener(KeyboardEvent.KEY_UP, _onKeyUp);
+		}
+		
+		public static function makeBitmapDraggable(bitmap:Bitmap, useKeys:Boolean = false, reportPosition:Boolean = true, onMouseUpCallback:Function = null):void {
+			
+			var container:Sprite = new Sprite();
+			bitmap.parent.addChildAt(container, bitmap.parent.getChildIndex(bitmap));
+			container.addChild(bitmap);
+			
+			makeDraggable(container, useKeys, reportPosition, onMouseUpCallback);
+			
 		}
 		
 		private static function _onRollOut(event:MouseEvent):void
@@ -92,6 +106,8 @@ package com.dimmdesign.utils
 					_lastSpriteDragged.y += (event.shiftKey) ? 10 : 1;
 				}
 				
+				if (_reportPosition[_lastSpriteDragged]) trace('x:', _lastSpriteDragged.x, 'y:', _lastSpriteDragged.y);
+				
 				if (_mouseUpCallbacks[_lastSpriteDragged] != null) _mouseUpCallbacks[_lastSpriteDragged](_lastSpriteDragged);
 			}
 		}
@@ -104,6 +120,8 @@ package com.dimmdesign.utils
 			sprite.stopDrag();
 			
 			_lastSpriteDragged = sprite;
+			
+			if (_reportPosition[sprite]) trace('x:', sprite.x, 'y:', sprite.y);
 			
 			if (_mouseUpCallbacks[sprite] != null) _mouseUpCallbacks[sprite](sprite);
 		}

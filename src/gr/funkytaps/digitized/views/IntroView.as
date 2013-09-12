@@ -8,16 +8,13 @@ package gr.funkytaps.digitized.views
 	import gr.funkytaps.digitized.core.Settings;
 	import gr.funkytaps.digitized.game.GameWorld;
 	import gr.funkytaps.digitized.game.objects.DigitHeroIntroView;
+	import gr.funkytaps.digitized.managers.SoundManager;
 	import gr.funkytaps.digitized.ui.buttons.StartButton;
 	
 	import starling.animation.Juggler;
 	import starling.display.Image;
 	import starling.display.Quad;
 	import starling.events.Event;
-	import starling.text.TextField;
-	import starling.text.TextFieldAutoSize;
-	import starling.utils.HAlign;
-	import starling.utils.VAlign;
 
 	/**
 	 * @author — Dimitris Chatzieleftheriou

@@ -1,59 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://texturepacker.com-->
-<!-- $TexturePacker:SmartUpdate:250688360feee27a7d6d2850a7641d52$ -->
+<!-- $TexturePacker:SmartUpdate:03b609700cdd47d71c39e6679141b18f$ -->
 <TextureAtlas imagePath="ui_atlas.png">
-    <SubTexture name="Agora38" x="579" y="53" width="84" height="128" frameX="0" frameY="0" frameWidth="128" frameHeight="128"/>
+    <SubTexture name="Agora38" x="494" y="208" width="84" height="128" frameX="0" frameY="0" frameWidth="128" frameHeight="128"/>
     <SubTexture name="Agora60" x="219" y="770" width="68" height="234" frameX="0" frameY="0" frameWidth="128" frameHeight="256"/>
     <SubTexture name="Agora88" x="96" y="770" width="122" height="246" frameX="0" frameY="0" frameWidth="128" frameHeight="256"/>
     <SubTexture name="AgoraName30" x="303" y="482" width="190" height="256" frameX="0" frameY="0" frameWidth="256" frameHeight="256"/>
     <SubTexture name="AgoraPoints50" x="1" y="770" width="94" height="248" frameX="0" frameY="0" frameWidth="128" frameHeight="256"/>
-    <SubTexture name="audio-off" x="691" y="289" width="225" height="22" frameX="0" frameY="0" frameWidth="227" frameHeight="22"/>
-    <SubTexture name="audio-on" x="543" y="388" width="214" height="22" frameX="0" frameY="0" frameWidth="216" frameHeight="22"/>
-    <SubTexture name="blue-button-normal" x="691" y="168" width="250" height="55"/>
+    <SubTexture name="audio-off" x="731" y="261" width="225" height="22" frameX="0" frameY="0" frameWidth="227" frameHeight="22"/>
+    <SubTexture name="audio-on" x="543" y="413" width="214" height="22" frameX="0" frameY="0" frameWidth="216" frameHeight="22"/>
+    <SubTexture name="back-button-hover" x="982" y="142" width="15" height="23"/>
+    <SubTexture name="back-button-normal" x="1005" y="119" width="15" height="23"/>
+    <SubTexture name="blue-button-normal" x="731" y="205" width="250" height="55"/>
+    <SubTexture name="created-title" x="322" y="1" width="255" height="94"/>
     <SubTexture name="credits-alien" x="288" y="770" width="290" height="143"/>
-    <SubTexture name="credits-designcode-title" x="322" y="1" width="205" height="64"/>
-    <SubTexture name="credits-ditigized-title" x="691" y="1" width="255" height="54"/>
-    <SubTexture name="credits-hover" x="691" y="540" width="220" height="25" frameX="-1" frameY="0" frameWidth="228" frameHeight="25"/>
-    <SubTexture name="credits-illustration-title" x="691" y="224" width="243" height="64"/>
-    <SubTexture name="credits-normal" x="691" y="514" width="220" height="25" frameX="-1" frameY="0" frameWidth="228" frameHeight="25"/>
-    <SubTexture name="credits-title" x="494" y="199" width="163" height="51"/>
+    <SubTexture name="credits-hover" x="494" y="521" width="220" height="25" frameX="-1" frameY="0" frameWidth="228" frameHeight="25"/>
+    <SubTexture name="credits-normal" x="731" y="514" width="220" height="25" frameX="-1" frameY="0" frameWidth="228" frameHeight="25"/>
+    <SubTexture name="credits-people" x="731" y="1" width="291" height="91"/>
+    <SubTexture name="credits-title" x="288" y="914" width="161" height="90"/>
+    <SubTexture name="digitized-logo" x="579" y="175" width="115" height="115"/>
     <SubTexture name="energy-background" x="219" y="1005" width="85" height="18" frameX="0" frameY="-1" frameWidth="85" frameHeight="20"/>
-    <SubTexture name="energy-progress" x="305" y="1004" width="77" height="10" frameX="-3" frameY="-5" frameWidth="85" frameHeight="20"/>
-    <SubTexture name="energy-title" x="494" y="66" width="80" height="20"/>
-    <SubTexture name="energy" x="947" y="48" width="27" height="29"/>
-    <SubTexture name="fire6-01" x="664" y="86" width="22" height="32" frameX="-1" frameY="0" frameWidth="24" frameHeight="32"/>
-    <SubTexture name="fire6-02" x="664" y="53" width="24" height="32"/>
+    <SubTexture name="energy-progress" x="305" y="1005" width="77" height="10" frameX="-3" frameY="-5" frameWidth="85" frameHeight="20"/>
+    <SubTexture name="energy-title" x="579" y="291" width="80" height="20"/>
+    <SubTexture name="energy" x="701" y="1" width="27" height="29"/>
+    <SubTexture name="fire6-01" x="701" y="64" width="22" height="32" frameX="-1" frameY="0" frameWidth="24" frameHeight="32"/>
+    <SubTexture name="fire6-02" x="701" y="31" width="24" height="32"/>
     <SubTexture name="generic-background" x="1" y="1" width="320" height="480"/>
-    <SubTexture name="getdigitized-hover" x="691" y="488" width="220" height="25" frameX="-1" frameY="0" frameWidth="228" frameHeight="25"/>
-    <SubTexture name="getdigitized-normal" x="691" y="462" width="220" height="25" frameX="-1" frameY="0" frameWidth="228" frameHeight="25"/>
-    <SubTexture name="gray-button-normal" x="691" y="112" width="250" height="55"/>
-    <SubTexture name="green-button-hover" x="691" y="56" width="250" height="55"/>
-    <SubTexture name="green-button-normal" x="322" y="143" width="250" height="55"/>
+    <SubTexture name="getdigitized-hover" x="494" y="495" width="220" height="25" frameX="-1" frameY="0" frameWidth="228" frameHeight="25"/>
+    <SubTexture name="getdigitized-normal" x="731" y="488" width="220" height="25" frameX="-1" frameY="0" frameWidth="228" frameHeight="25"/>
+    <SubTexture name="gray-button-normal" x="322" y="152" width="250" height="55"/>
+    <SubTexture name="green-button-hover" x="731" y="149" width="250" height="55"/>
+    <SubTexture name="green-button-normal" x="731" y="93" width="250" height="55"/>
     <SubTexture name="howtoplay-title" x="303" y="739" width="225" height="29"/>
     <SubTexture name="intro-hero" x="1" y="482" width="301" height="287"/>
-    <SubTexture name="intro-planet" x="288" y="914" width="121" height="89" frameX="0" frameY="-1" frameWidth="121" frameHeight="93"/>
-    <SubTexture name="intro-screen-title" x="410" y="914" width="280" height="95" frameX="0" frameY="-7" frameWidth="280" frameHeight="105"/>
-    <SubTexture name="leaderboard-hover" x="691" y="436" width="220" height="25" frameX="-1" frameY="0" frameWidth="228" frameHeight="25"/>
-    <SubTexture name="leaderboard-normal" x="322" y="329" width="220" height="25" frameX="-1" frameY="0" frameWidth="228" frameHeight="25"/>
-    <SubTexture name="menu-button-hover" x="978" y="22" width="30" height="25"/>
-    <SubTexture name="menu-button-normal" x="947" y="22" width="30" height="25"/>
-    <SubTexture name="orange-button-normal" x="322" y="87" width="250" height="55"/>
-    <SubTexture name="play-again-hover" x="322" y="303" width="220" height="25" frameX="-1" frameY="0" frameWidth="228" frameHeight="25"/>
-    <SubTexture name="play-again-normal" x="322" y="277" width="220" height="25" frameX="-1" frameY="0" frameWidth="228" frameHeight="25"/>
-    <SubTexture name="play-hover" x="322" y="251" width="220" height="25" frameX="-1" frameY="0" frameWidth="228" frameHeight="25"/>
-    <SubTexture name="play-normal" x="758" y="410" width="220" height="25" frameX="-1" frameY="0" frameWidth="228" frameHeight="25"/>
-    <SubTexture name="resume-hover" x="322" y="444" width="220" height="25" frameX="-1" frameY="0" frameWidth="228" frameHeight="25"/>
-    <SubTexture name="resume-normal" x="322" y="418" width="220" height="25" frameX="-1" frameY="0" frameWidth="228" frameHeight="25"/>
-    <SubTexture name="score-title" x="947" y="1" width="65" height="20"/>
-    <SubTexture name="sending-title-normal" x="322" y="66" width="120" height="20"/>
-    <SubTexture name="share-score-hover" x="541" y="362" width="220" height="25" frameX="-1" frameY="0" frameWidth="228" frameHeight="25"/>
-    <SubTexture name="share-score-normal" x="322" y="392" width="220" height="25" frameX="-1" frameY="0" frameWidth="228" frameHeight="25"/>
-    <SubTexture name="star-static-icon" x="975" y="48" width="22" height="22"/>
-    <SubTexture name="start-title-hover" x="529" y="27" width="156" height="25" frameX="-59" frameY="0" frameWidth="230" frameHeight="25"/>
-    <SubTexture name="start-title-normal" x="529" y="1" width="156" height="25" frameX="-59" frameY="0" frameWidth="230" frameHeight="25"/>
-    <SubTexture name="submit-now-button-hover" x="762" y="386" width="224" height="23"/>
-    <SubTexture name="submit-now-button-normal" x="762" y="362" width="224" height="23"/>
-    <SubTexture name="submit-score-hover" x="691" y="337" width="224" height="24"/>
-    <SubTexture name="submit-score-normal" x="691" y="312" width="224" height="24"/>
-    <SubTexture name="total-score-title" x="322" y="362" width="218" height="29"/>
+    <SubTexture name="intro-planet" x="579" y="1" width="121" height="89" frameX="0" frameY="-1" frameWidth="121" frameHeight="93"/>
+    <SubTexture name="intro-screen-title" x="450" y="914" width="280" height="95" frameX="0" frameY="-7" frameWidth="280" frameHeight="105"/>
+    <SubTexture name="leaderboard-hover" x="494" y="469" width="220" height="25" frameX="-1" frameY="0" frameWidth="228" frameHeight="25"/>
+    <SubTexture name="leaderboard-normal" x="731" y="462" width="220" height="25" frameX="-1" frameY="0" frameWidth="228" frameHeight="25"/>
+    <SubTexture name="menu-button-hover" x="982" y="93" width="30" height="25"/>
+    <SubTexture name="menu-button-normal" x="700" y="97" width="30" height="25"/>
+    <SubTexture name="orange-button-normal" x="322" y="96" width="250" height="55"/>
+    <SubTexture name="play-again-hover" x="731" y="436" width="220" height="25" frameX="-1" frameY="0" frameWidth="228" frameHeight="25"/>
+    <SubTexture name="play-again-normal" x="762" y="410" width="220" height="25" frameX="-1" frameY="0" frameWidth="228" frameHeight="25"/>
+    <SubTexture name="play-hover" x="762" y="384" width="220" height="25" frameX="-1" frameY="0" frameWidth="228" frameHeight="25"/>
+    <SubTexture name="play-normal" x="322" y="443" width="220" height="25" frameX="-1" frameY="0" frameWidth="228" frameHeight="25"/>
+    <SubTexture name="resume-hover" x="541" y="387" width="220" height="25" frameX="-1" frameY="0" frameWidth="228" frameHeight="25"/>
+    <SubTexture name="resume-normal" x="322" y="417" width="220" height="25" frameX="-1" frameY="0" frameWidth="228" frameHeight="25"/>
+    <SubTexture name="score-title" x="957" y="261" width="65" height="20"/>
+    <SubTexture name="sending-title-normal" x="579" y="91" width="120" height="20"/>
+    <SubTexture name="share-score-hover" x="494" y="361" width="220" height="25" frameX="-1" frameY="0" frameWidth="228" frameHeight="25"/>
+    <SubTexture name="share-score-normal" x="731" y="358" width="220" height="25" frameX="-1" frameY="0" frameWidth="228" frameHeight="25"/>
+    <SubTexture name="star-static-icon" x="982" y="119" width="22" height="22"/>
+    <SubTexture name="start-title-hover" x="573" y="149" width="156" height="25" frameX="-59" frameY="0" frameWidth="230" frameHeight="25"/>
+    <SubTexture name="start-title-normal" x="573" y="123" width="156" height="25" frameX="-59" frameY="0" frameWidth="230" frameHeight="25"/>
+    <SubTexture name="submit-now-button-hover" x="494" y="337" width="224" height="23"/>
+    <SubTexture name="submit-now-button-normal" x="731" y="334" width="224" height="23"/>
+    <SubTexture name="submit-score-hover" x="731" y="309" width="224" height="24"/>
+    <SubTexture name="submit-score-normal" x="731" y="284" width="224" height="24"/>
+    <SubTexture name="total-score-title" x="322" y="387" width="218" height="29"/>
 </TextureAtlas>

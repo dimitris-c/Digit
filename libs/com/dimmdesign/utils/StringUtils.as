@@ -51,18 +51,18 @@ package com.dimmdesign.utils
 		 * @return A string that has been converted.
 		 * 
 		 */		
-		public static function removeGreekGlyphs ($value:String):String {
-			if ($value != null) {
-				$value = $value.replace(/[άΆ]/g, "α");
-				$value = $value.replace(/[ΊΪίΐϊ]/g, "ι");
-				$value = $value.replace(/[όΌ]/g, "ο");
-				$value = $value.replace(/[ώΏ]/g, "ω");
-				$value = $value.replace(/[ήΉ]/g, "η");
-				$value = $value.replace(/[ύΎΰϋΫ]/g, "υ");
-				$value = $value.replace(/[έΈ]/g, "ε");
-				$value = $value.replace(/[ς]/g, "σ");
+		public static function removeGreekGlyphs (value:String):String {
+			if (value != null) {
+				value = value.replace(/[άΆ]/g, "α");
+				value = value.replace(/[ΊΪίΐϊ]/g, "ι");
+				value = value.replace(/[όΌ]/g, "ο");
+				value = value.replace(/[ώΏ]/g, "ω");
+				value = value.replace(/[ήΉ]/g, "η");
+				value = value.replace(/[ύΎΰϋΫ]/g, "υ");
+				value = value.replace(/[έΈ]/g, "ε");
+				value = value.replace(/[ς]/g, "σ");
 			}
-			return $value;
+			return value;
 		}
 		
 		/**
@@ -71,29 +71,29 @@ package com.dimmdesign.utils
 		 * @return The converted string.
 		 * 
 		 */		
-		public static function convertGreekToEnglish ($char:String):String {
+		public static function convertGreekToEnglish (char:String):String {
 			
-			if ( aVows.test($char) ) return "a" else if ( aCapsVows.test($char) ) return "A";
+			if ( aVows.test(char) ) return "a" else if ( aCapsVows.test(char) ) return "A";
 			
-			if ( yVows.test($char) ) return "y" else if ( yCapsVows.test($char) ) return "Y";
+			if ( yVows.test(char) ) return "y" else if ( yCapsVows.test(char) ) return "Y";
 			
-			if ( eVows.test($char) ) return "e" else if ( eCapsVows.test($char) ) return "E";
+			if ( eVows.test(char) ) return "e" else if ( eCapsVows.test(char) ) return "E";
 
-			if ( hVows.test($char) ) return "h" else if ( hCapsVows.test($char) ) return "H";
+			if ( hVows.test(char) ) return "h" else if ( hCapsVows.test(char) ) return "H";
 			
-			if ( iVows.test($char) ) return "i" else if ( iCapsVows.test($char) ) return "I";
+			if ( iVows.test(char) ) return "i" else if ( iCapsVows.test(char) ) return "I";
 			
-			if ( oVows.test($char) ) return "o" else if ( oCapsVows.test($char) ) return "O";
+			if ( oVows.test(char) ) return "o" else if ( oCapsVows.test(char) ) return "O";
 			
-			if ( wVows.test($char) ) return "v" else if ( wCapsVows.test($char) ) return "V";
+			if ( wVows.test(char) ) return "v" else if ( wCapsVows.test(char) ) return "V";
 			
-			var charIndex:int = greekChars.indexOf( $char );
+			var charIndex:int = greekChars.indexOf( char );
 			
 			if (charIndex != -1) {
-				$char = englishChars[ charIndex ];
+				char = englishChars[ charIndex ];
 			}
 			
-			return $char;
+			return char;
 			
 		}
 		

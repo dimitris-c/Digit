@@ -8,12 +8,16 @@ package gr.funkytaps.digitized.game
 	 *
 	 **/
 	
+	import com.dimmdesign.core.IDestroyable;
+	
+	import flash.desktop.NativeApplication;
 	import flash.system.System;
 	
 	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
 	import gr.funkytaps.digitized.events.LeaderBoardEvent;
 	import gr.funkytaps.digitized.interfaces.IView;
+	import gr.funkytaps.digitized.managers.SoundManager;
 	import gr.funkytaps.digitized.managers.SystemIdleMonitor;
 	import gr.funkytaps.digitized.ui.GamePreloader;
 	import gr.funkytaps.digitized.ui.buttons.MenuButton;
@@ -38,7 +42,9 @@ package gr.funkytaps.digitized.game
 		public static const PAUSE_STATE:int = 4;
 		
 		private var _currentState:int = INTRO_STATE;
-		
+
+		public function get currentState():int { return _currentState; }
+
 		private var _currentView:IView;
 		
 		/**
@@ -59,9 +65,23 @@ package gr.funkytaps.digitized.game
 
 		private var _loadingBackground:Image;
 		private var _gamePaused:Boolean;
+
+		public function get gamePaused():Boolean { return _gamePaused; }
+		public function set gamePaused(value:Boolean):void { _gamePaused = value; }
+
+		private var _isPlaying:Boolean;
+
+		public function get isPlaying():Boolean { return _isPlaying; }
+		
+		private var _gameEnded:Boolean;
+		
+		public function get gameEnded():Boolean { return _gameEnded; }
+		public function set gameEnded(value:Boolean):void { _gameEnded = value; }
+
+		private var _menuIsOpen:Boolean;
+		private var _appActivated:Boolean;
 		
 		private var _gradient:Image;
-		private var _isPlaying:Boolean;
 		
 		public function GameWorld()
 		{
@@ -85,8 +105,34 @@ package gr.funkytaps.digitized.game
 			
 			// Load the queue 
 			Assets.manager.loadQueue( _onProgress );
+			Assets.manager.verbose = true;
 			
 			_currentState = INTRO_STATE;
+			_appActivated = true;
+		}
+		
+		protected function _onDeactivate(event:*):void
+		{
+			_appActivated = false;
+			SoundManager.pauseAllSounds();
+			
+			if (!_menuIsOpen) {
+				_menuButton.setDownState();
+				_onMenuButtonTriggered();
+			}
+			
+		}
+		
+		protected function _onActivate(event:*):void
+		{
+			_appActivated = true;
+			if (_currentState == INTRO_STATE) {
+				SoundManager.playSound('intro', int.MAX_VALUE, (_menuIsOpen) ? 0.01 : 0.2);
+			}
+			
+			if (_currentState == PLAY_STATE) {
+				SoundManager.playSound('intro', int.MAX_VALUE, 0.01);
+			}
 			
 		}
 		
@@ -115,6 +161,10 @@ package gr.funkytaps.digitized.game
 			// about time
 			_initWorld();
 			
+			// listen for activate and deactivate events
+			NativeApplication.nativeApplication.addEventListener("activate", _onActivate);
+			NativeApplication.nativeApplication.addEventListener("deactivate", _onDeactivate);
+			
 			// clean-up
 			System.pauseForGCIfCollectionImminent();
 			System.gc();
@@ -123,7 +173,7 @@ package gr.funkytaps.digitized.game
 		private function _initWorld():void {
 			
 			// play the intro sound
-//			SoundManager.playSound('intro', int.MAX_VALUE, 0.3);
+			SoundManager.playSound('intro', int.MAX_VALUE, 0.1, true);
 			
 			_viewsContainer = new Sprite();
 			addChild(_viewsContainer);
@@ -144,15 +194,25 @@ package gr.funkytaps.digitized.game
 
 		}
 		
-		private function _onMenuButtonTriggered(event:Event ):void
+		public function showMenuOnGameEnd():void {
+			
+			_menuButton.setDownState();
+			_onMenuButtonTriggered();
+			
+		}
+		
+		private function _onMenuButtonTriggered(event:Event = null ):void
 		{
 			_menuButton.isEnabled = false;
 			
 			if (_menuView) {
 				_gamePaused = false;
 				_viewsContainer.touchable = true;
-//				_viewsContainer.filter = null;
 				_menuView.tweenOut(_removeMenuView);
+				if (_gameEnded == true) {
+					_gameEnded = false;
+					_createState(INTRO_STATE);
+				}
 				return;
 			}
 			
@@ -164,7 +224,6 @@ package gr.funkytaps.digitized.game
 			_gamePaused = true;
 			
 			_menuView = new MenuView(this);
-			_menuView
 			_menuView.alpha = 1;
 			addChild(_menuView);
 			
@@ -172,19 +231,43 @@ package gr.funkytaps.digitized.game
 			
 			_menuView.tweenIn();
 			
+			_menuIsOpen = true;
+			
 			_viewsContainer.touchable = false;
 //			_viewsContainer.filter = new BlurFilter(1, 1);
+			
+			if (_currentState == PLAY_STATE && _isPlaying) {
+				SoundManager.pauseSound('game-theme');
+				if (_appActivated) SoundManager.playSound('intro', int.MAX_VALUE, 0.01, true);
+			}
+			
+			if (_currentState == INTRO_STATE) {
+				if (_appActivated) {
+					SoundManager.tweenSound('intro', 1, 0.011, false)
+				}
+			}
 			
 			SystemIdleMonitor.normalMode();
 			
 		}
 		
 		private function _removeMenuView():void {
+			_menuIsOpen = false;
 			_menuButton.isEnabled = true;
+			_menuView.destroy();
 			_menuView.removeFromParent(true);
 			_menuView = null;
 			
-			if (_isPlaying) SystemIdleMonitor.keepAwakeMode();
+			if (_currentState == INTRO_STATE) {
+				SoundManager.tweenSound('intro', 1, 0.11, false);
+			}
+			
+			if (_currentState == PLAY_STATE && _isPlaying) {
+				SoundManager.stopSound('intro');
+				if (!SoundManager.getSound('game-theme').isPlaying) 
+					SoundManager.playSound('game-theme', int.MAX_VALUE, 0.2);
+				SystemIdleMonitor.keepAwakeMode();
+			}
 		}
 		
 		//Leader Board
@@ -214,18 +297,36 @@ package gr.funkytaps.digitized.game
 			}
 		}
 		
+		/**
+		 * This gets called form the menuView button PlayAgain 
+		 */		
+		public function playAgain():void
+		{
+			if (_gameEnded) {
+				_gameEnded = false;
+				_menuButton.setNormalState();
+				_onMenuButtonTriggered();
+				_createState(PLAY_STATE);
+			}
+		}
+		
+		
+		public function resumeGame():void
+		{
+			_gamePaused = false;
+			_menuButton.setNormalState();
+			_onMenuButtonTriggered();
+		}
+		
 		public function changeState(state:int):void {
-//			if (_currentView) {
-//				_currentView.tweenOut(_createState, [state]);
-//				return;
-//			}
-			
 			_createState(state);
 		}
 		
-		private function _createState(state:int):void { 
+		[Inline]
+		private final function _createState(state:int):void { 
 			_currentState = state;
 			
+			if (_currentView is IDestroyable) _currentView.destroy();
 			_currentView.removeFromParent(true);
 			_currentView = null;
 			
@@ -233,6 +334,8 @@ package gr.funkytaps.digitized.game
 			{
 				case INTRO_STATE:
 				{
+					_currentView = new IntroView(this);
+					_isPlaying = false;
 					SystemIdleMonitor.normalMode();
 					break;
 				}
@@ -251,6 +354,7 @@ package gr.funkytaps.digitized.game
 					
 				case GAME_END_STATE:
 				{
+					_gameEnded = true;
 					SystemIdleMonitor.normalMode();
 					break;
 				}
@@ -267,5 +371,6 @@ package gr.funkytaps.digitized.game
 				if (!_gamePaused) _currentView.update( event.passedTime );
 			}
 		}
+		
 	}
 }

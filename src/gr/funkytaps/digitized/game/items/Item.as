@@ -7,6 +7,7 @@ package gr.funkytaps.digitized.game.items
 	import gr.funkytaps.digitized.core.Assets;
 	
 	import starling.animation.Juggler;
+	import starling.core.Starling;
 	import starling.display.DisplayObject;
 	import starling.display.Image;
 	import starling.display.MovieClip;
@@ -107,6 +108,9 @@ package gr.funkytaps.digitized.game.items
 				
 				_itemWidth = _itemAnimated.width;
 				_itemHeight = _itemAnimated.height;
+				
+				_itemAnimated.pivotX = _itemAnimated.width >> 1;
+				_itemAnimated.pivotY = _itemAnimated.height >> 1;
 			}
 			
 			if (_isStatic) {
@@ -130,18 +134,21 @@ package gr.funkytaps.digitized.game.items
 				_itemParticleMovieclip = movieClip;
 				_itemParticleMovieclip.loop = false;
 				_itemParticleMovieclip.visible = false;
+				_itemParticleMovieclip.pivotX = _itemParticleMovieclip.width >> 1;
+				_itemParticleMovieclip.pivotY = _itemParticleMovieclip.height >> 1;
 				addChild(_itemParticleMovieclip);
 				_itemParticleMovieclip.stop();
 				_itemParticleMovieclip.addEventListener(Event.COMPLETE, _onParticleSystemCompleted);
 				return;
 			}
 			
-			if (_itemParticleSystem) {
+			if (particleSystem) {
 				_itemParticleSystem = particleSystem;
-				_itemParticleSystem.x = _itemWidth >> 1;
-				_itemParticleSystem.y = _itemHeight >> 1;
+//				_itemParticleSystem.x = _itemWidth >> 1;
+//				_itemParticleSystem.y = _itemHeight >> 1;
 				_itemParticleSystem.stop();
 				_juggler.add(_itemParticleSystem);
+				Starling.current.juggler.add(_itemParticleSystem);
 				addChild(_itemParticleSystem);
 				_itemParticleSystem.addEventListener(Event.COMPLETE, _onParticleSystemCompleted);
 			}
@@ -213,7 +220,8 @@ package gr.funkytaps.digitized.game.items
 				_itemParticleSystem.removeEventListener(Event.COMPLETE, _onParticleSystemCompleted);
 				_itemParticleSystem.stop(true);
 				_itemParticleSystem.removeFromParent(true);
-				_juggler.remove(_itemParticleSystem);
+//				_juggler.remove(_itemParticleSystem);
+				Starling.current.juggler.remove(_itemParticleSystem);
 				_itemParticleSystem = null;
 			}
 		}

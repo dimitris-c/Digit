@@ -8,8 +8,6 @@ package com.dimmdesign.utils
 	import flash.display.DisplayObjectContainer;
 	import flash.display.IBitmapDrawable;
 	import flash.display.Loader;
-	import flash.display.Shape;
-	import flash.display.Stage;
 	import flash.geom.ColorTransform;
 	import flash.geom.Matrix;
 	
@@ -24,38 +22,30 @@ package com.dimmdesign.utils
 		 * @param recursive If true it will remove all children and grandchildren going.
 		 * 
 		 */		
-		public static function removeAllChildren(target:*, recursive:Boolean = false):void {
+		public static function removeAllChildren(target:*, recursive:Boolean = false, destroy:Boolean = false):void {
 
-			if ((target is Loader) &&  !(target is DisplayObjectContainer)) return;
+			if ((target is Loader) || !(target is DisplayObjectContainer))
+				return;
 			
 			const targetContainer:DisplayObjectContainer = target as DisplayObjectContainer;
-			
+		
 			while(targetContainer.numChildren) {
-				var child:* = targetContainer.removeChildAt(0);
-				if (recursive) { 
-					if (child) {
-						if ('numChildren' in child) {
-							DisplayUtils.removeAllChildren(child, recursive);
-						}
-					}
-				}
+				var c:* = targetContainer.removeChildAt(0);
+				DisplayUtils.destroyChild(c, recursive, destroy);
 				
-				if (child is IDestroyable) IDestroyable(child).destroy();
-//				child = null;
 			}
-			
+						
 		}
 
-		public static function destroyChild(target:*, destroy:Boolean, recursive:Boolean):* {
+		public static function destroyChild(target:*, recursive:Boolean = false, destroy:Boolean = false):* {
 
 			if (destroy && (target is IDestroyable)) {
 				const child:IDestroyable = target as IDestroyable;
-				
 				child.destroy();
 			}
 			
 			if (recursive)
-				DisplayUtils.removeAllChildren(target, recursive);
+				DisplayUtils.removeAllChildren(target, recursive, destroy);
 		}
 		
 		/**

@@ -172,9 +172,6 @@
             <filename>../../images/game/1x/energy-title.png</filename>
             <filename>../../images/game/1x/star-static-icon.png</filename>
             <filename>../../images/credits/1x/credits-alien.png</filename>
-            <filename>../../images/credits/1x/credits-designcode-title.png</filename>
-            <filename>../../images/credits/1x/credits-ditigized-title.png</filename>
-            <filename>../../images/credits/1x/credits-illustration-title.png</filename>
             <filename>../../images/credits/1x/credits-title.png</filename>
             <filename>../../images/buttons/1x/titles/getdigitized-hover.png</filename>
             <filename>../../images/buttons/1x/titles/getdigitized-normal.png</filename>
@@ -195,6 +192,11 @@
             <filename>../../images/buttons/1x/titles/sending-title-normal.png</filename>
             <filename>../../fonts/1x/AgoraName30.png</filename>
             <filename>../../fonts/1x/AgoraPoints50.png</filename>
+            <filename>../../images/credits/1x/created-title.png</filename>
+            <filename>../../images/credits/1x/credits-people.png</filename>
+            <filename>../../images/credits/1x/digitized-logo.png</filename>
+            <filename>../../images/buttons/1x/back-button-hover.png</filename>
+            <filename>../../images/buttons/1x/back-button-normal.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

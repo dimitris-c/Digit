@@ -19,10 +19,10 @@ package gr.funkytaps.digitized.core
 	import flash.geom.Rectangle;
 	import flash.media.SoundMixer;
 	import flash.system.Capabilities;
-	import flash.system.Security;
 	import flash.system.System;
 	
 	import gr.funkytaps.digitized.game.GameWorld;
+	import gr.funkytaps.digitized.managers.SoundManager;
 	
 	import starling.core.Starling;
 	import starling.events.Event;
@@ -80,7 +80,9 @@ package gr.funkytaps.digitized.core
 			
 			assetsManager.enqueue( 
 				appDir.resolvePath( 'assets/stars' ),
+				appDir.resolvePath( 'assets/chunks' ),
 				appDir.resolvePath( 'assets/sounds' ),
+				appDir.resolvePath( 'assets/particles' ),
 				appDir.resolvePath( formatString('assets/fonts/{0}x', scaleFactor) ),
 				appDir.resolvePath( formatString('assets/atlases/{0}x', scaleFactor) )
 			);
@@ -88,7 +90,7 @@ package gr.funkytaps.digitized.core
 			// Assign the assetsManager to a global static variable for easy access
 			Assets.manager = assetsManager;
 			
-			_background = scaleFactor == 1 ? Assets.getBitmap('Default') : (iPhone5) ? Assets.getBitmap('Default568h') : Assets.getBitmap('DefaultHD');
+			_background = (scaleFactor == 1) ? Assets.getBitmap('Default') : (iPhone5) ? Assets.getBitmap('Default568h') : Assets.getBitmap('DefaultHD');
 			_background.smoothing = true;
 			addChild(_background);
 			
@@ -98,8 +100,10 @@ package gr.funkytaps.digitized.core
 			_mStarling.stage.stageHeight = iPhone5 ? 568 : stageHeight;
 			_mStarling.antiAliasing = 1;
 			
-			stage.doubleClickEnabled = true;
-			stage.addEventListener(MouseEvent.DOUBLE_CLICK, onDoubleClick);
+			if (Capabilities.isDebugger) {
+				stage.doubleClickEnabled = true;
+				stage.addEventListener(MouseEvent.DOUBLE_CLICK, onDoubleClick);
+			}
 			
 			_mStarling.addEventListener(starling.events.Event.ROOT_CREATED, _handleRootCreated);
 			

@@ -2,3 +2,5 @@
 .actionScriptProperties
 Digit.swf
 *.app
+*.ipa
+*.apk

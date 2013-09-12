@@ -47,25 +47,24 @@ package gr.funkytaps.digitized.ui.buttons
 					touch.globalY > buttonRect.y + buttonRect.height + MAX_DRAG_DIST)
 				{
 					_isToggled = !_isToggled;
-					_toggleButton();
+					toggleButton();
 					_isDown = false;
 				}
 			}
 			else if (touch.phase == TouchPhase.ENDED && _isDown)
 			{
-				_toggleButton();
+				toggleButton();
 				_isDown = false;
 				dispatchEventWith(Event.TRIGGERED, true);
 			}
 			
 		}
 		
-		protected function _toggleButton():void {
-			
+		public function toggleButton():void {
 			if (_isToggled) 
-				_setNormalState();
+				setNormalState();
 			else
-				_setDownState();
+				setDownState();
 			
 		}
 

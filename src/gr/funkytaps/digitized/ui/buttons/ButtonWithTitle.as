@@ -49,8 +49,8 @@ package gr.funkytaps.digitized.ui.buttons
 			
 		}
 		
-		override protected function _setNormalState():void {
-			super._setNormalState();
+		override public function setNormalState():void {
+			super.setNormalState();
 			
 			_title.texture = _titleNormalState;
 			_title.readjustSize();
@@ -58,8 +58,8 @@ package gr.funkytaps.digitized.ui.buttons
 			_updateTitlePosition();
 		}
 		
-		override protected function _setDownState():void {
-			super._setDownState();
+		override public function setDownState():void {
+			super.setDownState();
 			
 			_title.texture = _titleDownState;
 			_title.readjustSize();
@@ -77,7 +77,6 @@ package gr.funkytaps.digitized.ui.buttons
 		override public function destroy():void {
 			super.destroy();
 			
-			_holder.removeFromParent(true);
 			_title = null;
 		}
 	}

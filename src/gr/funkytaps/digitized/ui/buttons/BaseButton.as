@@ -80,12 +80,12 @@ package gr.funkytaps.digitized.ui.buttons
 			return _backgroundHeight;
 		}
 		
-		protected function _setNormalState():void { 
+		public function setNormalState():void { 
 			_isDown = false;
 			_background.texture = _normalState;
 		}
 		
-		protected function _setDownState():void {
+		public function setDownState():void {
 			_isDown = true;
 			_background.texture = _downState;
 		}
@@ -96,7 +96,7 @@ package gr.funkytaps.digitized.ui.buttons
 			if (!_isEnabled || touch == null) return;
 			
 			if (touch.phase == TouchPhase.BEGAN && !_isDown) {
-				_setDownState();
+				setDownState();
 			}
 			else if (touch.phase == TouchPhase.MOVED && _isDown) { 
 				var buttonRect:Rectangle = getBounds(stage);
@@ -105,12 +105,12 @@ package gr.funkytaps.digitized.ui.buttons
 					touch.globalX > buttonRect.x + buttonRect.width + MAX_DRAG_DIST ||
 					touch.globalY > buttonRect.y + buttonRect.height + MAX_DRAG_DIST)
 				{
-					_setNormalState();
+					setNormalState();
 				}
 			}
 			else if (touch.phase == TouchPhase.ENDED && _isDown)
 			{
-				_setNormalState();
+				setNormalState();
 				dispatchEventWith(Event.TRIGGERED, true);
 			}
 			

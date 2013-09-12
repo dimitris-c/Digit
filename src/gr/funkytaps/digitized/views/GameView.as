@@ -276,6 +276,8 @@ package gr.funkytaps.digitized.views
 		private function _onGameOver():void{
 			trace("onGameOver::::::::");
 			
+			_score = _dashboard.currentScore.toString();
+			
 			//TODO save score if 
 			var user:Object = GameDataHelper.getUser();
 			trace("-----------------------");

@@ -277,6 +277,7 @@ package gr.funkytaps.digitized.managers
 							// we don't remove the item right way so run this once
 							SoundManager.playSoundFX('star-pickup', 0.11);
 							_game.dashboard.updateStars( _activeChunkElements[i].score );
+							_game.dashboard.updateScore( _activeChunkElements[i].score );
 						}
 						
 						if (!_game.hero.crashed) {

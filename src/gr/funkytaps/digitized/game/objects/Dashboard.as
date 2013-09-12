@@ -139,5 +139,9 @@ package gr.funkytaps.digitized.game.objects
 			_currentScore += score;
 			if (_scoreTextfield) _scoreTextfield.text = _currentScore.toString();
 		}
+		
+		public function getCurrentScore():Number{
+			return _currentScore;
+		}
 	}
 }

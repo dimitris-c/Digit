@@ -34,7 +34,6 @@ package gr.funkytaps.digitized.views
 	public class LeaderboardView extends AbstractView
 	{
 	
-		//TODO repalce this with a close button
 		private var _closeButton:CloseLeaderBoardViewButton;
 		
 		private var _background:Image;
@@ -78,9 +77,6 @@ package gr.funkytaps.digitized.views
 		override protected function _init():void {
 			_background = new Image( Assets.manager.getTexture('generic-background') );
 			addChild(_background);
-			//_background = new Quad(Settings.WIDTH, Settings.HEIGHT, 0x0000ff);
-			//_background.alpha = 1.0;
-			//addChild(_background);
 			
 			_gradient = new Quad(Settings.WIDTH, 260);
 			_gradient.setVertexColor(0, 0x000000);

@@ -15,12 +15,13 @@ package gr.funkytaps.digitized.game
 	
 	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
-	import gr.funkytaps.digitized.events.LeaderBoardEvent;
+	import gr.funkytaps.digitized.events.MenuEvent;
 	import gr.funkytaps.digitized.interfaces.IView;
 	import gr.funkytaps.digitized.managers.SoundManager;
 	import gr.funkytaps.digitized.managers.SystemIdleMonitor;
 	import gr.funkytaps.digitized.ui.GamePreloader;
 	import gr.funkytaps.digitized.ui.buttons.MenuButton;
+	import gr.funkytaps.digitized.views.CreditsView;
 	import gr.funkytaps.digitized.views.GameView;
 	import gr.funkytaps.digitized.views.IntroView;
 	import gr.funkytaps.digitized.views.LeaderboardView;
@@ -59,6 +60,7 @@ package gr.funkytaps.digitized.game
 		private var _menuButton:MenuButton;
 		
 		private var _leaderBoardView:LeaderboardView;
+		private var _creditsView:CreditsView;
 		
 		private var _assets:AssetManager;
 		private var _loadProgress:GamePreloader;
@@ -149,7 +151,7 @@ package gr.funkytaps.digitized.game
 		
 		private function _startupWorld():void {
 			
-			this.addEventListener(LeaderBoardEvent.OPEN_LEADERBOARD, _onShowLeaderBoard);
+			this.addEventListener(MenuEvent.MENU_CLICKED, _onMenuClicked);
 			
 			_loadingBackground.removeFromParent(true);
 			_loadingBackground = null;
@@ -270,29 +272,63 @@ package gr.funkytaps.digitized.game
 			}
 		}
 		
-		//Leader Board
-		private function _onShowLeaderBoard(e:LeaderBoardEvent):void{
+		//Menu Click
+		private function _onMenuClicked(e:MenuEvent):void{
 			e.stopPropagation();
-			//add a custom event so we can know whether we are coming from an ended game or from menu 
-			_createLeaderBoardView(e.displayOnUserDemand, e.highScore);
+			if(e.viewToOpen == MenuEvent.VIEW_LEADERBOARD){				
+				_createLeaderBoardView(e.displayOnUserDemand, e.highScore);
+			}
+			else if(e.viewToOpen == MenuEvent.VIEW_CREDITS){
+				_createCreditsView();
+			}
 		}
 		
+		/**
+		* Credits 
+		* 
+		*/		
+		private function _createCreditsView():void{
+			if(!_leaderBoardView){
+				trace("Creating Credtis");
+				_creditsView = new CreditsView();
+				_creditsView.addEventListener(Event.REMOVED, _onRemovedCredits);
+				addChild(_creditsView);
+			}
+		}
+		
+		private function _onRemovedCredits(e:Event):void{
+			_destroyCreditsView();
+		}
+		
+		private function _destroyCreditsView():void{
+			if(_creditsView){
+				_creditsView.removeEventListener(Event.REMOVED, _onRemovedCredits);
+				_creditsView = null;
+			}
+		}
+		
+		/**
+		 * Leaderboard 
+		 * @param displayedOnUserDemand
+		 * @param highScore
+		 * 
+		 */		
 		private function _createLeaderBoardView(displayedOnUserDemand:Boolean, highScore:String):void{
 			if(!_leaderBoardView){
 				trace("Creating Leaderboard");
 				_leaderBoardView = new LeaderboardView(displayedOnUserDemand, highScore);
-				_leaderBoardView.addEventListener(Event.REMOVED, _onRemoved);
+				_leaderBoardView.addEventListener(Event.REMOVED, _onRemovedLeaderBoard);
 				addChild(_leaderBoardView);
 			}
 		}
 		
-		private function _onRemoved(e:Event):void{
+		private function _onRemovedLeaderBoard(e:Event):void{
 			_destroyLeaderBoardView();
 		}
 		
 		private function _destroyLeaderBoardView():void{
 			if(_leaderBoardView){
-				_leaderBoardView.removeEventListener(Event.REMOVED, _onRemoved);
+				_leaderBoardView.removeEventListener(Event.REMOVED, _onRemovedLeaderBoard);
 				_leaderBoardView = null;
 			}
 		}

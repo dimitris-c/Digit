@@ -9,7 +9,7 @@ package gr.funkytaps.digitized.views
 	
 	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
-	import gr.funkytaps.digitized.events.LeaderBoardEvent;
+	import gr.funkytaps.digitized.events.MenuEvent;
 	import gr.funkytaps.digitized.game.GameWorld;
 	import gr.funkytaps.digitized.game.items.IItem;
 	import gr.funkytaps.digitized.game.objects.Background;
@@ -348,7 +348,7 @@ package gr.funkytaps.digitized.views
 		}
 		
 		private function _notifyParent(highScore:String = null):void{
-			var ev:LeaderBoardEvent = new LeaderBoardEvent(LeaderBoardEvent.OPEN_LEADERBOARD, true);
+			var ev:MenuEvent = new MenuEvent(MenuEvent.MENU_CLICKED, true);
 			ev.displayOnUserDemand = false;
 			ev.highScore = highScore;
 			this.dispatchEvent(ev);

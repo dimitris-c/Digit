@@ -16,7 +16,7 @@ package gr.funkytaps.digitized.views
 	
 	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
-	import gr.funkytaps.digitized.events.LeaderBoardEvent;
+	import gr.funkytaps.digitized.events.MenuEvent;
 	import gr.funkytaps.digitized.game.GameWorld;
 	import gr.funkytaps.digitized.ui.buttons.CreditsButton;
 	import gr.funkytaps.digitized.ui.buttons.GetDigitizedButton;
@@ -239,13 +239,18 @@ package gr.funkytaps.digitized.views
 		
 		private function _onCreditsButtonTriggered(event:Event):void
 		{
+			trace("onMenu Button Clicked:::::::: CREDITS");
+			var ev:MenuEvent = new MenuEvent(MenuEvent.MENU_CLICKED, true);
+			ev.viewToOpen = MenuEvent.VIEW_CREDITS;
+			this.dispatchEvent(ev);
 			
 		}
 		
 		private function _onLeaderboardButtonTriggered(event:Event):void
 		{
-			trace("onMenu Button Clicked::::::::");
-			var ev:LeaderBoardEvent = new LeaderBoardEvent(LeaderBoardEvent.OPEN_LEADERBOARD, true);
+			trace("onMenu Button Clicked:::::::: LEADERBOARD");
+			var ev:MenuEvent = new MenuEvent(MenuEvent.MENU_CLICKED, true);
+			ev.viewToOpen = MenuEvent.VIEW_LEADERBOARD;
 			ev.displayOnUserDemand = true;
 			this.dispatchEvent(ev);
 		}
@@ -276,7 +281,7 @@ package gr.funkytaps.digitized.views
 				onComplete:onComplete,
 				onCompleteParams:onCompleteParams
 			});
-		}
+		}	
 		
 		override public function destroy():void {
 			DisplayUtils.removeAllChildren(this, true, true, true);

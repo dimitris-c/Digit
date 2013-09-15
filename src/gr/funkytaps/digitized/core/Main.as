@@ -36,7 +36,7 @@ package gr.funkytaps.digitized.core
 	{
 		private var _mStarling:Starling;
 		
-		private var iOS:Boolean;
+		//private var iOS:Boolean;
 		private var _background:Bitmap;
 		
 		public function Main()
@@ -51,21 +51,28 @@ package gr.funkytaps.digitized.core
 		{
 			removeEventListener(flash.events.Event.ADDED_TO_STAGE, _onAddedToStage);
 			
+			
 			var stageWidth:Number = Settings.WIDTH;
 			var stageHeight:Number = Settings.HEIGHT;
 			
 			var screenWidth:Number = stage.fullScreenWidth;
 			var screenHeight:Number = stage.fullScreenHeight;
 			
-			iOS = (Capabilities.manufacturer.indexOf('iOS') != -1);
+			trace(Capabilities.manufacturer);
+//			if (Capabilities.manufacturer == "Android Linux") {
+//				Settings.isiOS = false;
+//			} 
+//			else if (Capabilities.manufacturer == "Adobe iOS") {
+//				Settings.isiOS = true;
+//			}
+			Settings.isiOS = (Capabilities.manufacturer.indexOf('iOS') != -1);
 			
 			Starling.multitouchEnabled = false;
-			Starling.handleLostContext = !iOS;
+			Starling.handleLostContext = !Settings.isiOS;
 			
 			var viewPort:Rectangle = RectangleUtil.fit(
 				new Rectangle(0, 0, stageWidth, stageHeight), 
-				new Rectangle(0, 0, stage.fullScreenWidth, stage.fullScreenHeight),
-				ScaleMode.SHOW_ALL, iOS);
+				new Rectangle(0, 0, stage.fullScreenWidth, stage.fullScreenHeight),	ScaleMode.SHOW_ALL, Settings.isiOS);
 			
 			var iPhone5:Boolean = (screenHeight == 1136);
 			var isPad:Boolean = (screenWidth == 768 || screenWidth == 1536);

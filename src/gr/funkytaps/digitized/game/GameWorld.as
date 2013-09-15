@@ -16,6 +16,8 @@ package gr.funkytaps.digitized.game
 	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
 	import gr.funkytaps.digitized.events.MenuEvent;
+	import gr.funkytaps.digitized.events.ShareEvent;
+	import gr.funkytaps.digitized.events.ViewEvent;
 	import gr.funkytaps.digitized.interfaces.IView;
 	import gr.funkytaps.digitized.managers.SoundManager;
 	import gr.funkytaps.digitized.managers.SystemIdleMonitor;
@@ -26,6 +28,7 @@ package gr.funkytaps.digitized.game
 	import gr.funkytaps.digitized.views.IntroView;
 	import gr.funkytaps.digitized.views.LeaderboardView;
 	import gr.funkytaps.digitized.views.MenuView;
+	import gr.funkytaps.digitized.views.ShareView;
 	
 	import starling.core.Starling;
 	import starling.display.Image;
@@ -61,6 +64,7 @@ package gr.funkytaps.digitized.game
 		
 		private var _leaderBoardView:LeaderboardView;
 		private var _creditsView:CreditsView;
+		private var _shareView:ShareView;
 		
 		private var _assets:AssetManager;
 		private var _loadProgress:GamePreloader;
@@ -281,6 +285,47 @@ package gr.funkytaps.digitized.game
 			else if(e.viewToOpen == MenuEvent.VIEW_CREDITS){
 				_createCreditsView();
 			}
+			else if(e.viewToOpen == MenuEvent.VIEW_SHARE){
+				_createShareView();
+			}
+		}
+		
+		/**
+		 * Share 
+		 * 
+		 */		
+		private function _createShareView():void{
+			if(!_shareView){
+				trace("Creating Credtis");
+				_shareView = new ShareView();
+				_shareView.addEventListener(ShareEvent.SHARE_COMPLETED, _onShareCompleted);
+				_shareView.addEventListener(ShareEvent.SHARE_FAILED, _onShareFailed);
+				_shareView.addEventListener(ViewEvent.DESTROY_VIEW, _onRemovedShare);
+				addChild(_shareView);
+			}
+		}
+		
+		private function _onShareCompleted(e:ShareEvent):void{
+			e.stopImmediatePropagation();
+			trace("share completed");
+			_destroyShareView();
+		}
+
+		private function _onShareFailed(e:ShareEvent):void{
+			e.stopImmediatePropagation();
+			trace("share failed");
+		}
+		
+		private function _onRemovedShare(e:ViewEvent):void{
+			_destroyShareView();
+		}
+		
+		private function _destroyShareView():void{
+			if(_shareView){
+				_shareView.removeEventListener(ViewEvent.DESTROY_VIEW, _onRemovedShare);
+				removeChild(_shareView);
+				_shareView = null;
+			}
 		}
 		
 		/**
@@ -291,18 +336,19 @@ package gr.funkytaps.digitized.game
 			if(!_leaderBoardView){
 				trace("Creating Credtis");
 				_creditsView = new CreditsView();
-				_creditsView.addEventListener(Event.REMOVED, _onRemovedCredits);
+				_creditsView.addEventListener(ViewEvent.DESTROY_VIEW, _onRemovedCredits);
 				addChild(_creditsView);
 			}
 		}
 		
-		private function _onRemovedCredits(e:Event):void{
+		private function _onRemovedCredits(e:ViewEvent):void{
 			_destroyCreditsView();
 		}
 		
 		private function _destroyCreditsView():void{
 			if(_creditsView){
-				_creditsView.removeEventListener(Event.REMOVED, _onRemovedCredits);
+				_creditsView.removeEventListener(ViewEvent.DESTROY_VIEW, _onRemovedCredits);
+				removeChild(_creditsView);
 				_creditsView = null;
 			}
 		}
@@ -317,18 +363,19 @@ package gr.funkytaps.digitized.game
 			if(!_leaderBoardView){
 				trace("Creating Leaderboard");
 				_leaderBoardView = new LeaderboardView(displayedOnUserDemand, highScore);
-				_leaderBoardView.addEventListener(Event.REMOVED, _onRemovedLeaderBoard);
+				_leaderBoardView.addEventListener(ViewEvent.DESTROY_VIEW, _onRemovedLeaderBoard);
 				addChild(_leaderBoardView);
 			}
 		}
 		
-		private function _onRemovedLeaderBoard(e:Event):void{
+		private function _onRemovedLeaderBoard(e:ViewEvent):void{
 			_destroyLeaderBoardView();
 		}
 		
 		private function _destroyLeaderBoardView():void{
 			if(_leaderBoardView){
-				_leaderBoardView.removeEventListener(Event.REMOVED, _onRemovedLeaderBoard);
+				_leaderBoardView.removeEventListener(ViewEvent.DESTROY_VIEW, _onRemovedLeaderBoard);
+				removeChild(_leaderBoardView);
 				_leaderBoardView = null;
 			}
 		}

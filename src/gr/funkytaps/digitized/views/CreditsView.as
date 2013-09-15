@@ -4,6 +4,7 @@ package gr.funkytaps.digitized.views
 	
 	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
+	import gr.funkytaps.digitized.events.ViewEvent;
 	import gr.funkytaps.digitized.ui.buttons.CloseLeaderBoardViewButton;
 	
 	import starling.display.Image;
@@ -78,11 +79,11 @@ package gr.funkytaps.digitized.views
 			_alien.y = _people.y + _people.height - 10;
 			
 			//_funky.addEventListener(Event.TRIGGERED, _openFunky);
-			
 		}
 		
 		private function _onCloseButtonTriggered(event:Event ):void{
-			this.removeFromParent(true);
+			//this.removeFromParent(true);
+			dispatchEvent(new ViewEvent(ViewEvent.DESTROY_VIEW));
 		}
 		
 		private function _openFunky(e:Event):void{

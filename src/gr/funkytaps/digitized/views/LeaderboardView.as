@@ -14,6 +14,7 @@ package gr.funkytaps.digitized.views
 	
 	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
+	import gr.funkytaps.digitized.events.ViewEvent;
 	import gr.funkytaps.digitized.helpers.GameDataHelper;
 	import gr.funkytaps.digitized.helpers.POSTRequestHelper;
 	import gr.funkytaps.digitized.ui.buttons.CloseLeaderBoardViewButton;
@@ -106,7 +107,8 @@ package gr.funkytaps.digitized.views
 		}
 		
 		private function _onCloseButtonTriggered(event:Event ):void{
-			this.removeFromParent(true);
+			//this.removeFromParent(true);
+			dispatchEvent(new ViewEvent(ViewEvent.DESTROY_VIEW));
 		}
 		
 		private function _initPOST():void{
@@ -322,7 +324,7 @@ package gr.funkytaps.digitized.views
 		private function _createRegisterPanel():void{
 			if(!_registerPanel){
 				_registerPanel = new RegisterPanel(_highScore);
-				_registerPanel.addEventListener(Event.REMOVED, _onRemoved);
+				_registerPanel.addEventListener(ViewEvent.DESTROY_VIEW, _onRemoved);
 				addChild(_registerPanel);
 			}
 		}
@@ -333,7 +335,7 @@ package gr.funkytaps.digitized.views
 		
 		private function _destroyRegisterPanel():void{
 			if(_registerPanel){
-				_registerPanel.removeEventListener(Event.REMOVED, _onRemoved);
+				_registerPanel.removeEventListener(ViewEvent.DESTROY_VIEW, _onRemoved);
 				_registerPanel = null;
 			}
 		}

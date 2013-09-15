@@ -90,21 +90,21 @@ package gr.funkytaps.digitized.managers
 			_starTextures = new Vector.<Texture>;
 			Assets.manager.getTextures(ItemsType.STAR, _starTextures);
 			
-			_starsPool = new ObjectPool(false);
+			_starsPool = new ObjectPool(true);
 			_starsPool.allocate(100, Item);
 			_starsPool.initialize('initItem', [true, false, ItemsType.STAR, 1, 0.5, 10, _starTextures, _itemsJuggler]);
 			
 			_energyTextures = new Vector.<Texture>;
 			Assets.manager.getTextures(ItemsType.ENERGY, _energyTextures);
 			
-			_energiesPool = new ObjectPool(false);
+			_energiesPool = new ObjectPool(true);
 			_energiesPool.allocate(50, Item);
 			_energiesPool.initialize('initItem', [true, false, ItemsType.ENERGY, 1, 0.5, 10, _energyTextures, _itemsJuggler]);
 			
 			_bombTextures = new Vector.<Texture>;
 			Assets.manager.getTextures(ItemsType.BOMB, _bombTextures);
 			
-			_bombsPool = new ObjectPool(false);
+			_bombsPool = new ObjectPool(true);
 			_bombsPool.allocate(50, Item);
 			
 			_bombsPool.initialize('initItem', [true, false, ItemsType.BOMB, 0, 0.5, 10, _bombTextures, _itemsJuggler]);

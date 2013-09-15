@@ -10,6 +10,7 @@ package gr.funkytaps.digitized.core
 	
 	public class Settings
 	{
+		public static var isiOS:Boolean;
 		
 		public static const WIDTH:int = 320;
 		public static var HEIGHT:int = 480;

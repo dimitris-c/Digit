@@ -8,6 +8,7 @@ package gr.funkytaps.digitized.events
 		
 		public static const VIEW_LEADERBOARD:String = "leaderBoard";
 		public static const VIEW_CREDITS:String = "credits";
+		public static const VIEW_SHARE:String = "share";
 		
 		public var displayOnUserDemand:Boolean;
 		public var highScore:String;

@@ -16,6 +16,7 @@ package gr.funkytaps.digitized.views
 	
 	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
+	import gr.funkytaps.digitized.events.ViewEvent;
 	import gr.funkytaps.digitized.helpers.GameDataHelper;
 	import gr.funkytaps.digitized.helpers.POSTRequestHelper;
 	import gr.funkytaps.digitized.ui.buttons.CloseLeaderBoardViewButton;
@@ -116,7 +117,8 @@ package gr.funkytaps.digitized.views
 		private function _onCloseButtonTriggered(event:Event ):void{
 			Starling.current.nativeOverlay.removeChild(_txtName);
 			Starling.current.nativeOverlay.removeChild(_txtEmail);
-			this.removeFromParent(true);
+			dispatchEvent(new ViewEvent(ViewEvent.DESTROY_VIEW));
+			//this.removeFromParent(true);
 		}
 		
 		private function _onSubmitButtonTriggered(event:Event):void{
@@ -157,7 +159,8 @@ package gr.funkytaps.digitized.views
 					trace(user);
 					GameDataHelper.saveUser(user["user_uid"], user["name"], user["email"], user["high_score"]); 
 					_destroy();
-					this.removeFromParent(true);
+					dispatchEvent(new ViewEvent(ViewEvent.DESTROY_VIEW));
+					//this.removeFromParent(true);
 				}
 				else{
 					//error

@@ -18,6 +18,9 @@ package gr.funkytaps.digitized.views
 	import gr.funkytaps.digitized.core.Settings;
 	import gr.funkytaps.digitized.events.MenuEvent;
 	import gr.funkytaps.digitized.game.GameWorld;
+	import gr.funkytaps.digitized.helpers.GameDataHelper;
+	import gr.funkytaps.digitized.social.ShareriOS6;
+	import gr.funkytaps.digitized.social.SocialSharer;
 	import gr.funkytaps.digitized.ui.buttons.CreditsButton;
 	import gr.funkytaps.digitized.ui.buttons.GetDigitizedButton;
 	import gr.funkytaps.digitized.ui.buttons.LeaderboardButton;
@@ -103,6 +106,8 @@ package gr.funkytaps.digitized.views
 			_gradient.setVertexAlpha(3, 0);
 			addChild(_gradient);
 			
+			//_score = GameDataHelper.getHighScore();
+			
 			_createHeader();
 			
 			_createButtons();
@@ -174,7 +179,7 @@ package gr.funkytaps.digitized.views
 //			_buttonsContainer.filter = BlurFilter.createDropShadow();
 			
 			_shareScoreButton = new ShareScoreButton();
-			_shareScoreButton.addEventListener(Event.TRIGGERED, _onPlayAgainTriggered);
+			_shareScoreButton.addEventListener(Event.TRIGGERED, _onShareTriggered);
 			_buttonsContainer.addChild(_shareScoreButton);
 			
 			// all the buttons have the same height so we just store it, 
@@ -224,6 +229,15 @@ package gr.funkytaps.digitized.views
 			_buttonsContainer.x = (Settings.HALF_WIDTH - (_buttonsContainer.width >> 1)) | 0;
 			_buttonsContainer.y = 160;
 			
+		}
+		
+		private function _onShareTriggered():void{
+			
+			
+			trace("onMenu Button Clicked:::::::: SHARE");
+			var ev:MenuEvent = new MenuEvent(MenuEvent.MENU_CLICKED, true);
+			ev.viewToOpen = MenuEvent.VIEW_SHARE;
+			this.dispatchEvent(ev);
 		}
 		
 		private function _onResumeTriggered():void

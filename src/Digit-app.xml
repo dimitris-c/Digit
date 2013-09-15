@@ -15,6 +15,7 @@
 
 	<!-- A universally unique application identifier. Must be unique across all AIR applications.
 	Using a reverse DNS-style name as the id is recommended. (Eg. com.example.ExampleApplication.) Required. -->
+	<!--<id>com.zerolabz.digit</id>-->
 	<id>gr.funkytaps.digit</id>
 
 	<!-- Used as the filename for the application. Required. -->
@@ -246,10 +247,18 @@
 					together in order to use AIR's NetworkInfo APIs-->
 			    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>-->
 			    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>-->
+			    
+			    <application>
+                	<activity android:name="com.freshplanet.ane.AirFacebook.LoginActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"></activity>
+                	<activity android:name="com.freshplanet.ane.AirFacebook.DialogActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"></activity>
+                	<activity android:name="com.freshplanet.ane.AirFacebook.ExtendAccessTokenActivity"></activity>
+            	</application>
+			    
 			</manifest>
 			
 		]]></manifestAdditions>
     </android>
+    
     <iPhone>
         <InfoAdditions><![CDATA[
 			<key>UIDeviceFamily</key>
@@ -258,8 +267,18 @@
 			</array>
 			<key>UIPrerenderedIcon</key> 
         	<true/> 
+        	
+        	
+        	
 		]]></InfoAdditions>
         <requestedDisplayResolution>high</requestedDisplayResolution>
     </iPhone>
 
+	<extensions>
+    	
+    	<extensionID>com.freshplanet.AirFacebook</extensionID>
+    	<extensionID>pl.mateuszmackowiak.nativeANE.NativeDialogs</extensionID>
+    	<extensionID>com.sticksports.nativeExtensions.Social</extensionID>
+    </extensions>
+    
 </application>

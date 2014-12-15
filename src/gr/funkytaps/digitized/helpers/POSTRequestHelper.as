@@ -38,7 +38,6 @@ package gr.funkytaps.digitized.helpers
 		public function init(action:String):void{
 			trace("INIT POST: ", action);
 			url = basePath + action + ".php";
-			
 			loader = new URLLoader(); 
 			addListeners(loader);
 			req = new URLRequest(url);

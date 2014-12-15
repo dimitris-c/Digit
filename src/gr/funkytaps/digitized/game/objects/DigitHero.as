@@ -13,10 +13,12 @@ package gr.funkytaps.digitized.game.objects
 	
 	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
-	import gr.funkytaps.digitized.utils.Mathematics;
+	import gr.funkytaps.digitized.utils.DisplayUtils;
 	import gr.funkytaps.digitized.views.GameView;
 	
 	import starling.animation.Juggler;
+	import starling.animation.Transitions;
+	import starling.animation.Tween;
 	import starling.core.Starling;
 	import starling.display.Image;
 	import starling.display.MovieClip;
@@ -37,22 +39,29 @@ package gr.funkytaps.digitized.game.objects
 		private var _deceleration:Number = 0.099;
 		public function get deceleration():Number { return _deceleration; }
 
-		private var _sensitivity:Number = 15;
+		private var _sensitivity:Number = 25;
 		public function get sensitivity():Number { return _sensitivity; }
 
-		private var _maximumVelocity:Number = 70;
+		private var _maximumVelocity:Number = 90;
 		public function get maximumVelocity():Number { return _maximumVelocity; }
 		
 		private var _heroIsFlying:Boolean = false;
 		private var _crashed:Boolean = false;
 
 		public function get crashed():Boolean { return _crashed; }
+		public function set crashed(value:Boolean):void { _crashed = value; }
 		
 		private var _leftRocketFire:MovieClip;
 		private var _rightRocketFire:MovieClip;
 		
 		private var _gameJuggler:Juggler;
 		private var _gameView:GameView;
+		
+		private var _energyImage:Image;
+		private var _pickedUpEnergy:Boolean;
+		
+		private var _noEnergy:Boolean;
+		public function get noEnergy():Boolean { return _noEnergy; }
 		
 		public function DigitHero(gameJuggler:Juggler = null, gameView:GameView = null)
 		{
@@ -88,17 +97,25 @@ package gr.funkytaps.digitized.game.objects
 			_heroHeight = height;
 			
 			_hero.pivotX = (_heroWidth >> 1) - 4;
-			_hero.pivotY = _heroHeight >> 1;
+			_hero.pivotY = (_heroHeight >> 1) - 4;
 			
 			_leftRocketFire.x = -(_hero.pivotX - 17);
-			_leftRocketFire.y = _hero.pivotY - 32;
+			_leftRocketFire.y = _hero.pivotY - 24;
 			
 			_rightRocketFire.x = _hero.pivotX - ((Starling.contentScaleFactor == 1) ? 19 : 17);
-			_rightRocketFire.y = _hero.pivotY - 33;
+			_rightRocketFire.y = _hero.pivotY - 25;
 			
 			_heroLeftLimit = _hero.pivotX + _limitPadding;
 			_heroRightLimit = Settings.WIDTH + _hero.pivotX + _limitPadding;
 		
+			_energyImage = new Image(Assets.manager.getTexture('energy-shield'));
+			_energyImage.visible = false;
+			addChildAt(_energyImage, 0);
+			_energyImage.pivotX = (_energyImage.width >> 1);
+			_energyImage.pivotY = (_energyImage.height >> 1);
+
+			_energyImage.scaleX = _energyImage.scaleY = 0;
+			_pickedUpEnergy = false;
 		}
 		
 		public function takeOff():void {
@@ -111,6 +128,49 @@ package gr.funkytaps.digitized.game.objects
 			_leftRocketFire.visible = false;
 			_rightRocketFire.visible = false;
 			TweenLite.to(this, 3, {y:100, rotation:deg2rad(-8),  ease:Linear.easeNone});
+		}
+		
+		public function lostEnergy(onComplete:Function = null, onCompleteDelay:Number = 0):void
+		{
+			_noEnergy = true;
+			_leftRocketFire.visible = false;
+			_rightRocketFire.visible = false;
+			
+			TweenLite.to(this, 1, {y:this.y-20, ease:Linear.easeNone});
+			TweenLite.to(this, 4, {y:this.y+250, rotation:deg2rad(-20), delay:0.95, ease:Linear.easeNone});
+			if (onComplete!=null) TweenLite.delayedCall(onCompleteDelay, onComplete);
+		}
+		
+		public function createEnergyPickup():void {
+			if (!_pickedUpEnergy) {
+				_pickedUpEnergy = true;
+				_energyImage.visible = true;
+				_gameJuggler.tween(_energyImage, 0.35, {
+					scaleX: 1, 
+					scaleY: 1,
+					transition: Transitions.EASE_OUT
+				});
+				
+				_gameJuggler.tween(_energyImage, 0.75, {
+					rotation: deg2rad(360),
+					repeatCount: 2,
+					transition: Transitions.LINEAR,
+					onComplete:function():void {
+						
+						_gameJuggler.tween(_energyImage, 0.55, {
+							rotation: deg2rad(360),
+							scaleX: 0,
+							scaleY: 0,
+							transition: Transitions.EASE_OUT,
+							onComplete:function():void {
+								_pickedUpEnergy = false;
+								_energyImage.visible = false;
+							}
+						});
+						
+					}
+				});
+			}			
 		}
 		
 		public function update(rollingX:Number = 0, noAcceletometer:Boolean = false):void
@@ -128,8 +188,18 @@ package gr.funkytaps.digitized.game.objects
 			if (!noAcceletometer) this.rotation = deg2rad(rollingX * 0.85);
 			
 			if (!noAcceletometer) this.x = _heroPosition;
-			else this.x -= (this.x - rollingX) * 0.3;
+			else this.x -= (this.x - rollingX) //* 0.3;
 			
+		}
+		
+		override public function destroy():void {
+			DisplayUtils.removeAllChildren(this, true, true, true);
+			
+			_gameJuggler = null;
+			_hero = null;
+			_leftRocketFire = null;
+			_rightRocketFire = null;
+			_rightRocketFire = null;
 		}
 		
 	}

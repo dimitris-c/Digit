@@ -17,28 +17,24 @@ package gr.funkytaps.digitized.views
 	import gr.funkytaps.digitized.events.ViewEvent;
 	import gr.funkytaps.digitized.helpers.GameDataHelper;
 	import gr.funkytaps.digitized.helpers.POSTRequestHelper;
-	import gr.funkytaps.digitized.ui.buttons.CloseLeaderBoardViewButton;
-	import gr.funkytaps.digitized.ui.buttons.LeaderboardButton;
-	import gr.funkytaps.digitized.ui.buttons.MenuButton;
+	import gr.funkytaps.digitized.ui.buttons.BackButton;
 	import gr.funkytaps.digitized.ui.buttons.RegisterButton;
 	
 	import starling.display.Image;
-	import starling.display.MovieClip;
 	import starling.display.Quad;
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.text.TextField;
-	import starling.text.TextFieldAutoSize;
 	import starling.utils.HAlign;
 	import starling.utils.VAlign;
 	
 	public class LeaderboardView extends AbstractView
 	{
 	
-		private var _closeButton:CloseLeaderBoardViewButton;
+		private var _closeButton:BackButton;
 		
 		private var _background:Image;
-		private var _gradient:Quad;
+		private var _gradient:Image;
 		private var _title:Image;
 		
 		private var postHelper:POSTRequestHelper;
@@ -79,18 +75,10 @@ package gr.funkytaps.digitized.views
 			_background = new Image( Assets.manager.getTexture('generic-background') );
 			addChild(_background);
 			
-			_gradient = new Quad(Settings.WIDTH, 260);
-			_gradient.setVertexColor(0, 0x000000);
-			_gradient.setVertexAlpha(1, 0.6);
-			_gradient.setVertexColor(1, 0x000000);
-			_gradient.setVertexAlpha(1, 0.4);
-			_gradient.setVertexColor(2, 0x000000);
-			_gradient.setVertexAlpha(2, 0);
-			_gradient.setVertexColor(3, 0x000000);
-			_gradient.setVertexAlpha(3, 0);
+			_gradient = new Image(Assets.manager.getTexture('gradient'));
 			addChild(_gradient);
 			
-			_closeButton = new CloseLeaderBoardViewButton();
+			_closeButton = new BackButton();
 			_closeButton.x = 10;
 			_closeButton.y = 10;
 			_closeButton.addEventListener(Event.TRIGGERED, _onCloseButtonTriggered);
@@ -101,6 +89,9 @@ package gr.funkytaps.digitized.views
 			_title.y = 30;
 			addChild(_title);
 			
+			var userExists:Object = GameDataHelper.getUser();
+			if (!userExists) {
+			}
 			_createRegisterButton();
 			
 			_initPOST();
@@ -163,6 +154,7 @@ package gr.funkytaps.digitized.views
 			}
 			else{
 				trace("No user found, it's first time");
+				_createRegisterButton();
 			}
 
 			if(_displayedOnUserDemand){
@@ -213,12 +205,7 @@ package gr.funkytaps.digitized.views
 				//display the top 10 normallly
 				_createTop10(topTen);
 				
-				//display register button
-				if(!_displayedOnUserDemand){	
-					//show register button
-					addChild(_registerButton);
-					//_createRegisterButton();
-				}
+				addChild(_registerButton);
 					//onClick REGISTER button: show panel with email, name fields and a submit button
 					//onClick SUBMIT button: send to server name, email and score
 					//get user_uid from response and save it locally
@@ -286,10 +273,6 @@ package gr.funkytaps.digitized.views
 
 			var line:Quad = new Quad(width+20, 1, 0x5c5f9a);
 			
-			//indexField.border = true;
-			//name.border = true;
-			//score.border = true;
-			
 			score.y = name.height - 10;
 			
 			name.x = score.x = 20;
@@ -303,12 +286,12 @@ package gr.funkytaps.digitized.views
 			entry.addChild(indexField);
 			entry.addChild(line);
 			
-			
 			return entry;
 		}
 		
 		//Register button
 		private function _createRegisterButton():void{
+			if (_registerButton) return;
 			_registerButton = new RegisterButton();
 			_registerButton.addEventListener(Event.TRIGGERED, _onRegisterButtonTriggered);
 			addChild(_registerButton);
@@ -335,6 +318,7 @@ package gr.funkytaps.digitized.views
 		
 		private function _destroyRegisterPanel():void{
 			if(_registerPanel){
+				_registerPanel.removeFromParent(true);
 				_registerPanel.removeEventListener(ViewEvent.DESTROY_VIEW, _onRemoved);
 				_registerPanel = null;
 			}

@@ -200,6 +200,12 @@
             <filename>../../images/credits/2x/digitized-logo.png</filename>
             <filename>../../images/buttons/2x/back-button-hover.png</filename>
             <filename>../../images/buttons/2x/back-button-normal.png</filename>
+            <filename>../../images/game/2x/gradient.png</filename>
+            <filename>../../images/share/2x/fb-share-button-hover.png</filename>
+            <filename>../../images/share/2x/fb-share-button-normal.png</filename>
+            <filename>../../images/share/2x/share-title.png</filename>
+            <filename>../../images/share/2x/twitter-share-button-hover.png</filename>
+            <filename>../../images/share/2x/twitter-share-button-normal.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -12,6 +12,7 @@ package starling.text
 {
     import flash.display.BitmapData;
     import flash.display.StageQuality;
+    import flash.display3D.Context3DTextureFormat;
     import flash.geom.Matrix;
     import flash.geom.Rectangle;
     import flash.text.AntiAliasType;
@@ -178,11 +179,13 @@ package starling.text
             
             var scale:Number  = Starling.contentScaleFactor;
             var bitmapData:BitmapData = renderText(scale, mTextBounds);
+            var format:String = "BGRA_PACKED" in Context3DTextureFormat ? 
+                                "bgraPacked4444" : "bgra";
             
             mHitArea.width  = bitmapData.width  / scale;
             mHitArea.height = bitmapData.height / scale;
             
-            var texture:Texture = Texture.fromBitmapData(bitmapData, false, false, scale);
+            var texture:Texture = Texture.fromBitmapData(bitmapData, false, false, scale, format);
             texture.root.onRestore = function():void
             {
                 texture.root.uploadBitmapData(renderText(scale, mTextBounds));
@@ -261,6 +264,10 @@ package starling.text
             if (isVerticalAutoSize)
                 sNativeTextField.height = height = Math.ceil(textHeight + 4);
             
+            // avoid invalid texture size
+            if (width  < 1) width  = 1.0;
+            if (height < 1) height = 1.0;
+            
             var xOffset:Number = 0.0;
             if (hAlign == HAlign.LEFT)        xOffset = 2; // flash adds a 2 pixel offset
             else if (hAlign == HAlign.CENTER) xOffset = (width - textWidth) / 2.0;
@@ -329,7 +336,7 @@ package starling.text
             else
                 mQuadBatch.reset();
             
-            var bitmapFont:BitmapFont = bitmapFonts[mFontName];
+            var bitmapFont:BitmapFont = getBitmapFont(mFontName);
             if (bitmapFont == null) throw new Error("Bitmap font not registered: " + mFontName);
             
             var width:Number  = mHitArea.width;
@@ -462,7 +469,7 @@ package starling.text
                 
                 mFontName = value;
                 mRequiresRedraw = true;
-                mIsRenderedText = bitmapFonts[value] == undefined;
+                mIsRenderedText = getBitmapFont(value) == null;
             }
         }
         
@@ -613,7 +620,7 @@ package starling.text
         /** Indicates if TextField should be batched on rendering. This works only with bitmap
          *  fonts, and it makes sense only for TextFields with no more than 10-15 characters.
          *  Otherwise, the CPU costs will exceed any gains you get from avoiding the additional
-         *  draw call. */
+         *  draw call. @default false */
         public function get batchable():Boolean { return mBatchable; }
         public function set batchable(value:Boolean):void
         { 
@@ -634,29 +641,32 @@ package starling.text
         }
         
         /** Makes a bitmap font available at any TextField in the current stage3D context.
-         *  The font is identified by its <code>name</code>.
+         *  The font is identified by its <code>name</code> (not case sensitive).
          *  Per default, the <code>name</code> property of the bitmap font will be used, but you 
          *  can pass a custom name, as well. @returns the name of the font. */
         public static function registerBitmapFont(bitmapFont:BitmapFont, name:String=null):String
         {
             if (name == null) name = bitmapFont.name;
-            bitmapFonts[name] = bitmapFont;
+            bitmapFonts[name.toLowerCase()] = bitmapFont;
             return name;
         }
         
         /** Unregisters the bitmap font and, optionally, disposes it. */
         public static function unregisterBitmapFont(name:String, dispose:Boolean=true):void
         {
+            name = name.toLowerCase();
+            
             if (dispose && bitmapFonts[name] != undefined)
                 bitmapFonts[name].dispose();
             
             delete bitmapFonts[name];
         }
         
-        /** Returns a registered bitmap font (or null, if the font has not been registered). */
+        /** Returns a registered bitmap font (or null, if the font has not been registered). 
+         *  The name is not case sensitive. */
         public static function getBitmapFont(name:String):BitmapFont
         {
-            return bitmapFonts[name];
+            return bitmapFonts[name.toLowerCase()];
         }
         
         /** Stores the currently available bitmap fonts. Since a bitmap font will only work

@@ -28,7 +28,6 @@ package gr.funkytaps.digitized.utils
 			
 			while(targetContainer.numChildren) {
 				DisplayUtils.destroyChild(targetContainer.removeChildAt(0, dispose), recursive, destroy);
-				
 			}
 			
 		}

@@ -80,7 +80,7 @@ package starling.extensions
             mEmissionTime = 0.0;
             mFrameTime = 0.0;
             mEmitterX = mEmitterY = 0;
-            mMaxCapacity = (8192 < maxCapacity) ? 8192 : maxCapacity;
+            mMaxCapacity = Math.min(8192, maxCapacity);
             
             mBlendFactorDestination = blendFactorDest || Context3DBlendFactor.ONE_MINUS_SOURCE_ALPHA;
             mBlendFactorSource = blendFactorSource ||
@@ -135,7 +135,7 @@ package starling.extensions
         private function raiseCapacity(byAmount:int):void
         {
             var oldCapacity:int = capacity;
-            var newCapacity:int = (mMaxCapacity < capacity + byAmount) ? mMaxCapacity : capacity + byAmount;
+            var newCapacity:int = Math.min(mMaxCapacity, capacity + byAmount);
             var context:Context3D = Starling.context;
             
             if (context == null) throw new MissingContextError();
@@ -188,12 +188,18 @@ package starling.extensions
                 mEmissionTime = duration;
         }
         
-        /** Stops emitting and optionally removes all existing particles. 
-         *  The remaining particles will keep animating until they die. */
+        /** Stops emitting new particles. Depending on 'clearParticles', the existing particles
+         *  will either keep animating until they die or will be removed right away. */
         public function stop(clearParticles:Boolean=false):void
         {
             mEmissionTime = 0.0;
-            if (clearParticles) mNumParticles = 0;
+            if (clearParticles) clear();
+        }
+        
+        /** Removes all currently active particles. */
+        public function clear():void
+        {
+            mNumParticles = 0;
         }
         
         /** Returns an empty rectangle at the particle system's position. Calculating the
@@ -259,16 +265,22 @@ package starling.extensions
                         if (mNumParticles == capacity)
                             raiseCapacity(capacity);
                     
-                        particle = mParticles[int(mNumParticles++)] as Particle;
+                        particle = mParticles[mNumParticles] as Particle;
                         initParticle(particle);
-                        advanceParticle(particle, mFrameTime);
+                        
+                        // particle might be dead at birth
+                        if (particle.totalTime > 0.0)
+                        {
+                            advanceParticle(particle, mFrameTime);
+                            ++mNumParticles
+                        }
                     }
                     
                     mFrameTime -= timeBetweenParticles;
                 }
                 
                 if (mEmissionTime != Number.MAX_VALUE)
-                    mEmissionTime = (0.0 > mEmissionTime - passedTime) ? 0.0 : mEmissionTime - passedTime;
+                    mEmissionTime = Math.max(0.0, mEmissionTime - passedTime);
             }
             
             // update vertex data
@@ -295,10 +307,7 @@ package starling.extensions
                 yOffset = textureHeight * particle.scale >> 1;
                 
                 for (var j:int=0; j<4; ++j)
-                {
-                    mVertexData.setColor(vertexID+j, color);
-                    mVertexData.setAlpha(vertexID+j, alpha);
-                }
+                    mVertexData.setColorAndAlpha(vertexID+j, color, alpha);
                 
                 if (rotation)
                 {
@@ -373,10 +382,10 @@ package starling.extensions
          *  their lifespans. */
         public function populate(count:int):void
         {
-            count = (count < mMaxCapacity - mNumParticles) ? count : mMaxCapacity - mNumParticles;
+            count = Math.min(count, mMaxCapacity - mNumParticles);
             
             if (mNumParticles + count > capacity)
-                raiseCapacity(count - capacity);
+                raiseCapacity(mNumParticles + count - capacity);
             
             var p:Particle;
             for (var i:int=0; i<count; i++)
@@ -435,7 +444,7 @@ package starling.extensions
         public function get numParticles():int { return mNumParticles; }
         
         public function get maxCapacity():int { return mMaxCapacity; }
-        public function set maxCapacity(value:int):void { mMaxCapacity =  (8192 < value) ? 8192 : value; }
+        public function set maxCapacity(value:int):void { mMaxCapacity = Math.min(8192, value); }
         
         public function get emissionRate():Number { return mEmissionRate; }
         public function set emissionRate(value:Number):void { mEmissionRate = value; }

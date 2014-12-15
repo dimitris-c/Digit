@@ -4,6 +4,7 @@ package gr.funkytaps.digitized.game.objects {
 	
 	import gr.funkytaps.digitized.core.Assets;
 	import gr.funkytaps.digitized.core.Settings;
+	import gr.funkytaps.digitized.utils.DisplayUtils;
 	import gr.funkytaps.digitized.utils.Mathematics;
 	
 	import starling.display.Image;
@@ -16,8 +17,6 @@ package gr.funkytaps.digitized.game.objects {
 	 * @copyright — 2013 Funkytaps, Athens
 	 *
 	 **/
-	
-	
 	
 	public class Background extends AbstractObject
 	{
@@ -37,6 +36,8 @@ package gr.funkytaps.digitized.game.objects {
 		
 		private var _baseSpeed:Number = 0;
 		
+		private var _tookOff:Boolean = false;
+		
 		private var _isScrolling:Boolean = false;
 
 		// Planets
@@ -52,19 +53,20 @@ package gr.funkytaps.digitized.game.objects {
 		 * Note to update the baseSpeed value use setBaseSpeed method. 
 		 */		
 		public function get baseSpeed():Number { return _baseSpeed; }
-
+		
 		public function get isScrolling():Boolean { return _isScrolling; }
 		public function set isScrolling(value:Boolean):void { _isScrolling = value; }
 		
 		public function Background()
 		{
 			super();
+			
+			touchable = false;
+			
 		}
 		
 
 		override protected function _init():void {
-			
-			touchable = false;
 			
 			_glowLeftPart = new Image(Assets.manager.getTexture('glow'));
 			addChild(_glowLeftPart);
@@ -79,10 +81,10 @@ package gr.funkytaps.digitized.game.objects {
 			_glowRightPart.x = Settings.WIDTH;
 			_glowRightPart.y = _glowRightPart.height + 250;
 			
-			_starsBackLayer = new ParallaxLayer(Assets.manager.getTexture('stars-back'), 1, 0.1, true, false, false);
-			_starsBackLayer.baseSpeed = _baseSpeed;
-			_starsBackLayer.speedFactor = 0.2;
-			addChild(_starsBackLayer);
+//			_starsBackLayer = new ParallaxLayer(Assets.manager.getTexture('stars-back'), 1, 0.1, true, false, false);
+//			_starsBackLayer.baseSpeed = _baseSpeed;
+//			_starsBackLayer.speedFactor = 0.2;
+//			addChild(_starsBackLayer);
 			
 			_starsFrontLayer = new ParallaxLayer(Assets.manager.getTexture('stars-front'), 2, 0.5, true, false, false);
 			_starsFrontLayer.baseSpeed = _baseSpeed;
@@ -133,7 +135,7 @@ package gr.funkytaps.digitized.game.objects {
 		 */		
 		public function setBaseSpeed(speed:Number):void {
 			_baseSpeed = speed;
-			if (_starsBackLayer) _starsBackLayer.baseSpeed = _baseSpeed;
+//			if (_starsBackLayer) _starsBackLayer.baseSpeed = _baseSpeed;
 			if (_starsFrontLayer) _starsFrontLayer.baseSpeed = _baseSpeed;
 		}
 
@@ -148,10 +150,14 @@ package gr.funkytaps.digitized.game.objects {
 		
 		public function update(passedTime:Number = 0):void
 		{
-			if (_baseSpeed <= _maxSpeed) _baseSpeed += 0.08;
+//			if (!_starsBackLayer || !_starsFrontLayer) return; // sanity check
+			if (_tookOff == false) { 
+				if (_baseSpeed <= _maxSpeed) _baseSpeed += 0.08;
+				if (_baseSpeed >= _maxSpeed) _tookOff = true;
+			}
 
-			_starsBackLayer.advanceStep(_baseSpeed);
-			_starsFrontLayer.advanceStep(_baseSpeed);
+//			if (_starsBackLayer) _starsBackLayer.advanceStep(_baseSpeed);
+			if (_starsFrontLayer) _starsFrontLayer.advanceStep(_baseSpeed);
 			
 			if (!_currentPlanet) { // start creation of the planet once there is none.
 				if (_nextPlanetCreation >= _planetCreationInterval) {
@@ -164,7 +170,6 @@ package gr.funkytaps.digitized.game.objects {
 			if (!_currentPlanet) return; // stop here if there is no planet.
 			
 			_currentPlanet.y += _baseSpeed * _currentPlanet.speedFactor;
-//			_currentPlanet.rotation = deg2rad(_currentPlanet.y * _currentPlanet.speedFactor * _currentPlanet.speedFactor);
 			
 			if (_currentPlanet.y >= _planetButtomLimit) {
 				_nextPlanetCreation = 0;
@@ -173,6 +178,19 @@ package gr.funkytaps.digitized.game.objects {
 				_planetsPool.object = _currentPlanet;
 				_currentPlanet = null;
 			}
+		}
+		
+		override public function destroy():void {
+			DisplayUtils.removeAllChildren(this, true, true, true);
+			
+			_planetsPool.deconstruct();
+			_planetsPool = null;
+			
+			_starsFrontLayer = null;
+			_starsBackLayer = null;
+			_glowLeftPart = null;
+			_glowRightPart = null;
+			_currentPlanet = null;
 		}
 	}
 }

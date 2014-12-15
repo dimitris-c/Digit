@@ -10,13 +10,16 @@ package gr.funkytaps.digitized.core
 	
 	public class Settings
 	{
-		public static var isiOS:Boolean;
+		public static var iOS:Boolean;
+		public static var Android:Boolean;
 		
-		public static const WIDTH:int = 320;
+		public static var WIDTH:int = 320;
 		public static var HEIGHT:int = 480;
 		
-		public static const HALF_WIDTH:int = 160;
+		public static var HALF_WIDTH:int = 160;
 		public static var HALF_HEIGHT:int = 240;
+		
+		public static const BLUE_COLOR:Number = 0x20213E;
 		
 		/**
 		 * Fonts 
@@ -27,6 +30,8 @@ package gr.funkytaps.digitized.core
 		public static const AGORA_FONT_NAME80:String = 'AgoraName30';
 		public static const AGORA_FONT_POINTS50:String = 'AgoraPoints50';
 		
+		
+		public static var FB_APP_ID:String = '161144934081575';
 		
 	}
 }

@@ -1,5 +1,7 @@
 package gr.funkytaps.digitized.interfaces
 {
+	import com.dimmdesign.core.IDestroyable;
+	
 	import starling.display.DisplayObject;
 
 	/**
@@ -10,7 +12,7 @@ package gr.funkytaps.digitized.interfaces
 	 *
 	 **/
 	
-	public interface IView extends IUpdateable
+	public interface IView extends IUpdateable, IDestroyable
 	{
 		function removeFromParent(dispose:Boolean=false):void;
 		
@@ -20,6 +22,5 @@ package gr.funkytaps.digitized.interfaces
 		
 		function view():DisplayObject;
 		
-		function destroy():void;
 	}
 }

@@ -197,6 +197,14 @@
             <filename>../../images/credits/1x/digitized-logo.png</filename>
             <filename>../../images/buttons/1x/back-button-hover.png</filename>
             <filename>../../images/buttons/1x/back-button-normal.png</filename>
+            <filename>../../images/game/1x/gradient.png</filename>
+            <filename>../../images/share/1x/share-title.png</filename>
+            <filename>../../images/share/1x/fb-share-button-hover.png</filename>
+            <filename>../../images/share/1x/fb-share-button-normal.png</filename>
+            <filename>../../images/share/1x/twitter-share-button-hover.png</filename>
+            <filename>../../images/share/1x/twitter-share-button-normal.png</filename>
+            <filename>../../images/leaderboard/1x/leadboard-title.png</filename>
+            <filename>../../images/leaderboard/1x/submit-high-score-title.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

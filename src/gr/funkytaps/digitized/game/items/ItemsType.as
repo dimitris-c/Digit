@@ -6,7 +6,7 @@ package gr.funkytaps.digitized.game.items
 		
 		public static const ENERGY:String = 'energy0';
 		
-		public static const BOMB:String = 'bomb0';
+		public static const BOMB:String = 'bomb-static';
 		
 	}
 }

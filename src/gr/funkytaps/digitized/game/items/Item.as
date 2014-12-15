@@ -34,7 +34,7 @@ package gr.funkytaps.digitized.game.items
 		
 		protected var _itemCollided:Boolean;
 		
-		protected var _itemScore:Number;
+		protected var _itemValue:Number;
 		
 		protected var _itemAnimated:MovieClip;
 		
@@ -52,15 +52,17 @@ package gr.funkytaps.digitized.game.items
 		
 		protected var _juggler:Juggler;
 		
-		private var _itemParticleMovieclip:MovieClip;
+		protected var _itemParticleMovieclip:MovieClip;
 		
 		public function get itemParticleMovieclip():MovieClip { return _itemParticleMovieclip; }
 
-		private var _itemParticleSystem:PDParticleSystem;
+		protected var _itemParticleSystem:PDParticleSystem;
 
 		public function get itemParticleSystem():PDParticleSystem { return _itemParticleSystem; }
 		
-		private var _itemParticlePool:ObjectPool;
+		protected var _itemParticlePool:ObjectPool;
+		
+		protected var _fps:Number;
 		
 		public function get itemParticlePool():ObjectPool { return _itemParticlePool; }
 
@@ -69,16 +71,17 @@ package gr.funkytaps.digitized.game.items
 			super();
 		}
 		
-		public function initItem(isAnimated:Boolean, isStatic:Boolean, itemType:String, itemScore:Number, itemSpeed:Number, radius:Number, animatedTextures:Vector.<Texture> = null, juggler:Juggler = null):void {
+		public function initItem(isAnimated:Boolean, isStatic:Boolean, itemType:String, itemValue:Number, itemSpeed:Number, radius:Number, animatedTextures:Vector.<Texture> = null, juggler:Juggler = null, fps:Number = 20, particlePool:ObjectPool = null):void {
 			_isAnimated = isAnimated;
 			_isStatic = isStatic;
 			_itemType = itemType;
-			_itemScore = itemScore;
+			_itemValue = itemValue;
 			_itemSpeed = itemSpeed;
 			_collisionRadius = radius;
+			_fps = fps;
+			_juggler = juggler;
 			
 			if (_isAnimated) {
-				_juggler = juggler;
 				_animatedTextures = animatedTextures;
 				if (!_animatedTextures) {
 					Assets.manager.getTextures(_itemType, _animatedTextures);
@@ -94,32 +97,40 @@ package gr.funkytaps.digitized.game.items
 			}
 			
 			if (_isAnimated && _isStatic) throw new Error('You cannot have both _isAnimated and _isStatic set to true');
+		
+			_itemParticlePool = particlePool;
 			
+			createItem();
 		}
 		
 		public function createItem():void
 		{
 			if (_isAnimated) {
-				_itemAnimated = new MovieClip(_animatedTextures, 25);
+				_itemAnimated = new MovieClip(_animatedTextures, _fps);
+				_itemAnimated.addFrame(_animatedTextures[0], null, 1);
 				_itemAnimated.loop = true;
-				_itemAnimated.play();
+//				_itemAnimated.play();
 				
 				addChild(_itemAnimated);
 				
 				_itemWidth = _itemAnimated.width;
 				_itemHeight = _itemAnimated.height;
 				
-				_itemAnimated.pivotX = _itemAnimated.width >> 1;
-				_itemAnimated.pivotY = _itemAnimated.height >> 1;
+				_itemAnimated.pivotX = _itemWidth >> 1;
+				_itemAnimated.pivotY = _itemHeight >> 1;
+				
+//				_animatedTextures.length = 0;
 			}
 			
 			if (_isStatic) {
 				_itemStatic = new Image(_staticTexture);
-				addChild(_itemAnimated);
+				addChild(_itemStatic);
 				
-				_itemWidth = _itemAnimated.width;
-				_itemHeight = _itemAnimated.height;
-
+				_itemWidth = _itemStatic.width;
+				_itemHeight = _itemStatic.height;
+				
+				_itemStatic.pivotX = _itemWidth >> 1;
+				_itemStatic.pivotY = _itemHeight >> 1;
 			}
 			
 			_itemCreated = true;
@@ -134,8 +145,8 @@ package gr.funkytaps.digitized.game.items
 				_itemParticleMovieclip = movieClip;
 				_itemParticleMovieclip.loop = false;
 				_itemParticleMovieclip.visible = false;
-				_itemParticleMovieclip.pivotX = _itemParticleMovieclip.width >> 1;
-				_itemParticleMovieclip.pivotY = _itemParticleMovieclip.height >> 1;
+//				_itemParticleMovieclip.pivotX = _itemParticleMovieclip.width >> 1;
+//				_itemParticleMovieclip.pivotY = _itemParticleMovieclip.height >> 1;
 				addChild(_itemParticleMovieclip);
 				_itemParticleMovieclip.stop();
 				_itemParticleMovieclip.addEventListener(Event.COMPLETE, _onParticleSystemCompleted);
@@ -163,11 +174,10 @@ package gr.funkytaps.digitized.game.items
 			_itemCollided = true;
 			
 			if (_itemAnimated) {
-				_itemAnimated.visible = false;
-				_itemAnimated.stop();
-				_juggler.remove(_itemAnimated);
+				_itemAnimated.visible = !_itemAnimated.visible;
+//				_itemAnimated.stop();
 			}
-			if (_itemStatic) _itemStatic.visible = false;
+			if (_itemStatic) _itemStatic.visible = !_itemStatic.visible;
 			
 			if (_itemParticleMovieclip) {
 				_itemParticleMovieclip.visible = true;
@@ -181,20 +191,33 @@ package gr.funkytaps.digitized.game.items
 			
 		}
 		
+		public function recreateItem():void {
+			
+			if (_isAnimated) {
+				_itemAnimated.visible = true;
+//				_itemAnimated.play();
+			}
+			
+			if (_isStatic) {
+				_itemStatic.visible = true;
+			}
+			
+			_itemCreated = true;
+			_itemDestroyed = false;
+			_itemCollided = false;
+		}
+		
 		public function destroy():void {
 			
 			_destroyParticleSystem();
 			
 			if (_isAnimated) {
-				if (_itemAnimated) {
-					_itemAnimated.removeFromParent(true);
-				}
-				_itemAnimated = null;
+				_itemAnimated.stop();
+				_itemAnimated.visible = true;
 			}
 			
 			if (_isStatic) {
-				_itemStatic.removeFromParent(true);
-				_itemStatic = null;
+				_itemStatic.visible = true;
 			}
 			
 			_itemCollided = false;
@@ -207,10 +230,10 @@ package gr.funkytaps.digitized.game.items
 		[Inline]
 		private final function _destroyParticleSystem():void {
 			if (_itemParticleMovieclip) {
-				if (_itemParticlePool) _itemParticlePool.object = _itemParticleMovieclip;
 				_itemParticleMovieclip.stop();
 				_itemParticleMovieclip.removeFromParent(true);
 				_juggler.remove(_itemParticleMovieclip);
+				if (_itemParticlePool) _itemParticlePool.object = _itemParticleMovieclip;
 				_itemParticleMovieclip = null;
 				return;
 			}
@@ -264,7 +287,7 @@ package gr.funkytaps.digitized.game.items
 		
 		public function set collided(value:Boolean):void { _itemCollided = value; }
 		
-		public function get score():Number { return _itemScore; }
+		public function get itemValue():Number { return _itemValue; }
 		
 		public function get itemHeight():Number { return _itemHeight; }
 		

@@ -1,9 +1,11 @@
 package gr.funkytaps.digitized.game.objects
 {
+	import com.dimmdesign.core.IDestroyable;
+	
 	import starling.display.Sprite;
 	import starling.events.Event;
 	
-	public class AbstractObject extends Sprite
+	public class AbstractObject extends Sprite implements IDestroyable
 	{
 		public function AbstractObject()
 		{
@@ -21,6 +23,10 @@ package gr.funkytaps.digitized.game.objects
 		 * Initialize the object once it's added to the stage 
 		 */		
 		protected function _init():void{
+			
+		}
+		
+		public function destroy():void {
 			
 		}
 	}

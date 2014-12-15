@@ -7,7 +7,6 @@ package gr.funkytaps.digitized.managers
 	
 	import gr.funkytaps.digitized.core.Assets;
 	
-	import starling.animation.Tween;
 	import starling.core.Starling;
 	
 	/**
@@ -115,7 +114,6 @@ package gr.funkytaps.digitized.managers
 		public static function playSoundFX(name:String, volume:Number = 1):void {
 			playSound(name, 0, volume, true);
 		}
-		
 		
 		public static function tweenSound(name:String, tweenDuration:Number, volume:Number = 0, shouldStopSound:Boolean = true):void {
 			if (!_currentSounds[name]) return;

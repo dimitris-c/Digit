@@ -1,36 +1,58 @@
 package gr.funkytaps.digitized.game.items
 {
+	import starling.events.Event;
 	
-	import gr.funkytaps.digitized.utils.Mathematics;
-	
-	import starling.display.Quad;
 	
 	public class StarItem extends Item
 	{
-		public var starID:int = 0;
-		public var delayFactor:Number = 0.1;
-		public var loopDelay:Number = 0.5;
-		
-		private var _tempQuad:Quad;
 		
 		public function StarItem()
 		{
 			super();
-			initItem(false, true, ItemsType.BOMB, 0, 2, 15);
+		}
+		
+		override public function hit():void {
+			
+			_itemParticleMovieclip = _itemParticlePool.object;
+			if (_itemAnimated) _itemAnimated.visible = false;
+			if (_itemParticleMovieclip) {
+				_itemParticleMovieclip.x = 4;
+				_itemParticleMovieclip.addEventListener(Event.COMPLETE, _removeParticle);
+				_itemParticleMovieclip.visible = true;
+				addChild(_itemParticleMovieclip);
+				
+				_juggler.add(_itemParticleMovieclip);
+				
+				_itemParticleMovieclip.play();
+			}
+			
+			_itemCollided = true;
+		}
+		
+		private function _removeParticle(event:Event):void
+		{
+			if (!_itemParticleMovieclip) return; 
+			_itemParticleMovieclip.visible = true;
+			_itemParticleMovieclip.removeFromParent();
+			_juggler.remove(_itemParticleMovieclip);
+			_itemParticlePool.object = _itemParticleMovieclip;
+			
 		}
 		
 		override public function createItem():void {
+			super.createItem();
 			
-			if (_itemType == ItemsType.BOMB) {
-				var r:int = Mathematics.getRandomInt(10, 20);
-				_tempQuad = new Quad(r, r-5, 0xD64183);
-				addChild(_tempQuad);
+			if (_isAnimated) {
+				_itemAnimated.pivotX = 0;
+				_itemAnimated.pivotY = 0;
 			}
-			
-			_itemCreated = true;
-			_itemDestroyed = false;
-			_itemCollided = false;
 		}
+		
+		private function _resetItemAnimated():void {
+			_itemAnimated.visible = false;
+			_itemAnimated.alpha = 1;
+		}
+		
 				
 	}
 }

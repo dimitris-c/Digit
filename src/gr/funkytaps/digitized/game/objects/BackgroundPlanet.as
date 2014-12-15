@@ -62,7 +62,7 @@ package gr.funkytaps.digitized.game.objects
 			flatten();
 		}
 
-		public function destroy():void {
+		override public function destroy():void {
 			_planetName = '';
 			_planet.removeFromParent(true);
 			_planet = null;

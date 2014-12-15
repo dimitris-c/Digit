@@ -1,8 +1,6 @@
 package gr.funkytaps.digitized.views
 {
 	
-	import com.dimmdesign.utils.DisplayUtils;
-	
 	import flash.events.AccelerometerEvent;
 	import flash.net.URLVariables;
 	import flash.sensors.Accelerometer;
@@ -18,14 +16,14 @@ package gr.funkytaps.digitized.views
 	import gr.funkytaps.digitized.helpers.GameDataHelper;
 	import gr.funkytaps.digitized.helpers.POSTRequestHelper;
 	import gr.funkytaps.digitized.managers.ChunkManager;
-	import gr.funkytaps.digitized.managers.CollisionManager;
 	import gr.funkytaps.digitized.managers.SoundManager;
+	import gr.funkytaps.digitized.utils.DisplayUtils;
 	
 	import starling.animation.Juggler;
 	import starling.animation.Transitions;
 	import starling.animation.Tween;
+	import starling.core.Starling;
 	import starling.display.Image;
-	import starling.display.Quad;
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.events.Touch;
@@ -38,7 +36,17 @@ package gr.funkytaps.digitized.views
 		private var _gameJuggler:Juggler;
 		
 		private var _gameContainer:Sprite;
+
 		public function get gameContainer():Sprite { return _gameContainer };
+		
+		public var pauseEnergyDescrease:Boolean;
+		
+		private var _currentEnergyRatio:Number = 1;
+		
+		public function get currentEnergyRatio():Number { return _currentEnergyRatio; }
+
+		public function set currentEnergyRatio(value:Number):void { _currentEnergyRatio = value; }
+
 		
 		private var _background:Background;
 		
@@ -49,7 +57,11 @@ package gr.funkytaps.digitized.views
 		
 		private var _startScrollingBackground:Boolean = false;
 		
-		private static const MAX_GAME_SPEED:Number = 5; 
+		private static const MAX_GAME_SPEED:Number = 15; 
+		
+		private var _speedPowerGrowth:Number = 0.8;
+		
+		private var _speedDecreaseValue:Number = 0.32;
 		
 		private var _gameSpeed:Number;
 		public function get gameSpeed():Number { return _gameSpeed; }
@@ -57,10 +69,7 @@ package gr.funkytaps.digitized.views
 		private var _chunkManager:ChunkManager;
 		public function get starsManager():ChunkManager { return _chunkManager; }
 
-		private var _collisionManager:CollisionManager;
-		public function get collisionManager():CollisionManager { return _collisionManager; }
-		
-		private var _gradient:Quad;
+		private var _gradient:Image;
 		
 		private var _dashboard:Dashboard;
 		public function get dashboard():Dashboard { return _dashboard; }
@@ -72,7 +81,7 @@ package gr.funkytaps.digitized.views
 
 		private var _xSpeed:Number;
 		
-		private var _distanceTravelled:Number = 0;
+		private var _gameSessionTime:Number = 0;
 
 		private var _touch:Touch;
 		private var _touchX:Number;
@@ -101,20 +110,14 @@ package gr.funkytaps.digitized.views
 			SoundManager.stopSound('intro');
 			SoundManager.playSound('game-theme', int.MAX_VALUE, 0.2);
 			
-			_gameSpeed = 3;
+			_gameSpeed = 7;
 			
-			_gradient = new Quad(Settings.WIDTH, 260);
-			_gradient.setVertexColor(0, 0x000000);
-			_gradient.setVertexAlpha(1, 0.6);
-			_gradient.setVertexColor(1, 0x000000);
-			_gradient.setVertexAlpha(1, 0.4);
-			_gradient.setVertexColor(2, 0x000000);
-			_gradient.setVertexAlpha(2, 0);
-			_gradient.setVertexColor(3, 0x000000);
-			_gradient.setVertexAlpha(3, 0);
+			_gradient = new Image(Assets.manager.getTexture('gradient'));
 			addChild(_gradient);
 
 			_gameContainer = new Sprite();
+			_gameContainer.touchable = false;
+			_gameContainer.alpha = 0.99999;
 			addChild(_gameContainer);
 			
 			_dashboard = new Dashboard();
@@ -133,7 +136,7 @@ package gr.funkytaps.digitized.views
 			_takeOffLand.y = Settings.HEIGHT - _takeOffLand.height;
 			
 			_hero = new DigitHero( _gameJuggler, this );
-			_gameContainer.addChild(_hero);
+			addChild(_hero);
 			
 			_hero.x = Settings.HALF_WIDTH;
 			_hero.y = Settings.HEIGHT - _takeOffLand.height - 20;
@@ -153,10 +156,6 @@ package gr.funkytaps.digitized.views
 			// Take off the Hero
 			_takeOff();
 			
-			//TODO REMOVE THIS
-			//DEBUGGING END OF GAME
-			//_score = "8001";
-//			_onGameOver();
 		}
 		
 		private function _onTouch(event:TouchEvent):void
@@ -171,14 +170,14 @@ package gr.funkytaps.digitized.views
 			_rollingX = _rollingX * _hero.deceleration - event.accelerationX * _hero.sensitivity;
 			_rollingX = (_rollingX > -_hero.maximumVelocity) ? ( _rollingX < _hero.maximumVelocity ) ? _rollingX : _hero.maximumVelocity : -_hero.maximumVelocity;
 			
-			if (_rollingX < -0.05) {  // tilting the device to the right
-				
-			} else if (_rollingX > 0.05) {  // tilting the device to the left
-				
-			}
-			else {
-				
-			}
+//			if (_rollingX < -0.05) {  // tilting the device to the right
+//				
+//			} else if (_rollingX > 0.05) {  // tilting the device to the left
+//				
+//			}
+//			else {
+//				
+//			}
 			
 		}
 		
@@ -226,39 +225,50 @@ package gr.funkytaps.digitized.views
 			
 			if (_gameEnded) {
 				// decrease the speed of the game and the background
-				if (_background.baseSpeed <= 0) _background.setBaseSpeed(0) else _background.setBaseSpeed(_background.baseSpeed - 0.1);
-				if (_gameSpeed <= 0) _gameSpeed = 0 else _gameSpeed = _gameSpeed - 0.1;
+				if (_background.baseSpeed <= 0) _background.setBaseSpeed(0) else _background.setBaseSpeed(_background.baseSpeed - _speedDecreaseValue);
+				if (_gameSpeed <= 0) _gameSpeed = 0 else _gameSpeed = _gameSpeed - _speedDecreaseValue;
 				
 				if (_gameSpeed == 0) {
+					if (_accelerometer) _accelerometer.removeEventListener(AccelerometerEvent.UPDATE, _onAccelerometerUpdate);
+					else stage.removeEventListener(TouchEvent.TOUCH, _onTouch);
 					_gameWorld.gamePaused = true;
 					_gameWorld.gameEnded = true;
-					//_gameWorld.showMenuOnGameEnd();
-					_onGameOver();
+					Starling.juggler.delayCall(_gameWorld.showMenuOnGameEnd, 0.32);
+//					_gameWorld.showMenuOnGameEnd();
 				}
-				
+			}
+			
+			if (!_gameEnded && _currentEnergyRatio > 0) {
+				if (_gameSpeed < MAX_GAME_SPEED) { 
+					_gameSpeed += 0.1 * passedTime * _speedPowerGrowth * Math.pow(_gameSpeed, (_speedPowerGrowth - 1.0) / _speedPowerGrowth);
+					_background.setBaseSpeed(_gameSpeed);
+					
+					if (!pauseEnergyDescrease) {
+						if (_currentEnergyRatio > 0)
+							_currentEnergyRatio -= 0.12 * (passedTime * 0.2);
+						
+						if (_currentEnergyRatio <= 0) {
+							if (_accelerometer) _accelerometer.removeEventListener(AccelerometerEvent.UPDATE, _onAccelerometerUpdate);
+							else stage.removeEventListener(TouchEvent.TOUCH, _onTouch);
+							SoundManager.playSoundFX('power-down', 0.5);
+							_gameEnded = true;
+							_speedDecreaseValue = 0.1;
+							_hero.lostEnergy();
+						}
+					}
+					
+				}
 			}
 			
 			if (_gameJuggler) _gameJuggler.advanceTime( passedTime );
 			
 			if (_hero) _hero.update( _rollingX, _noAccelerometer );
 			
+			if (_dashboard) _dashboard.updateEnergyBar( _currentEnergyRatio );
+			
 			if (_background) if (_background.isScrolling) _background.update( passedTime );
 			
 			if (_chunkManager) _chunkManager.update( passedTime );
-			
-			_distanceTravelled += 1;
-			if (_distanceTravelled == 1000) {
-				_gameSpeed += 0.8;
-				_background.maxSpeed += 0.5;
-			}
-			if (_distanceTravelled == 2000) {
-				_gameSpeed += 0.8;
-				_background.maxSpeed += 0.5;
-			}
-			if (_distanceTravelled == 3000) {
-				_gameSpeed += 0.8;
-				_background.maxSpeed += 0.5;
-			}
 			
 		}
 		
@@ -332,7 +342,7 @@ package gr.funkytaps.digitized.views
 		
 		private function _saveHighScoreResponseHandler(data:Object):void{
 			if(data && data["success"]){
-				if(data["success"] == "1"){
+				if(data["success"] == "1") {
 					//ok high score saved in db now save it locally
 					var user:Object = data["user"];
 					GameDataHelper.saveHighScore(user["high_score"]);
@@ -356,8 +366,16 @@ package gr.funkytaps.digitized.views
 		}
 		
 		override public function destroy():void {
-			DisplayUtils.removeAllChildren(this, true);
+			DisplayUtils.removeAllChildren(this, true, true, true);
 			
+			_chunkManager.destroy();
+			_chunkManager = null;
+			
+			if (_accelerometer) _accelerometer.removeEventListener(AccelerometerEvent.UPDATE, _onAccelerometerUpdate);
+			if (_noAccelerometer) stage.removeEventListener(TouchEvent.TOUCH, _onTouch);
+			_dashboard = null;
+			_gameContainer = null;
+			_accelerometer = null;
 			
 		}
 		

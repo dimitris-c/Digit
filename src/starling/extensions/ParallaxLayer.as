@@ -72,6 +72,7 @@ package starling.extensions {
 			addChild(auxTile);
 			reps = Math.ceil(_viewPortSize / _tileSize);
 			reps++;
+			
 			if (reps * _tileSize < _viewPortSize + _tileSize) {
 				reps++;
 			}
@@ -124,24 +125,24 @@ package starling.extensions {
 				} else {
 					_scrollDir = FORWARD;
 				}
-				// funky stuff for baseSpeed is alternative to Math.abs();
-				_speed = ((baseSpeed ^ (baseSpeed >> 31)) - (baseSpeed >> 31)) * _speedFactor; 
+				_speed = Math.abs(baseSpeed) * _speedFactor; 
 			}
 			
 			var aux:Number;
 						
 			if (_scrollAxis) {
 				if (_scrollDir) {
-					aux = (this.x + _speed) | 0;
+					aux = this.x + _speed;
 					if (aux >= 0) { 
 						this.x = _retPoint;
 					} else {
 						this.x = aux;
 					}
 				} else {
-					aux = (this.x - _speed) | 0;
+					aux = this.x - _speed;
 							
 					if (aux <= _retPoint) { 
+						
 						this.x = 0;
 					} else {
 						this.x = aux;
@@ -150,14 +151,14 @@ package starling.extensions {
 				
 			} else {
 				if (_scrollDir) {
-					aux = (this.y + _speed) | 0;
+					aux = this.y + _speed;
 					if (aux >= 0) {
 						this.y = _retPoint;
 					} else {
 						this.y = aux;
 					}
 				} else {
-					aux = (this.y - _speed) | 0;
+					aux = this.y - _speed;
 					if (aux <= _retPoint) {
 						this.y = 0;
 					} else {

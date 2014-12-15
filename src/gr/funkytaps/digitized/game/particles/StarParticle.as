@@ -8,7 +8,7 @@ package gr.funkytaps.digitized.game.particles
 	{
 		public function StarParticle()
 		{
-			super(Assets.manager.getTextures('starexplosion0'), 31);
+			super(Assets.manager.getTextures('starexplosion0'), 24);
 		}
 		
 	}

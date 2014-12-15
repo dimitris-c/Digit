@@ -90,7 +90,7 @@ package gr.funkytaps.digitized.game.items
 		/**
 		 *  Returns the score of the item that the hero should get. if any score.
 		 */		
-		function get score():Number;
+		function get itemValue():Number;
 		
 		/**
 		 * Returns a number that defines the custom radius of the item for the collision detection 
@@ -139,19 +139,33 @@ package gr.funkytaps.digitized.game.items
 		 * @param isAnimated - If <code>true</code> the item has a movieclip and will be animated.
 		 * @param isStatic - If <code>true</code> the item has an image.
 		 * @param itemType - The type of the item.
-		 * @param itemScore - The score of the item.
+		 * @param itemValue - The value of the item, could indicate a score value, etc.
 		 * @param itemSpeed - The speed of the item.
 		 * @param radius - The collision radius of the item.
 		 * @param animatedTextures - (Optional) If this is set it will be used as the animatedTextures for the movieclip. Use this for performance.
 		 * 
 		 */		
-		function initItem(isAnimated:Boolean, isStatic:Boolean, itemType:String, itemScore:Number, itemSpeed:Number, radius:Number, animatedTextures:Vector.<Texture> = null, juggler:Juggler = null):void;
+		function initItem(isAnimated:Boolean, 
+						  isStatic:Boolean, 
+						  itemType:String, 
+						  itemValue:Number, 
+						  itemSpeed:Number, 
+						  radius:Number, 
+						  animatedTextures:Vector.<Texture> = null, 
+						  juggler:Juggler = null, 
+						  fps:Number = 31, 
+						  particlePool:ObjectPool = null):void;
 		
 		/**
 		 * Creates the obstacle's elements. <br />
 		 * Note: Call this function after you add the item to the display list.
 		 */		
 		function createItem():void;
+		
+		/**
+		 * Recreates several aspects of the item... 
+		 */		
+		function recreateItem():void;
 		
 		/**
 		 * Sets a particle system for the item.

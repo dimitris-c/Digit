@@ -32,11 +32,24 @@ package gr.funkytaps.digitized.core
 		[Embed(source="../../../../../assets/flash/Default.png")]
 		public static const Default:Class;
 		
+		[Embed(source="../../../../../assets/flash/DefaultGeneric-bg.jpg")]
+		public static const DefaultGenericBG:Class;
+		
+		[Embed(source="../../../../../assets/flash/DefaultGeneric-glow.png")]
+		public static const DefaultGenericGlow:Class;
+		
+		[Embed(source="../../../../../assets/flash/digitizedlogo.png")]
+		public static const DigitizedLogo:Class;
+		
 		/**
 		 * Returns a bitmap for the give name. 
 		 */		
 		public static function getBitmap(name:String):Bitmap {
 			return new Assets[name]() as Bitmap;
+		}
+		
+		public static function getClass(name:String):Class {
+			return Assets[name] as Class;
 		}
 		
 		

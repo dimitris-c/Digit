@@ -44,7 +44,7 @@
         <key>jpgQuality</key>
         <uint>80</uint>
         <key>pngOptimizationLevel</key>
-        <uint>1</uint>
+        <uint>0</uint>
         <key>textureSubPath</key>
         <string></string>
         <key>textureFormat</key>
@@ -133,7 +133,7 @@
             <key>extrude</key>
             <uint>0</uint>
             <key>trimThreshold</key>
-            <uint>2</uint>
+            <uint>1</uint>
             <key>trimMode</key>
             <enum type="SpriteSettings::TrimMode">Trim</enum>
             <key>heuristicMask</key>
@@ -141,26 +141,26 @@
         </struct>
         <key>fileList</key>
         <array>
-            <filename>../../images/game/2x/background-elements/stars-back.png</filename>
             <filename>../../images/game/2x/background-elements/stars-front.png</filename>
-            <filename>../../images/game/2x/background-elements/stardust1.png</filename>
-            <filename>../../images/game/2x/background-elements/stardust2.png</filename>
             <filename>../../images/game/2x/planets/planet1.png</filename>
             <filename>../../images/game/2x/planets/planet2.png</filename>
             <filename>../../images/game/2x/planets/planet3.png</filename>
             <filename>../../images/game/2x/planets/planet4.png</filename>
             <filename>../../images/game/2x/planets/planet5.png</filename>
             <filename>../../images/game/2x/planets/planet6.png</filename>
-            <filename>../../images/game/2x/background-elements/glow.png</filename>
-            <filename>../../images/game/2x/background-elements/stardust3.png</filename>
             <filename>../../images/game/2x/land.png</filename>
             <filename>../../images/game/2x/hero-static.png</filename>
             <filename>../../images/game/2x/star-animated</filename>
             <filename>../../images/game/2x/energy-animated</filename>
             <filename>../../images/game/2x/rocket-fires/fire7-01.png</filename>
             <filename>../../images/game/2x/rocket-fires/fire7-02.png</filename>
+            <filename>../../images/game/2x/energy-shield.png</filename>
+            <filename>../../images/game/2x/bomb-ring.png</filename>
+            <filename>../../images/game/2x/bomb-static.png</filename>
+            <filename>../../images/game/2x/background-elements/stars-back.png</filename>
             <filename>../../particles/starexplosion</filename>
-            <filename>../../images/game/2x/bomb-animated</filename>
+            <filename>../../images/game/2x/background-elements/glow.png</filename>
+            <filename>../../particles/particleTexture.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

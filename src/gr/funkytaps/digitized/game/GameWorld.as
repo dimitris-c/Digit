@@ -32,6 +32,7 @@ package gr.funkytaps.digitized.game
 	
 	import starling.core.Starling;
 	import starling.display.Image;
+	import starling.display.Quad;
 	import starling.display.Sprite;
 	import starling.events.EnterFrameEvent;
 	import starling.events.Event;
@@ -40,6 +41,7 @@ package gr.funkytaps.digitized.game
 	
 	public class GameWorld extends Sprite
 	{
+		
 		public static const INTRO_STATE:int = 0;
 		public static const PLAY_STATE:int = 2;
 		public static const GAME_END_STATE:int = 3;
@@ -49,6 +51,8 @@ package gr.funkytaps.digitized.game
 
 		public function get currentState():int { return _currentState; }
 
+		private var _stageBackgroundAndroid:Quad;
+		
 		private var _currentView:IView;
 		
 		/**
@@ -89,6 +93,11 @@ package gr.funkytaps.digitized.game
 		
 		private var _gradient:Image;
 		
+		/**
+		 * Indicates if the GameWorld has been started...
+		 */		
+		private var _worldStarted:Boolean;
+		
 		public function GameWorld()
 		{
 			super();
@@ -97,6 +106,9 @@ package gr.funkytaps.digitized.game
 
 		public function start(background:Texture):void
 		{
+			
+			_stageBackgroundAndroid = new Quad(Settings.WIDTH, Settings.HEIGHT, Settings.BLUE_COLOR);
+			addChild(_stageBackgroundAndroid);
 			
 			_loadingBackground = new Image(background);
 			addChild(_loadingBackground);
@@ -112,7 +124,6 @@ package gr.funkytaps.digitized.game
 			// Load the queue 
 			Assets.manager.loadQueue( _onProgress );
 			Assets.manager.verbose = true;
-			
 			_currentState = INTRO_STATE;
 			_appActivated = true;
 		}
@@ -122,9 +133,11 @@ package gr.funkytaps.digitized.game
 			_appActivated = false;
 			SoundManager.pauseAllSounds();
 			
-			if (!_menuIsOpen) {
-				_menuButton.setDownState();
-				_onMenuButtonTriggered();
+			if (_currentState == PLAY_STATE) {
+				if (!_menuIsOpen) {
+					_menuButton.setDownState();
+					_onMenuButtonTriggered();
+				}
 			}
 			
 		}
@@ -133,27 +146,28 @@ package gr.funkytaps.digitized.game
 		{
 			_appActivated = true;
 			if (_currentState == INTRO_STATE) {
-				SoundManager.playSound('intro', int.MAX_VALUE, (_menuIsOpen) ? 0.01 : 0.2);
+				SoundManager.playSound('intro', int.MAX_VALUE, (_menuIsOpen) ? 0.1 : 0.2);
 			}
 			
 			if (_currentState == PLAY_STATE) {
-				SoundManager.playSound('intro', int.MAX_VALUE, 0.01);
+				SoundManager.playSound('intro', int.MAX_VALUE, 0.1);
 			}
 			
 		}
 		
 		private function _onProgress(progress:Number):void
 		{
-			_loadProgress.ratio = progress;
+			if (_loadProgress) _loadProgress.ratio = progress;
 			
 			if (progress == 1.0) {
 				// we pause for a moment the loader always stucks at 100% 
 				// and then we init the freaking world
-				Starling.juggler.delayCall(_startupWorld, 0.15);
+				if (!_worldStarted) Starling.juggler.delayCall(_startupWorld, 0.15);
 			}
 		}
 		
 		private function _startupWorld():void {
+			_worldStarted = true;
 			
 			this.addEventListener(MenuEvent.MENU_CLICKED, _onMenuClicked);
 			
@@ -166,6 +180,9 @@ package gr.funkytaps.digitized.game
 			
 			// about time
 			_initWorld();
+			
+			Assets.manager.enqueueWithName("http://www.digitized.gr/game/chunks-online.json", "chunks-online");
+			Assets.manager.loadQueue(_onProgress);
 			
 			// listen for activate and deactivate events
 			NativeApplication.nativeApplication.addEventListener("activate", _onActivate);
@@ -204,6 +221,9 @@ package gr.funkytaps.digitized.game
 			
 			_menuButton.setDownState();
 			_onMenuButtonTriggered();
+			
+			// game has ended a good time to clean-up
+			System.pauseForGCIfCollectionImminent(0.15);
 			
 		}
 		
@@ -296,19 +316,20 @@ package gr.funkytaps.digitized.game
 		 */		
 		private function _createShareView():void{
 			if(!_shareView){
-				trace("Creating Credtis");
 				_shareView = new ShareView();
 				_shareView.addEventListener(ShareEvent.SHARE_COMPLETED, _onShareCompleted);
 				_shareView.addEventListener(ShareEvent.SHARE_FAILED, _onShareFailed);
 				_shareView.addEventListener(ViewEvent.DESTROY_VIEW, _onRemovedShare);
 				addChild(_shareView);
+				
+				_shareView.tweenIn();
 			}
 		}
 		
 		private function _onShareCompleted(e:ShareEvent):void{
 			e.stopImmediatePropagation();
 			trace("share completed");
-			_destroyShareView();
+			_shareView.tweenOut(_destroyShareView);
 		}
 
 		private function _onShareFailed(e:ShareEvent):void{
@@ -317,7 +338,7 @@ package gr.funkytaps.digitized.game
 		}
 		
 		private function _onRemovedShare(e:ViewEvent):void{
-			_destroyShareView();
+			_shareView.tweenOut(_destroyShareView);
 		}
 		
 		private function _destroyShareView():void{
@@ -333,20 +354,22 @@ package gr.funkytaps.digitized.game
 		* 
 		*/		
 		private function _createCreditsView():void{
-			if(!_leaderBoardView){
-				trace("Creating Credtis");
+			if(!_creditsView){
 				_creditsView = new CreditsView();
 				_creditsView.addEventListener(ViewEvent.DESTROY_VIEW, _onRemovedCredits);
 				addChild(_creditsView);
+				
+				_creditsView.tweenIn();
 			}
 		}
 		
 		private function _onRemovedCredits(e:ViewEvent):void{
-			_destroyCreditsView();
+			_creditsView.tweenOut(_destroyCreditsView);
 		}
 		
 		private function _destroyCreditsView():void{
 			if(_creditsView){
+				_creditsView.destroy()
 				_creditsView.removeEventListener(ViewEvent.DESTROY_VIEW, _onRemovedCredits);
 				removeChild(_creditsView);
 				_creditsView = null;
@@ -361,7 +384,6 @@ package gr.funkytaps.digitized.game
 		 */		
 		private function _createLeaderBoardView(displayedOnUserDemand:Boolean, highScore:String):void{
 			if(!_leaderBoardView){
-				trace("Creating Leaderboard");
 				_leaderBoardView = new LeaderboardView(displayedOnUserDemand, highScore);
 				_leaderBoardView.addEventListener(ViewEvent.DESTROY_VIEW, _onRemovedLeaderBoard);
 				addChild(_leaderBoardView);

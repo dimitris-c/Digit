@@ -8,10 +8,12 @@ package
 	 *
 	 **/
 	
+	import com.dimmdesign.utils.GlobalSound;
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Expo;
 	import com.greensock.plugins.BezierThroughPlugin;
 	import com.greensock.plugins.TweenPlugin;
+	import com.milkmangames.nativeextensions.GoViral;
 	
 	import flash.desktop.NativeApplication;
 	import flash.display.Sprite;
@@ -23,14 +25,17 @@ package
 	import flash.system.System;
 	
 	import gr.funkytaps.digitized.core.Main;
+	import gr.funkytaps.digitized.core.Settings;
+	import gr.funkytaps.digitized.helpers.GameDataHelper;
 	
-	[SWF(frameRate="60", backgroundColor="#20213E")]
+	[SWF(frameRate="31", backgroundColor="#20213E")]
 	public class Digit extends Sprite
 	{
 		TweenPlugin.activate([ BezierThroughPlugin ]);
 		TweenLite.defaultEase = Expo.easeOut;
 		
 		private var _digitMain:Main;
+		private var _goViral:GoViral;
 		
 		public function Digit()
 		{
@@ -51,6 +56,19 @@ package
 				SoundMixer.audioPlaybackMode = 'ambient';
 			}
 			
+			if (GoViral.isSupported()) {
+				_goViral = GoViral.create();
+				
+				if (GoViral.goViral.isFacebookSupported()) {
+					GoViral.goViral.initFacebook(Settings.FB_APP_ID, '');
+				}
+				
+			} else {
+				trace("GoViral only works on mobile!");
+			}
+			
+			NativeApplication.nativeApplication.executeInBackground = false;
+			
 			// Initializes the Main class
 			_digitMain = new Main();
 			addChild(_digitMain);
@@ -66,7 +84,6 @@ package
 				_digitMain = null;
 			}
 			
-			System.pauseForGCIfCollectionImminent();
 			System.gc();
 		}
 	}

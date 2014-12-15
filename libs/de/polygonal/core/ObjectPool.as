@@ -36,6 +36,7 @@ package de.polygonal.core
 		
 		private var _emptyNode:ObjNode;
 		private var _allocNode:ObjNode;
+		public var name:String;
 		
 		/**
 		 * Creates a new object pool.
@@ -124,7 +125,7 @@ package de.polygonal.core
 					return object;
 				}
  				else
-					throw new Error("object pool exhausted.");
+					throw new Error("object pool exhausted. " + this.name);
 			}
 			else
 			{

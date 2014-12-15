@@ -7,8 +7,8 @@ package gr.funkytaps.digitized.ui.buttons
 		public function ResumeButton()
 		{
 			super(
-				Assets.manager.getTexture('green-button-normal'),
-				Assets.manager.getTexture('resume-normal'), 
+				Assets.manager.getTexture('orange-button-normal'),
+				Assets.manager.getTexture('resume-hover'), 
 				Assets.manager.getTexture('green-button-hover'),
 				Assets.manager.getTexture('resume-hover')
 			);

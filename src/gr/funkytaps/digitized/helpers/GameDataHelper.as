@@ -4,8 +4,9 @@ package gr.funkytaps.digitized.helpers
 
 	public class GameDataHelper
 	{
+		public static var so:SharedObject = SharedObject.getLocal('Digit');
+		
 		public static function saveUser(user_uid:String, name:String, email:String, highScore:String):void{
-			var so:SharedObject = SharedObject.getLocal("Digit");
 			so.data['user_uid'] = user_uid;
 			so.data['name'] = name;
 			so.data['email'] = email;
@@ -15,7 +16,7 @@ package gr.funkytaps.digitized.helpers
 		}
 			
 		public static function getUser():Object{
-			var so:SharedObject = SharedObject.getLocal("Digit");
+			
 			var user:Object = new Object;
 			user["user_uid"] = so.data['user_uid'];
 			user["name"] = so.data['name'];
@@ -25,16 +26,26 @@ package gr.funkytaps.digitized.helpers
 		}
 		
 		public static function saveHighScore(highScore:String):void{
-			var so:SharedObject = SharedObject.getLocal("Digit");
 			so.data['highScore'] = highScore;
 			so.flush();
 			trace("Saved high score: " + so.data['highScore']);
 		}
 		
 		public static function getHighScore():String{
-			var so:SharedObject = SharedObject.getLocal("Digit");
 			return so.data['highScore'];
 			//if null then it's the first time
 		}
+		
+		public static function setAudioPreferences(isOn:Boolean):void {
+			so.data["audioprefs"] = isOn;
+			so.flush();
+			trace("Audio is", (isOn) ? "on" : "off");
+		}
+		
+		public static function getAudioPreferences():Boolean {
+			var isOn:Boolean = so.data["audioprefs"];
+			return isOn;
+		}
+		
 	}
 }

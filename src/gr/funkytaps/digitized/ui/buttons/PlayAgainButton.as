@@ -15,8 +15,8 @@ package gr.funkytaps.digitized.ui.buttons
 		public function PlayAgainButton()
 		{
 			super(
-				Assets.manager.getTexture('green-button-normal'),
-				Assets.manager.getTexture('play-again-normal'), 
+				Assets.manager.getTexture('orange-button-normal'),
+				Assets.manager.getTexture('play-again-hover'), 
 				Assets.manager.getTexture('green-button-hover'),
 				Assets.manager.getTexture('play-again-hover')
 			);

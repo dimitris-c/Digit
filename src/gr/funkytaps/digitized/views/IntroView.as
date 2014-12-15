@@ -8,12 +8,11 @@ package gr.funkytaps.digitized.views
 	import gr.funkytaps.digitized.core.Settings;
 	import gr.funkytaps.digitized.game.GameWorld;
 	import gr.funkytaps.digitized.game.objects.DigitHeroIntroView;
-	import gr.funkytaps.digitized.managers.SoundManager;
 	import gr.funkytaps.digitized.ui.buttons.StartButton;
+	import gr.funkytaps.digitized.utils.DisplayUtils;
 	
 	import starling.animation.Juggler;
 	import starling.display.Image;
-	import starling.display.Quad;
 	import starling.events.Event;
 
 	/**
@@ -32,7 +31,7 @@ package gr.funkytaps.digitized.views
 		
 		private var _starsBackground:Image;
 		
-		private var _gradient:Quad;
+		private var _gradient:Image;
 		
 		private var _digitHero:DigitHeroIntroView;
 		
@@ -59,15 +58,7 @@ package gr.funkytaps.digitized.views
 			
 			_introJuggler = new Juggler();
 			
-			_gradient = new Quad(Settings.WIDTH, 260);
-			_gradient.setVertexColor(0, 0x000000);
-			_gradient.setVertexAlpha(1, 0.6);
-			_gradient.setVertexColor(1, 0x000000);
-			_gradient.setVertexAlpha(1, 0.4);
-			_gradient.setVertexColor(2, 0x000000);
-			_gradient.setVertexAlpha(2, 0);
-			_gradient.setVertexColor(3, 0x000000);
-			_gradient.setVertexAlpha(3, 0);
+			_gradient = new Image(Assets.manager.getTexture('gradient'));
 			addChild(_gradient);
 			
 			_planet = new Image( Assets.manager.getTexture('intro-planet') );
@@ -110,7 +101,7 @@ package gr.funkytaps.digitized.views
 		
 		override public function tweenIn():void {
 			
-			_timeline = new TimelineLite();
+			_timeline = new TimelineLite({onComplete:onTimelineComplete});
 			_timeline.autoRemoveChildren = true;
 			
 			_timeline.append( TweenLite.to(_digitHero, 1.4, {bezierThrough:[{x:200, y:450}, {x:_digitHeroFinalX, y:30}], ease:Expo.easeOut}) );
@@ -121,6 +112,13 @@ package gr.funkytaps.digitized.views
 			
 			_introJuggler.delayCall(_digitHero.animate, 1.6);
 			
+		}
+		
+		private function onTimelineComplete():void
+		{
+			if (!_timeline) return;
+			_timeline.clear();
+			_timeline = null;
 		}
 		
 		override public function tweenOut(onComplete:Function=null, onCompleteParams:Array = null):void {
@@ -137,8 +135,13 @@ package gr.funkytaps.digitized.views
 		
 		override public function destroy():void {
 			
-			_timeline.clear();
-			_timeline = null;
+			DisplayUtils.removeAllChildren(this, true, true, true);
+			
+			if (_timeline) {
+				_timeline.stop();
+				_timeline.clear();
+				_timeline = null;
+			}
 			
 			_starsBackground = null;
 			_digitHero = null;

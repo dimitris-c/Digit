@@ -66,7 +66,7 @@ package gr.funkytaps.digitized.game.objects
 		
 		public function animate():void {
 			
-			_floatingTween = new Tween(this, 1);
+			_floatingTween = new Tween(this, 0.75);
 			_floatingTween.repeatCount = 0;
 			_floatingTween.reverse = true;
 			

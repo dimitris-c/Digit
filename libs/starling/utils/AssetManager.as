@@ -2,7 +2,6 @@ package starling.utils
 {
     import flash.display.Bitmap;
     import flash.display.Loader;
-    import flash.events.Event;
     import flash.events.IOErrorEvent;
     import flash.events.ProgressEvent;
     import flash.media.Sound;
@@ -23,11 +22,16 @@ package starling.utils
     import flash.utils.setTimeout;
     
     import starling.core.Starling;
+    import starling.events.Event;
+    import starling.events.EventDispatcher;
     import starling.text.BitmapFont;
     import starling.text.TextField;
     import starling.textures.AtfData;
     import starling.textures.Texture;
     import starling.textures.TextureAtlas;
+    
+    /** Dispatched when all textures have been restored after a context loss. */
+    [Event(name="texturesRestored", type="starling.events.Event")]
     
     /** The AssetManager handles loading and accessing a variety of asset types. You can 
      *  add assets directly (via the 'add...' methods) or asynchronously via a queue. This allows
@@ -47,7 +51,7 @@ package starling.utils
      *  <p>For more information on how to add assets from different sources, read the documentation
      *  of the "enqueue()" method.</p>
      */
-    public class AssetManager
+    public class AssetManager extends EventDispatcher
     {
         private const SUPPORTED_EXTENSIONS:Vector.<String> = 
             new <String>["png", "jpg", "jpeg", "gif", "atf", "mp3", "xml", "fnt", "pex", "json"]; 
@@ -56,6 +60,8 @@ package starling.utils
         private var mUseMipMaps:Boolean;
         private var mCheckPolicyFile:Boolean;
         private var mVerbose:Boolean;
+        private var mNumLostTextures:int;
+        private var mRestoredTextures:int;
         
         private var mRawAssets:Array;
         private var mTextures:Dictionary;
@@ -66,7 +72,7 @@ package starling.utils
         private var mByteArrays:Dictionary;
         
         /** helper objects */
-        private var sNames:Vector.<String> = new <String>[];
+        private static var sNames:Vector.<String> = new <String>[];
         
         /** Create a new AssetManager. The 'scaleFactor' and 'useMipmaps' parameters define
          *  how enqueued bitmaps will be converted to textures. */
@@ -519,7 +525,7 @@ package starling.utils
                         log("Adding bitmap font '" + name + "'");
                         
                         var fontTexture:Texture = getTexture(name);
-                        TextField.registerBitmapFont(new BitmapFont(fontTexture, xml));
+                        TextField.registerBitmapFont(new BitmapFont(fontTexture, xml), name);
                         removeTexture(name, false);
                     }
                     else
@@ -555,10 +561,17 @@ package starling.utils
                     texture = Texture.fromBitmap(asset as Bitmap, mUseMipMaps, false, mScaleFactor);
                     texture.root.onRestore = function():void
                     {
+                        mNumLostTextures++;
                         loadRawAsset(name, rawAsset, null, function(asset:Object):void
                         {
-                            texture.root.uploadBitmap(asset as Bitmap);
+                            try { texture.root.uploadBitmap(asset as Bitmap); }
+                            catch (e:Error) { log("Texture restoration failed: " + e.message); }
+                            
                             asset.bitmapData.dispose();
+                            mRestoredTextures++;
+                            
+                            if (mNumLostTextures == mRestoredTextures)
+                                dispatchEventWith(Event.TEXTURES_RESTORED);
                         });
                     };
 
@@ -575,17 +588,24 @@ package starling.utils
                         texture = Texture.fromAtfData(bytes, mScaleFactor, mUseMipMaps, onComplete);
                         texture.root.onRestore = function():void
                         {
+                            mNumLostTextures++;
                             loadRawAsset(name, rawAsset, null, function(asset:Object):void
                             {
-                                texture.root.uploadAtfData(asset as ByteArray, 0, true);
+                                try { texture.root.uploadAtfData(asset as ByteArray, 0, true); }
+                                catch (e:Error) { log("Texture restoration failed: " + e.message); }
+                                
                                 asset.clear();
+                                mRestoredTextures++;
+                                
+                                if (mNumLostTextures == mRestoredTextures)
+                                    dispatchEventWith(Event.TEXTURES_RESTORED);
                             });
                         };
                         
                         bytes.clear();
                         addTexture(name, texture);
                     }
-                    else if (byteArrayStartsWith(bytes, "{"))
+                    else if (byteArrayStartsWith(bytes, "{") || byteArrayStartsWith(bytes, "["))
                     {
                         addObject(name, JSON.parse(bytes.readUTFBytes(bytes.length)));
                         bytes.clear();
@@ -634,17 +654,18 @@ package starling.utils
                                       onProgress:Function, onComplete:Function):void
         {
             var extension:String = null;
+            var urlLoader:URLLoader = null;
             
             if (rawAsset is Class)
             {
-                onComplete(new rawAsset());
+                setTimeout(onComplete, 1, new rawAsset());
             }
             else if (rawAsset is String)
             {
                 var url:String = rawAsset as String;
                 extension = url.split(".").pop().toLowerCase().split("?")[0];
                 
-                var urlLoader:URLLoader = new URLLoader();
+                urlLoader = new URLLoader();
                 urlLoader.dataFormat = URLLoaderDataFormat.BINARY;
                 urlLoader.addEventListener(IOErrorEvent.IO_ERROR, onIoError);
                 urlLoader.addEventListener(ProgressEvent.PROGRESS, onLoadProgress);
@@ -664,9 +685,8 @@ package starling.utils
                     onProgress(event.bytesLoaded / event.bytesTotal);
             }
             
-            function onUrlLoaderComplete(event:Event):void
+            function onUrlLoaderComplete(event:Object):void
             {
-                var urlLoader:URLLoader = event.target as URLLoader;
                 var bytes:ByteArray = urlLoader.data as ByteArray;
                 var sound:Sound;
                 
@@ -694,13 +714,14 @@ package starling.utils
                         var loader:Loader = new Loader();
                         loaderContext.imageDecodingPolicy = ImageDecodingPolicy.ON_LOAD;
                         loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onLoaderComplete);
-                        loader.loadBytes(urlLoader.data as ByteArray, loaderContext);
+                        loader.loadBytes(bytes, loaderContext);
                         break;
                 }
             }
             
-            function onLoaderComplete(event:Event):void
+            function onLoaderComplete(event:Object):void
             {
+                urlLoader.data.clear();
                 event.target.removeEventListener(Event.COMPLETE, onLoaderComplete);
                 onComplete(event.target.content);
             }
@@ -742,22 +763,41 @@ package starling.utils
         
         private function byteArrayStartsWith(bytes:ByteArray, char:String):Boolean
         {
+            var start:int = 0;
+            var length:int = bytes.length;
             var wanted:int = char.charCodeAt(0);
             
-            for (var i:int=0, len:int=bytes.length; i<len; ++i)
+            // recognize BOMs
+            
+            if (length >= 4 &&
+                (bytes[0] == 0x00 && bytes[1] == 0x00 && bytes[2] == 0xfe && bytes[3] == 0xff) ||
+                (bytes[0] == 0xff && bytes[1] == 0xfe && bytes[2] == 0x00 && bytes[3] == 0x00))
+            {
+                start = 4; // UTF-32
+            }
+            else if (length >= 3 && bytes[0] == 0xef && bytes[1] == 0xbb && bytes[2] == 0xbf)
+            {
+                start = 3; // UTF-8
+            }
+            else if (length >= 2 &&
+                (bytes[0] == 0xfe && bytes[1] == 0xff) || (bytes[0] == 0xff && bytes[1] == 0xfe))
+            {
+                start = 2; // UTF-16
+            }
+            
+            // find first meaningful letter
+            
+            for (var i:int=start; i<length; ++i)
             {
                 var byte:int = bytes[i];
-                
-                if      (i==0 && (byte == 0xfe || byte == 0xff)) continue; // UTF-16 BOM
-                else if (i==1 && (byte == 0xfe || byte == 0xff)) continue; // UTF-16 BOM
-                else if (byte == 0 || byte == 10 || byte == 13 || byte == 32) continue; // null, \n, \r, space
+                if (byte == 0 || byte == 10 || byte == 13 || byte == 32) continue; // null, \n, \r, space
                 else return byte == wanted;
             }
             
             return false;
         }
         
-        private function getDictionaryKeys(dictionary:Dictionary, prefix:String,
+        private function getDictionaryKeys(dictionary:Dictionary, prefix:String="",
                                            result:Vector.<String>=null):Vector.<String>
         {
             if (result == null) result = new <String>[];

@@ -1,0 +1,30 @@
+<font>
+	<info face="AgoraPoints50" size="80" />
+	<common lineHeight="80" scaleW="512" scaleH="256" pages="1" />
+	<pages>
+		<page id="0" file="AgoraPoints50.png" />
+	</pages>
+	<chars count="19">
+		<char id="48" x="0" y="135" width="64" height="70" xoffset="0" yoffset="9" xadvance="35" /><!-- 0 -->
+		<char id="49" x="259" y="0" width="58" height="71" xoffset="0" yoffset="9" xadvance="29" /><!-- 1 -->
+		<char id="50" x="133" y="0" width="63" height="71" xoffset="0" yoffset="9" xadvance="34" /><!-- 2 -->
+		<char id="51" x="197" y="0" width="61" height="71" xoffset="0" yoffset="9" xadvance="32" /><!-- 3 -->
+		<char id="52" x="129" y="134" width="63" height="70" xoffset="0" yoffset="9" xadvance="34" /><!-- 4 -->
+		<char id="53" x="193" y="143" width="62" height="71" xoffset="0" yoffset="9" xadvance="33" /><!-- 5 -->
+		<char id="54" x="193" y="72" width="62" height="70" xoffset="0" yoffset="9" xadvance="33" /><!-- 6 -->
+		<char id="55" x="256" y="72" width="59" height="70" xoffset="0" yoffset="9" xadvance="30" /><!-- 7 -->
+		<char id="56" x="65" y="135" width="63" height="71" xoffset="0" yoffset="9" xadvance="34" /><!-- 8 -->
+		<char id="57" x="69" y="0" width="63" height="71" xoffset="0" yoffset="9" xadvance="34" /><!-- 9 -->
+		<char id="46" x="0" y="207" width="44" height="44" xoffset="0" yoffset="35" xadvance="15" /><!-- . -->
+		<char id="80" x="0" y="0" width="68" height="71" xoffset="0" yoffset="8" xadvance="39" /><!-- P -->
+		<char id="111" x="67" y="72" width="63" height="61" xoffset="0" yoffset="18" xadvance="34" /><!-- o -->
+		<char id="105" x="316" y="141" width="51" height="74" xoffset="0" yoffset="6" xadvance="22" /><!-- i -->
+		<char id="110" x="0" y="72" width="66" height="62" xoffset="0" yoffset="18" xadvance="37" /><!-- n -->
+		<char id="116" x="316" y="72" width="54" height="68" xoffset="0" yoffset="12" xadvance="25" /><!-- t -->
+		<char id="115" x="256" y="143" width="59" height="63" xoffset="0" yoffset="17" xadvance="30" /><!-- s -->
+		<char id="32" x="0" y="0" width="0" height="0" xoffset="0" yoffset="0" xadvance="20" /><!--   -->
+		<char id="9" x="0" y="0" width="0" height="0" xoffset="0" yoffset="0" xadvance="160" /><!-- 	 -->
+	</chars>
+	<kernings count="0">
+	</kernings>
+</font>

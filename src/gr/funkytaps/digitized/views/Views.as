@@ -1,11 +1,10 @@
 package gr.funkytaps.digitized.views
 {
 	/**
-	 * 
 	 * @author — Dimitris Chatzieleftheriou
-	 * @company — OgilvyOne Worldwide, Athens
+	 * @company — Funkytaps, Athens
 	 *
-	 * @copyright — 2013 OgilvyOne Worldwide, Athens
+	 * @copyright — 2013 Funkytaps, Athens
 	 *
 	 **/
 	
@@ -15,6 +14,8 @@ package gr.funkytaps.digitized.views
 		public static const INTRO_VIEW:String = 'IntroView';
 		
 		public static const GAME_VIEW:String = 'GameView';
+		
+		public static const GAME_END_VIEW:String = 'GameEndView';
 		
 		public static const LEADERBOARD_VIEW:String = 'LeaderboardView';
 		

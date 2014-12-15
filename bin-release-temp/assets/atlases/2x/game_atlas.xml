@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:8893b0120176b2d35b7716e80dc7c0fd$ -->
+<TextureAtlas imagePath="game_atlas.png">
+    <SubTexture name="bomb-ring" x="781" y="1942" width="100" height="100"/>
+    <SubTexture name="bomb-static" x="714" y="1970" width="62" height="76" frameX="-38" frameY="-31" frameWidth="138" frameHeight="138"/>
+    <SubTexture name="energy-shield" x="1744" y="473" width="174" height="174"/>
+    <SubTexture name="energy00001" x="505" y="1976" width="70" height="70" frameX="-12" frameY="-17" frameWidth="96" frameHeight="96"/>
+    <SubTexture name="energy00002" x="933" y="1975" width="66" height="72" frameX="-18" frameY="-16" frameWidth="96" frameHeight="96"/>
+    <SubTexture name="energy00003" x="882" y="1938" width="50" height="74" frameX="-27" frameY="-15" frameWidth="96" frameHeight="96"/>
+    <SubTexture name="energy00004" x="978" y="1900" width="34" height="74" frameX="-33" frameY="-15" frameWidth="96" frameHeight="96"/>
+    <SubTexture name="energy00005" x="1013" y="1900" width="30" height="72" frameX="-33" frameY="-16" frameWidth="96" frameHeight="96"/>
+    <SubTexture name="energy00006" x="933" y="1900" width="44" height="74" frameX="-22" frameY="-15" frameWidth="96" frameHeight="96"/>
+    <SubTexture name="energy00007" x="1000" y="1975" width="56" height="72" frameX="-14" frameY="-16" frameWidth="96" frameHeight="96"/>
+    <SubTexture name="energy00008" x="645" y="1974" width="68" height="72" frameX="-10" frameY="-16" frameWidth="96" frameHeight="96"/>
+    <SubTexture name="energy00009" x="576" y="1976" width="68" height="70" frameX="-11" frameY="-17" frameWidth="96" frameHeight="96"/>
+    <SubTexture name="energy00010" x="434" y="1976" width="70" height="70" frameX="-12" frameY="-17" frameWidth="96" frameHeight="96"/>
+    <SubTexture name="fire7-01" x="871" y="1922" width="11" height="15"/>
+    <SubTexture name="fire7-02" x="859" y="1922" width="11" height="15"/>
+    <SubTexture name="glow" x="1" y="1138" width="411" height="840"/>
+    <SubTexture name="hero-static" x="1744" y="290" width="187" height="182"/>
+    <SubTexture name="land" x="1103" y="1900" width="640" height="56"/>
+    <SubTexture name="particleTexture" x="1" y="1979" width="64" height="64"/>
+    <SubTexture name="planet1" x="413" y="1541" width="445" height="400"/>
+    <SubTexture name="planet2" x="1252" y="1531" width="388" height="308"/>
+    <SubTexture name="planet3" x="859" y="1531" width="392" height="368"/>
+    <SubTexture name="planet4" x="1641" y="1" width="312" height="288"/>
+    <SubTexture name="planet5" x="824" y="1138" width="440" height="392"/>
+    <SubTexture name="planet6" x="413" y="1138" width="410" height="402"/>
+    <SubTexture name="star0001" x="1057" y="1959" width="58" height="58" frameX="-4" frameY="-7" frameWidth="66" frameHeight="66"/>
+    <SubTexture name="star0002" x="182" y="1979" width="56" height="60" frameX="-7" frameY="-6" frameWidth="66" frameHeight="66"/>
+    <SubTexture name="star0003" x="288" y="1979" width="46" height="60" frameX="-13" frameY="-6" frameWidth="66" frameHeight="66"/>
+    <SubTexture name="star0004" x="372" y="1979" width="32" height="60" frameX="-19" frameY="-6" frameWidth="66" frameHeight="66"/>
+    <SubTexture name="star0005" x="405" y="1979" width="28" height="60" frameX="-20" frameY="-6" frameWidth="66" frameHeight="66"/>
+    <SubTexture name="star0006" x="335" y="1979" width="36" height="60" frameX="-12" frameY="-6" frameWidth="66" frameHeight="66"/>
+    <SubTexture name="star0007" x="239" y="1979" width="48" height="60" frameX="-5" frameY="-6" frameWidth="66" frameHeight="66"/>
+    <SubTexture name="star0008" x="125" y="1979" width="56" height="60" frameX="-3" frameY="-6" frameWidth="66" frameHeight="66"/>
+    <SubTexture name="star0009" x="66" y="1979" width="58" height="60" frameX="-2" frameY="-6" frameWidth="66" frameHeight="66"/>
+    <SubTexture name="star0010" x="1044" y="1900" width="58" height="58" frameX="-4" frameY="-7" frameWidth="66" frameHeight="66"/>
+    <SubTexture name="starexplosion0001" x="882" y="2013" width="21" height="21" frameX="-5" frameY="-6" frameWidth="31" frameHeight="33"/>
+    <SubTexture name="starexplosion0002" x="859" y="1900" width="23" height="21" frameX="-6" frameY="-7" frameWidth="31" frameHeight="33"/>
+    <SubTexture name="starexplosion0003" x="727" y="1942" width="27" height="23" frameX="-2" frameY="-7" frameWidth="31" frameHeight="33"/>
+    <SubTexture name="starexplosion0004" x="699" y="1942" width="27" height="27" frameX="-2" frameY="-4" frameWidth="31" frameHeight="33"/>
+    <SubTexture name="starexplosion0005" x="669" y="1942" width="29" height="29" frameX="-1" frameY="-3" frameWidth="31" frameHeight="33"/>
+    <SubTexture name="starexplosion0006" x="637" y="1942" width="31" height="31" frameX="0" frameY="-1" frameWidth="31" frameHeight="33"/>
+    <SubTexture name="starexplosion0007" x="605" y="1942" width="31" height="33"/>
+    <SubTexture name="starexplosion0008" x="573" y="1942" width="31" height="33"/>
+    <SubTexture name="starexplosion0009" x="541" y="1942" width="31" height="33"/>
+    <SubTexture name="starexplosion0010" x="509" y="1942" width="31" height="33"/>
+    <SubTexture name="starexplosion0011" x="477" y="1942" width="31" height="33"/>
+    <SubTexture name="starexplosion0012" x="445" y="1942" width="31" height="33"/>
+    <SubTexture name="starexplosion0013" x="413" y="1942" width="31" height="33"/>
+    <SubTexture name="starexplosion0014" x="755" y="1942" width="25" height="23" frameX="-6" frameY="0" frameWidth="31" frameHeight="33"/>
+    <SubTexture name="starexplosion0015" x="1" y="2044" width="1" height="1" frameX="0" frameY="0" frameWidth="31" frameHeight="33"/>
+    <SubTexture name="stars-back" x="642" y="1" width="640" height="1136"/>
+    <SubTexture name="stars-front" x="1" y="1" width="640" height="1136"/>
+</TextureAtlas>

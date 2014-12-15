@@ -13,11 +13,11 @@ package com.dimmdesign.utils
 	 **/
 	
 	
-	public function centerOnStage(stage:Stage, displayObject:DisplayObject, roundValues:Boolean = true)
+	public function centerOnStage(stage:Stage, displayObject:DisplayObject, roundValues:Boolean = true):void
 	{
 		
-		displayObject.x = ((stage.stageWidth >> 1) - (displayObject.width >> 1)) | (roundValues) ? 0.5 : 0;
-		displayObject.y = ((stage.stageHeight >> 1) - (displayObject.width >> 1)) | (roundValues) ? 0.5 : 0;
+		displayObject.x = ((stage.stageWidth >> 1) - (displayObject.width >> 1)) | ( (roundValues) ? 0.5 : 0);
+		displayObject.y = ((stage.stageHeight >> 1) - (displayObject.height >> 1)) | ((roundValues) ? 0.5 : 0);
 		
 	}
 	

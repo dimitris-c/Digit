@@ -26,12 +26,6 @@ package starling.display
     /** Dispatched when the Flash container is resized. */
     [Event(name="resize", type="starling.events.ResizeEvent")]
     
-    /** Dispatched when a key on the keyboard is released. */
-    [Event(name="keyUp", type="starling.events.KeyboardEvent")]
-    
-    /** Dispatched when a key on the keyboard is pressed. */
-    [Event(name="keyDown", type="starling.events.KeyboardEvent")]
-    
     /** A Stage represents the root of the display tree.  
      *  Only objects that are direct or indirect children of the stage will be rendered.
      * 
@@ -147,7 +141,7 @@ package starling.display
             if (eventType == Event.ENTER_FRAME && object == this)
             {
                 for (var i:int=0, length:int=mEnterFrameListeners.length; i<length; ++i)
-                    listeners.push(mEnterFrameListeners[i]); 
+                    listeners[listeners.length] = mEnterFrameListeners[i]; // avoiding 'push' 
             }
             else
                 super.getChildEventListeners(object, eventType, listeners);

@@ -1,0 +1,24 @@
+<font>
+	<info face="Agora88" size="55" />
+	<common lineHeight="55" scaleW="128" scaleH="256" pages="1" />
+	<pages>
+		<page id="0" file="Agora88.png" />
+	</pages>
+	<chars count="13">
+		<char id="48" x="0" y="0" width="44" height="49" xoffset="0" yoffset="7" xadvance="27" /><!-- 0 -->
+		<char id="49" x="84" y="50" width="38" height="48" xoffset="0" yoffset="7" xadvance="21" /><!-- 1 -->
+		<char id="50" x="0" y="99" width="42" height="48" xoffset="0" yoffset="7" xadvance="25" /><!-- 2 -->
+		<char id="51" x="45" y="0" width="40" height="49" xoffset="0" yoffset="7" xadvance="23" /><!-- 3 -->
+		<char id="52" x="0" y="50" width="43" height="48" xoffset="0" yoffset="7" xadvance="26" /><!-- 4 -->
+		<char id="53" x="43" y="99" width="41" height="49" xoffset="0" yoffset="7" xadvance="24" /><!-- 5 -->
+		<char id="54" x="0" y="197" width="41" height="49" xoffset="0" yoffset="7" xadvance="24" /><!-- 6 -->
+		<char id="55" x="44" y="50" width="39" height="48" xoffset="0" yoffset="7" xadvance="22" /><!-- 7 -->
+		<char id="56" x="0" y="148" width="42" height="48" xoffset="0" yoffset="7" xadvance="25" /><!-- 8 -->
+		<char id="57" x="42" y="197" width="41" height="49" xoffset="0" yoffset="7" xadvance="24" /><!-- 9 -->
+		<char id="46" x="43" y="149" width="26" height="26" xoffset="0" yoffset="29" xadvance="9" /><!-- . -->
+		<char id="32" x="0" y="0" width="0" height="0" xoffset="0" yoffset="0" xadvance="27" /><!--   -->
+		<char id="9" x="0" y="0" width="0" height="0" xoffset="0" yoffset="0" xadvance="216" /><!-- 	 -->
+	</chars>
+	<kernings count="0">
+	</kernings>
+</font>

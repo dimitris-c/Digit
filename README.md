@@ -1,4 +1,4 @@
-Digit - iOS/Android Game
+Digital - iOS/Android Game
 =====
 
 Digit, the little space explorer. The game was designed and developed for the Digitized Digital Design Conference 2013! http://www.digitized.gr
